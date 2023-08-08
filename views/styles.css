@@ -1,0 +1,55 @@
+body{
+    background-color: blue;
+    
+    
+}
+
+h2{
+    text-align: center;
+    color: white;
+}
+
+h3{
+    text-align: center;
+    color: white;
+}
+
+h4{
+    text-align: left;
+    color: white;
+
+}
+
+h5{
+    text-align: right;
+    color: white;
+}
+
+
+select{
+    width: 150px;
+    height: 30px;
+    border: 1px solid;
+    outline: none;
+    position: relative;
+    left: 100px;
+
+}
+
+span{
+    size: 100px;
+    color:cyan;
+}
+
+button{
+    color:black;
+    background-color: cornflowerblue;
+}
+
+
+
+
+
+
+
+
