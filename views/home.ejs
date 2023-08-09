@@ -7,16 +7,16 @@
     <meta name="description" content="">
     <style>
         body {
-            margin: 0;
+            margin: auto;
             font-family: Arial, sans-serif;
             
         }
-        .container {
+        .main-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 40vh;
+            min-height: 60vh;
             padding: 20px;
             background-color: #8C35F5;
         }
@@ -71,11 +71,15 @@
         }
     </style>
 </head>
+<header>
+<%- include('partials/header.ejs') %>
+</header>
 <body>
     <!--[if lt IE 7]>
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-    <div class="container">
+
+    <div class="main-container">
         <h1>Your Trusted Currency Converter</h1>
         <div class="buttons">
             <button>Get Started</button>
