@@ -1,73 +1,98 @@
 
 body{
-    background-color: blue;
+    background-color: #2979FF;
     text-align: center;
-    
-    
+      
 }
 
 h2{
     text-align: center;
     color: white;
-
 }
 
 h3{
     text-align: center;
     color: white;
-  
-
+    position: relative;
+    top:45px;
 }
 
-
+#amount{
+    text-align: center;
+    position: relative;
+    left: 0px;
+    top: 50px;
+}
 
 h4{
     text-align: 300px;
     color: white;
     position: relative;
-    right:250px;
-    bottom:-50px;
+    right: 350px;
+    top: 150px;
     font-size: 20px;
-
-
 }
 
 h5{
-    text-align: 600px;
     color: white;
     position: relative;
-    left: 250px;
-    top: -105px;
+    left: 350px;
+    bottom: 0px;
     font-size: 20px;
-
 }
 
-
-select{
+#currency1 {
     width: 150px;
     height: 30px;
     border: 1px solid;
     outline: none;
-    position: relative;
-    right:250px;
-    bottom:-55px;
-    
-
+    position: absolute;
+    right: 345px;
+    bottom: 450px;
 }
 
-
-span{
-    font-size: 40px;
+#currency2{
     position: relative;
-    top: 18px;
-  
+    left: 200px;  
+}
+
+span#arrows{
+    font-size: 60px;
+    position: relative;
+    top: 120px;
     color:cyan;
 }
 
 button{
-    color:black;
-    background-color: cornflowerblue;
+    color:white;
+    background-color: #5CFFF3;
+    width: 150px;
+    height: 40px;
+    border: 1px solid;
+    outline: none;
+    position: relative;
+    top: 120px;
+    left:0px;
 }
 
+#previous{
+    position: relative;
+    right: 200px;
+    top:230px;
+}
+
+span#equals{
+    top: 200;
+    font-size: 80px;
+    color:cyan;
+    position: relative;
+    top:175px
+}
+
+#prior{
+    position: relative;
+    left: 200px;
+    top: 117px;
+}
 
 
