@@ -94,5 +94,20 @@ span#equals{
     left: 200px;
     top: 117px;
 }
+/* I came up with this  */
+/* .currency-select {
+    width: 150px;
+    margin-top: 10px; 
+}
+#currencyFrom {
+    position: relative;
+    left: -350px; 
+    top: 150px; 
+}
 
-
+#currencyTo {
+    position: relative;
+    left: 350px; 
+   top: -35px 
+}
+ */
