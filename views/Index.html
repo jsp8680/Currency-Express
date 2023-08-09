@@ -11,22 +11,22 @@
     <h2>Currency Express</h2>
     <div>
         <h3>Amount</h3>
-        <input type="number">
+        <input id="amount" type="number">
         
     </div>
 
     <div>
         <h4>From</h4>
-        <select>
-            <option value="currency">Currency</option>
+       <select class="currency-select" id="currencyFrom"> 
+            <option id="currency1" value="currency">Currency1</option>
         </select>
     </div>
-    <span> ⇆ </span>
+    <span id="arrows"> ⇆ </span>
     
     <div>
         <h5>To</h5>
-        <select>
-            <option value="currency">Currency</option>
+        <select class="currency-select" id="currencyTo">
+            <option id="currency2" value="currency">Currency2</option>
         </select>
     </div>
 
@@ -35,12 +35,20 @@
     </div>
 
     <div>
-        <input type="number">
+        <input id="previous" type="number">
     </div>
+    <span id="equals">  =  </span>
 
     <div>
-        <input type="number">
+        <input id="prior" type="number">
     </div>
+
+    <script>
+        const select = document.querySelectorAll('select');
+        const input = document.querySelectorAll('input');
+        const apiKey = 'c0ee70231e705c5a0d5c17b2';
+        const url = `https://v6.exchangerate-api.com/v6/${apiKey}/latest/USD`;
+    </script>
 
 
 </body>
