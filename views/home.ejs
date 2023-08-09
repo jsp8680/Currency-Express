@@ -10,6 +10,7 @@
         margin: auto;
         font-family: Arial, sans-serif;
       }
+      /* container with opening header and logo */
       .main-container {
         position: relative;
         display: flex;
@@ -33,6 +34,7 @@
         display: flex;
         gap: 5rem;
       }
+      /* button  */
       button {
         padding: 15px 20px;
         border: none;
@@ -42,6 +44,7 @@
         cursor: pointer;
         font-size: larger;
       }
+      /* information about converter section */
       .info {
         display: flex;
         flex-direction: row;
@@ -51,11 +54,11 @@
       }
       h2 {
         font-size: 4.5rem;
-
         margin-top: 120px;
         margin-right: 20px;
         color: white;
       }
+      /* paragraph with background */
       p {
         font-size: 2rem;
         margin-top: 120px;
@@ -66,7 +69,9 @@
         border-spacing: 2px;
         padding: 30px;
         color: white;
+        background-color: #5BADEB;
       }
+      /* logo image */
       img {
         position: absolute;
         width: 500px;
@@ -76,6 +81,7 @@
       }
     </style>
   </head>
+  <!-- includ header partial -->
   <header><%- include('partials/header.ejs') %></header>
   <body>
     <!--[if lt IE 7]>

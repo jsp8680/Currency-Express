@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Restaurant</title>
-    <!-- <link rel="stylesheet" href="public/navbar.css"> -->
+    
     <style>
+      /* Global styles */
       *,
       *::after,
       *::before {
@@ -28,28 +28,7 @@
         width: 90%;
         margin: auto;
       }
-
-      .btn {
-        display: inline-block;
-        padding: 0.5em 1.5em;
-        text-decoration: none;
-        border-radius: 50px;
-        cursor: pointer;
-        outline: none;
-        margin-top: 1em;
-        text-transform: uppercase;
-        font-weight: small;
-      }
-
-      .btn-primary {
-        color: #fff;
-        background: #16a083;
-      }
-
-      .btn-primary:hover {
-        background: #00ffcc;
-        transition: background 0.3s ease-in-out;
-      }
+         /* Navbar styles */
       .navbar {
         box-shadow: 0px 5px 10px 0px #aaa;
         position: fixed;
@@ -60,7 +39,7 @@
         height: 50px;
         z-index: 12;
       }
-
+ /* Menu items styles */
       .menu-items {
         opacity: 86%;
         border: 1px solid rgb(0, 0, 0);
@@ -92,6 +71,7 @@
         margin-bottom: 0; 
         padding-bottom: 0; 
       }
+      /* Logo styles */
       .logo {
         order: 1;
         font-size: 2.3rem;
@@ -99,7 +79,7 @@
         color: black;
       }
 
-      /* navbar */
+      /* Navbar container and hamburger icon styles */
 
       .navbar {
         opacity: 0.95;
@@ -161,7 +141,7 @@
         transform-origin: 0% 100%;
         transition: transform 0.4s ease-in-out;
       }
-
+ /* Menu open/close animation */
       .navbar .menu-items {
         padding-top: 60px;
         background: #fff;
@@ -175,6 +155,7 @@
         transition: transform 0.5s ease-in-out;
         box-shadow: 5px 0px 10px 0px #000000;
       }
+      /* Navigation items styles */
       .nav-items {
         display: flex;
         align-items: center;
@@ -205,20 +186,21 @@
         font-size: 1.3rem;
         font-weight: 500;
       }
-
+ /* Logo position */
       .logo {
         position: absolute;
         top: 5px;
         right: 650px;
         font-size: 2rem;
       }
+
       a {
         text-decoration: none;
         color: #444;
         font-weight: 500;
-        transition: color 0.3s ease-in-out;
+       
       }
-
+/* Navbar toggle styles when checkbox is checked */
       .navbar-container input[type="checkbox"]:checked ~ .menu-items {
         transform: translateX(0);
       
@@ -229,7 +211,7 @@
         ~ .hamburger-lines
         .line1 {
         transform: rotate(35deg);
-        background-color: red;
+        background-color: red; /* Change color on click */
       }
 
       .navbar-container
@@ -246,7 +228,7 @@
         ~ .hamburger-lines
         .line3 {
         transform: rotate(-35deg); 
-        background-color: red;
+        background-color: red; /* Change color on click */
       }
     </style>
   </head>
