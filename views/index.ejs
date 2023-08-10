@@ -1,0 +1,64 @@
+
+<!doctype html>
+<html>
+<head>
+<title>Currency Converter</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device, initial-scale=1/0">
+<link rel="stylesheet" href="styles.css">
+</head>
+<header><%- include('partials/header.ejs') %></header>
+
+<body>
+    <h2>Currency Express</h2>
+    <div>
+        <h3>Amount</h3>
+        <input id="amount" type="number">
+        
+    </div>
+
+    <div>
+        <h4>From</h4>
+   
+         <select class="currency-select" id="currencyFrom">
+            <option id="currency1" value="currency">Currency1</option>
+        </select>
+    </div>
+    <span id="arrows"> ⇆ </span>
+    
+    <div>
+        <h5>To</h5>
+        <select class="currency-select" id="currencyTo"> 
+            <option id="currency2" value="currency">Currency2</option>
+        </select>
+    </div>
+
+    <div>
+        <button>Convert</button>
+    </div>
+
+    <div>
+        <input id="previous" type="number">
+    </div>
+    <span id="equals">  =  </span>
+
+    <div>
+        <input id="prior" type="number">
+    </div>
+
+    <button class="btn help">Need Help?</button>
+
+    <script>
+        const select = document.querySelectorAll('select');
+        const input = document.querySelectorAll('input');
+        const apiKey = 'c0ee70231e705c5a0d5c17b2';
+        const url = `https://v6.exchangerate-api.com/v6/${apiKey}/latest/USD`;
+
+        
+
+   
+    </script>
+
+
+</body>
+</html>
