@@ -3,7 +3,7 @@
 // Controller action for handling GET request to the about page
 module.exports.about_get = (req, res) => {
     // Render the "about.ejs" template when a user visits the about page
-    res.render('about.ejs');
+    res.render('about_us-contact_us.ejs');
 }
 
 // Controller action for handling GET request to the converter page
@@ -21,3 +21,4 @@ module.exports.faqs_get = (req, res) => {
     // Render the "faqs.ejs" template when a user visits the faqs page
     res.render('faqs.ejs');
 }
+

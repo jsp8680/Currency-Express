@@ -18,7 +18,6 @@ app.use(express.json());
 
 // Define a route for the root URL ("/") that renders the "home.ejs" template
 app.get("/", (req, res) => res.render("home.ejs"));
-
 // Use the routes defined in the imported Routes module
 app.use(Routes);
 
