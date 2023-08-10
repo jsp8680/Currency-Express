@@ -1,13 +1,24 @@
-
-body{
+body {
+    margin: 0;
+    padding-top: 20px;
     background-color: #2979FF;
     text-align: center;
-      
 }
 
-h2{
-    text-align: center;
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
     color: white;
+    padding: 0px;
+    z-index: 100;
+}
+
+h2 {
+    color: white;
+    margin-top: 90px; 
 }
 
 h3{
@@ -39,7 +50,7 @@ h5{
     color: white;
     position: relative;
     left: 350px;
-    bottom: 50px;
+    bottom: -6px;
     font-size: 20px;
 }
 
@@ -97,7 +108,7 @@ span#equals{
     height: 40px;
     position: relative;
     left: 200px;
-    top: 25px;
+    top: 28px;
 }
 
  .currency-select {
@@ -114,7 +125,7 @@ span#equals{
 #currencyTo {
     position: relative;
     left: 350px; 
-   top: -60px 
+   top: 5px ;
 }
 
 .btn {
@@ -130,6 +141,6 @@ span#equals{
     color: white;
     position:relative;
     left:0px;
-    top:135px;
+    top:60px;
 }
 
