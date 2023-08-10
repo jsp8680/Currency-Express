@@ -9,7 +9,7 @@
   <header><%- include('partials/header.ejs') %></header>
 
   <body>
-    <h2>Currency Express</h2>
+    <h2>Currency Converter</h2>
     <div>
       <h3>Amount</h3>
       <input id="amount" type="number" />
@@ -47,7 +47,7 @@
     <div>
       <input id="prior" type="text" />
     </div>
-
+    <div id="error"></div>
     <div id="result"></div>
 
     <button class="btn help">Need Help?</button>
@@ -61,7 +61,7 @@
         const toSelect = document.getElementById("currencyTo");
         const previousInput = document.getElementById("previous");
         const priorInput = document.getElementById("prior");
-        const resultDiv = document.getElementById("result");
+        const error = document.getElementById("error");
 
         // Attach a click event listener to the Convert button
         convertButton.addEventListener("click", async () => {
@@ -76,6 +76,7 @@
             );
             if (!response.ok) {
               throw new Error("Failed to fetch exchange rate data");
+              error.textContent = "Failed to fetch exchange rate data";
             }
 
             const data = await response.json();
@@ -92,7 +93,7 @@
             priorInput.value = toCurrency + " " + convertedAmount;
           } catch (error) {
             // Handle errors and display a message
-            resultDiv.textContent = "An error occurred during conversion.";
+            error.textContent = "An error occurred during conversion.";
             console.error(error);
           }
         });
