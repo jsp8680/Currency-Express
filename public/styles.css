@@ -3,8 +3,9 @@ body {
     padding-top: 20px; 
     background-color: #2979FF;
     text-align: center;
+    
 }
-
+/* keeps the navbar fixed */
 header {
     position: fixed;
     top: 0;
