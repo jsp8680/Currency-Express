@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+
+/* Body styles */
+.body1 {
+    background-color: #D3D3D3;
+    padding: 50px;
+    display: flex;  
+    justify-content: space-between;  
+    align-items: center; 
+}
+
+.side-by-side {
+    display: flex;
+    align-items: center;  
+    gap: 200px;  
+}
+
+.body2 {
+    background-color: skyblue;
+    justify-content: space-between; 
+    padding: 50px;
+}
+
+/* Typography */
+h2, h3, span {
+    color: red;
+}
+
+h2 {
+    font-size: 24px;
+    font-style: italic;
+    margin-bottom: 10px;  /* Space below the question */
+}
+
+h3 {
+    font-size: 200px;
+    color: red;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 30px;
+}
+
+p {
+    font-size: 24px;
+    color: black;
+    padding: 0 30px;
+    margin-top: 10px;     /* Space above the answer */
+    margin-bottom: 30px;  /* Space below the answer, which also affects space before the next question */
+}
+
+
+    </style>
+ <header><%- include('partials/header.ejs') %></header>
+   <body>    
+    
+        <section class="body1">
+        <div class="side-by-side">
+            <h3>FAQs</h3>
+            <p><span>Got a question?</span>We're here to help you. Head to our <a href="your-contact-link-here">Contact Us</a> page if you still have any questions.</p>
+        </div>
+    </section>
+
+    <section class="body2">
+        <div class="questions">
+            <h2>1. How does the Currency Converter Tool work?</h2>
+            <p>It converts currencies in real-time using up-to-date exchange rates.</p>
+
+            <h2>2. Are the exchange rates accurate?</h2>
+            <p>Yes, we provide real-time data for accuracy.</p>
+
+            <h2>3. Any fees or hidden charges?</h2>
+            <p>No, our service is completely free to use.</p>
+
+            <h2>4. How often are the rates updated?</h2>
+            <p>Rates are updated in real-time every five minutes.</p>
+
+            <h2>5. Is there a conversion limit?</h2>
+            <p>No, there's no set limit on the amount you can convert.</p>
+
+            <h2>6. Are the results affected by weekends or holidays?</h2>
+            <p>The tool operates 24/7, including weekends and holidays, so you'll receive real-time conversions at all times.</p>
+        </div>
+    </section>
+    
+</body>
+<footer><%- include('partials/footer.ejs') %></footer>
+  
+</html>
