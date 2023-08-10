@@ -5,97 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Home</title>
     <meta name="description" content="" />
-    <style>
-      body {
-        margin: auto;
-        font-family: Arial, sans-serif;
-      }
-      /* container with opening header and logo */
-      .main-container {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        min-height: 60vh;
-        padding: 20px;
-        background-color: #8c35f5;
-      }
-      h1 {
-        font-size: 2rem;
-        color: white;
-        text-align: center;
-        margin-left: 19rem;
-        margin-bottom: -40px;
-      }
-      .buttons {
-        margin-top: 110px;
-        margin-left: 20rem;
-        display: flex;
-        gap: 5rem;
-      }
-      /* button  */
-      button {
-        padding: 15px 20px;
-        border: none;
-        border-radius: 10px;
-        background-color: #54f794;
-        color: black;
-        cursor: pointer;
-        font-size: larger;
-      }
-      /* information about converter section */
-      .info {
-        display: flex;
-        flex-direction: row;
-        background-color: #48d4ca;
-        min-height: 40vh;
-        padding: 20px;
-      }
-      h2 {
-        font-size: 4.5rem;
-        margin-top: 120px;
-        margin-right: 20px;
-        color: white;
-      }
-      /* paragraph with background */
-      p {
-        font-size: 2rem;
-        margin-top: 120px;
-        text-align: center;
-        text-align: left;
-        border: 4px solid white;
-        border-color: #5badeb;
-        border-spacing: 2px;
-        padding: 30px;
-        color: white;
-        background-color: #5badeb;
-      }
-      /* logo image */
-      img {
-        position: absolute;
-        width: 500px;
-        height: 500px;
-        top: 2px;
-        left: 20px;
-      }
-      .footer {
-        background-color: #48d4ca;
-        color: #fff;
-        padding: 20px 0;
-      }
-
-      .footer .container {
-        max-width: 1200px;
-        width: 90%;
-        margin: auto;
-        text-align: center;
-      }
-
-      .footer p {
-        font-size: 14px;
-      }
-    </style>
+    <link rel="stylesheet" href="home.css" />
   </head>
   <!-- includ header partial -->
   <header><%- include('partials/header.ejs') %></header>
@@ -111,7 +21,7 @@
       <img src="LOGO.png" />
       <h1>Your Trusted Currency Converter</h1>
       <div class="buttons">
-        <button>Get Started</button>
+        <button><a href="/converter">Get Started</a></button>
         <button>Register Here</button>
       </div>
     </div>
