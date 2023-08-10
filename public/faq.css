@@ -1,0 +1,79 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* Body styles */
+.body1 {
+background-color: #D3D3D3;
+padding: 50px;
+display: flex;  
+justify-content: space-between;  
+align-items: center; 
+}
+
+.side-by-side {
+display: flex;
+align-items: center;  
+gap: 200px;  
+}
+
+.body2 {
+background-color: skyblue;
+justify-content: space-between; 
+padding: 50px;
+}
+
+/* Typography */
+h2, h3, span {
+color: red;
+}
+
+h2 {
+font-size: 24px;
+font-style: italic;
+margin-bottom: 10px;  /* Space below the question */
+}
+
+h3 {
+font-size: 200px;
+color: red;
+max-width: 600px;
+margin: 0 auto;
+padding: 0 30px;
+}
+
+p {
+font-size: 24px;
+color: black;
+padding: 0 30px;
+margin-top: 10px;     /* Space above the answer */
+margin-bottom: 30px;  /* Space below the answer, which also affects space before the next question */
+}
+
+.footer {
+position:relative;
+bottom: 0;
+left: 0;
+width: 100%;
+background-color: #5badeb;
+color: #fff;
+padding: 20px 0;
+text-align: center;
+clear: both;
+}
+
+.footer .container-for-footer {
+max-width: 1200px;
+width: 100%;
+margin: auto;
+
+}
+
+.footer #footer-p {
+font-size: 14px;
+color:white;
+margin: 0;
+}
