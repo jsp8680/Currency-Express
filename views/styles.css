@@ -18,6 +18,8 @@ h3{
 }
 
 #amount{
+    width: 250px;
+    height: 40px;
     text-align: center;
     position: relative;
     left: 0px;
@@ -37,7 +39,7 @@ h5{
     color: white;
     position: relative;
     left: 350px;
-    bottom: 0px;
+    bottom: 50px;
     font-size: 20px;
 }
 
@@ -59,44 +61,48 @@ h5{
 span#arrows{
     font-size: 60px;
     position: relative;
-    top: 120px;
+    top: 100px;
     color:cyan;
 }
 
 button{
-    color:white;
+    color:black;
     background-color: #5CFFF3;
     width: 150px;
     height: 40px;
     border: 1px solid;
     outline: none;
     position: relative;
-    top: 120px;
+    top: 60px;
     left:0px;
 }
 
 #previous{
+    width: 300px;
+    height: 40px;
     position: relative;
     right: 200px;
-    top:230px;
+    top:160px;
 }
 
 span#equals{
-    top: 200;
     font-size: 80px;
     color:cyan;
     position: relative;
-    top:175px
+    top:90px
 }
 
 #prior{
+    width: 300px;
+    height: 40px;
     position: relative;
     left: 200px;
-    top: 117px;
+    top: 25px;
 }
-/* I came up with this  */
-/* .currency-select {
-    width: 150px;
+
+ .currency-select {
+    width: 200px;
+    height: 40px;
     margin-top: 10px; 
 }
 #currencyFrom {
@@ -108,6 +114,22 @@ span#equals{
 #currencyTo {
     position: relative;
     left: 350px; 
-   top: -35px 
+   top: -60px 
+}
+
+.btn {
+    border: none;
+    background-color: inherit;
+    padding: 14px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.help{
+    color: white;
+    position:relative;
+    left:0px;
+    top:135px;
 }
 
