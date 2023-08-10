@@ -7,32 +7,37 @@ body {
   .login-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
     height: 100vh;
-    margin-top: 100px;
+    margin-top: 0px; /* Decreased margin-top to move the container higher */
+    margin-bottom: 100px;
     background-color: #fff;
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 400px;
-    text-align: center;
+    width: 600px;
     position: absolute;
-    top: 25%;
+    top: 50%; /* Adjusted to center the container vertically */
     left: 50%;
     transform: translate(-50%, -50%);
   }
+  
 
   .login-container h1 {
-    margin-bottom: 20px; /* Increase the margin for more spacing */
+    margin-bottom: 50px; /* Increase the margin for more spacing */
     color: #333;
+    align-items: center;
+    text-align: center;
   }
 
   .login-container label {
     text-align: left; /* Adjusted text alignment */
+    align-self: baseline;
     display: block;
     color: #555;
-    margin-top: 5px; /* Adjust margin to bring labels closer to inputs */
+    margin-top: 15px; /* Adjust margin to bring labels closer to inputs */
+    color:black;
+
   }
 
   .login-container input {
@@ -42,20 +47,24 @@ body {
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 14px;
+    height: 80px;
+    align-items: center;
   }
 
-  .login-container submit {
+  .login-container button {
     display: inline-block;
-    margin-top: 20px; /* Increase the margin for more spacing */
+    margin-top: 60px; /* Increase the margin for more spacing */
     padding: 10px 20px; /* Increase the padding for more spacing */
     background-color: #3164F4;
     color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 20px;
     width: 100%;
-    height: 40px;
+    height: 60px;
+    align-items: center;
+    text-align: center;
   }
 
   .login-container p {
@@ -72,6 +81,12 @@ body {
   .login-container a:hover {
     color: #4b504f;
   }
-  #signup {
-      left:100px;
+  .login-container #signup {
+      position: absolute;
+      bottom: 130px;
+  }
+  .login-container #forgotPass {
+    position: absolute;
+    right: 20px; /* Adjust the value to position it as desired */
+    bottom: 130px; /* Adjust the value to position it vertically */
   }

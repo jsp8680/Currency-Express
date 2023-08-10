@@ -16,5 +16,8 @@ router.get('/converter', Controller.converter_get);
 // Route for the login page
 router.get('/login', Controller.login_get);
 
+
+// Route for the faqs page
+router.get('/faqs', Controller.faqs_get);
 // Export the router with defined routes
 module.exports = router;

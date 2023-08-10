@@ -17,3 +17,7 @@ module.exports.login_get = (req, res) => {
     // Render the "login.ejs" template when a user visits the login page
     res.render('login.ejs');
 }
+module.exports.faqs_get = (req, res) => {
+    // Render the "faqs.ejs" template when a user visits the faqs page
+    res.render('faqs.ejs');
+}
