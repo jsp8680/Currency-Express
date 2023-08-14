@@ -3,13 +3,12 @@
 <head>
     <title>User Account</title>
     <style>
-         body {
+        body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #5badeb;
         }
-        /* 
         .centered-container {
             display: flex;
             flex-direction: column;
@@ -42,7 +41,7 @@
         .sign-out a {
             color: black;
             text-decoration: none;
-        } */
+        }
         .profile-section {
             text-align: center;
             padding: 20px;
@@ -260,9 +259,15 @@
     </script>
 </head>
 <body>
- 
-    
-    <header><%- include('partials/header.ejs') %></header>
+    <div class="centered-container">
+        <div class="navbar">
+            <div class="logo">
+                <a href="#">CURRE₦C¥ EX₱R€$$</a>
+            </div>
+            <div class="sign-out">
+                <a href="#" class="sign-out">Sign Out</a>
+            </div>
+        </div>
 
         <div class="info-section">
             <h2>YOUR PROFILE:</h2>
