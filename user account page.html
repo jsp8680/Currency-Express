@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Account</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #5badeb;
+        }
+        .centered-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #5badeb;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            width: 100%;
+            padding: 10px 20px;
+         margin-top: -180px;   
+        }
+        .logo {
+            flex: 1;
+            text-align: center; 
+        }
+        .logo a {
+            color: black;
+            text-decoration: none;
+        }
+        .sign-out {
+            flex: 1;
+            text-align: right;
+        }
+        .sign-out a {
+            color: black;
+            text-decoration: none;
+        }
+        .profile-section {
+            text-align: center;
+            padding: 20px;
+            background-color: #5badeb;
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .profile-photo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            background-color: aqua;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: xx-small;
+            margin-left: 205px;
+        }
+        .change-photo label {
+            display: inline-block;
+            background-color: white;
+            margin-top: 100px ;
+            padding: 2px 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .profile-info {
+            text-align: left;
+            margin-left: 50px;
+        }
+        .profile-info input {
+            margin-top: 10px;
+            padding: 1px;
+            justify-content: space-evenly;
+            margin-left: 0px;
+        }
+    .buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        gap: 100px;
+    }
+ .buttons button {
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            
+        }
+        .settings-popup,
+        .favorite-currencies-popup .currency-action button,
+        .add-currency-dropdown button {
+            background-color: white;
+            padding: 3px 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 10px;
+        
+        }
+  
+        .favorite-currencies-table th,
+.favorite-currencies-table td {
+    background-color: white ;
+    padding: 5px;
+
+    border: 10px solid #ccc;
+    font-size: 8px; 
+}
+.centered-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #5badeb;
+}
+
+.button-container {
+    display: flex;
+    gap: 20px; }
+            .buttons div:hover .settings-popup,
+        .settings-popup.active,
+        .buttons div:hover .favorite-currencies-popup,
+        .favorite-currencies-popup.active,
+        .buttons div:hover .add-currency-dropdown,
+        .add-currency-dropdown.active {
+            display: block;
+        }
+        .info-section {
+            background-color: #5badeb;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 10px;
+        }
+        .favorite-currencies-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top:0px;
+        }
+        .favorite-currencies-table th,
+        .favorite-currencies-table td {
+            padding: 5px;
+            border: 1px solid #ccc;
+        }
+        .currency-action {
+            text-align: center;
+        }
+        .add-currency-dropdown select {
+            margin-top: 0px;
+        }
+        .add-currency-dropdown button {
+    margin-top: 0px;
+        }
+
+        .center-button {
+    display: flex;
+    justify-content: center;
+}
+
+  .delete-button {
+    background-color: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 100px; 
+}
+    </style>
+    <script>
+    function handleProfilePhotoChange(event) {
+        var fileInput = event.target;
+        var previewImage = document.getElementById("profile-photo-preview");
+
+        if (fileInput.files && fileInput.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                previewImage.src = e.target.result;
+            };
+
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+    }
+    function showDeleteConfirmation() {
+    var confirmation = confirm("Are you sure you want to delete your account?");
+    if (confirmation) {
+        alert("Account deleted!"); 
+    }
+}
+    var profilePhotoUpload = document.getElementById("profile-photo-upload");
+    profilePhotoUpload.addEventListener("change", handleProfilePhotoChange);
+        function showSettingsPopup() {
+            var popup = document.getElementById("settingsPopup");
+            popup.classList.show("active");
+        }
+        
+        function showFavoriteCurrenciesPopup() {
+            var popup = document.getElementById("favoriteCurrenciesPopup");
+            popup.classList.show("active");
+            updateAddCurrencyOptions(); 
+        }
+
+        function updateAddCurrencyOptions() {
+            var favoritesTable = document.getElementById("favoriteCurrenciesTable");
+            var currencySelect = document.getElementById("currencySelect");
+
+            currencySelect.innerHTML = '';
+
+            for (var i = 1; i < favoritesTable.rows.length; i++) {
+                var code = favoritesTable.rows[i].cells[0].innerText;
+                var name = favoritesTable.rows[i].cells[1].innerText;
+
+                var option = document.createElement("option");
+                option.value = code;
+                option.textContent = code + ' - ' + name;
+                currencySelect.appendChild(option);
+            }
+        }
+
+        function addCurrency() {
+            var select = document.getElementById("currencySelect");
+            var selectedOption = select.options[select.selectedIndex];
+
+            var code = selectedOption.value;
+            var name = selectedOption.text.split(' - ')[1];
+
+            var table = document.getElementById("favoriteCurrenciesTable");
+            var newRow = table.insertRow(table.rows.length);
+            var codeCell = newRow.insertCell(0);
+            var nameCell = newRow.insertCell(1);
+            var actionCell = newRow.insertCell(2);
+
+            codeCell.innerHTML = code;
+            nameCell.innerHTML = name;
+            actionCell.innerHTML = '<button onclick="removeCurrency(this)">Remove</button>';
+
+            select.removeChild(selectedOption);
+        }
+
+        function removeCurrency(button) {
+            var row = button.parentNode.parentNode;
+            var code = row.cells[0].innerText;
+            var name = row.cells[1].innerText;
+
+            var currencySelect = document.getElementById("currencySelect");
+            var option = document.createElement("option");
+            option.value = code;
+            option.textContent = code + ' - ' + name;
+            currencySelect.appendChild(option);
+
+            row.parentNode.removeChild(row);
+        }
+    </script>
+</head>
+<body>
+    <div class="centered-container">
+        <div class="navbar">
+            <div class="logo">
+                <a href="#">CURRE₦C¥ EX₱R€$$</a>
+            </div>
+            <div class="sign-out">
+                <a href="#" class="sign-out">Sign Out</a>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>YOUR PROFILE:</h2>
+        </div>
+        <div class="profile-section">
+            <div class="profile-photo">
+                <img id="profile-photo-preview" src="" alt="Profile Photo">
+                <div class="change-photo">
+                    <label for="profile-photo-upload">Change Profile Photo</label>
+                    <input type="file" id="profile-photo-upload" accept="image/*" style="display: none;">
+                </div>
+            </div>
+            <div class="profile-info">
+                <input type="text" placeholder="Name">
+                <input type="email" placeholder="Email">
+            </div>
+        </div>
+
+        <div class="buttons">
+            <div>
+                <button onclick="toggleSettingsPopup()">SETTINGS & PREFERENCES</button>
+                <div class="settings-popup" id="settingsPopup">
+                         <label for="targetCurrency">Default Target Currency:</label>
+                    <select id="targetCurrency">
+                        <option value="usd">EUR</option>
+                        
+                    </select>
+                    <br>
+                    <label for="sourceCurrency">Default Source Currency:</label>
+                    <select id="sourceCurrency">
+                        <option value="eur">USD</option>
+                        
+                    </select>
+                    <br>
+                    <label for="decimalPlace">Decimal Place Preference:</label>
+                    <select id="decimalPlace">
+                        <option value="dot">1</option>
+                        <option value="dot">2</option>
+                        <option value="dot">3</option>
+
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button onclick="toggleFavoriteCurrenciesPopup()">FAVOURITE CURRENCIES</button>
+                <div class="favorite-currencies-popup" id="favoriteCurrenciesPopup">
+                    <table class="favorite-currencies-table" id="favoriteCurrenciesTable">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Name</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>USD</td>
+                                <td>US dollar</td>
+                                <td class="currency-action"><button onclick="removeCurrency(this)">Remove</button></td>
+                            </tr>
+                            <tr>
+                                <td>EUR</td>
+                                <td>EURO</td>
+                                <td class="currency-action"><button onclick="removeCurrency(this)">Remove</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="add-currency-dropdown" id="addCurrencyDropdown">
+                        <select id="currencySelect">
+                            <option value="aud">AUD - Australian Dollar</option>
+                            <option value="cad">CAD - Canadian Dollar</option>
+                            <option value="chf">CHF - Swiss Franc</option>
+                            <option value="jpy">JPY - Japanese Yen</option>
+                            <option value="cny">CNY - Chinese Yuan</option>
+                            <option value="inr">INR - Indian Rupee</option>
+                            <option value="brl">BRL - Brazilian Real</option>
+                            <option value="mxn">MXN - Mexican Peso</option>
+                            <option value="sgd">SGD - Singapore Dollar</option>
+                            <option value="hkd">HKD - Hong Kong Dollar</option>
+                        </select>
+                        <button onclick="addCurrency()">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div> 
+                    <button class="delete-button" onclick="showDeleteConfirmation()">DELETE ACCOUNT</button>
+        </div>
+    </div>
+</body>
+</html>
