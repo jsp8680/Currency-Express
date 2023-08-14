@@ -22,7 +22,13 @@
       <h1>Your Trusted Currency Converter</h1>
       <div class="buttons">
         <button><a class="button" href="/converter">Get Started</a></button>
+        <% if (user) { %>
+        <button><a class="button" href="/profile">Register Here</a></button>
+
+        <% } else { %>
         <button><a class="button" href="/register">Register Here</a></button>
+
+        <% } %>
       </div>
     </div>
     <div class="info">

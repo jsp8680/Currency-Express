@@ -49,8 +49,7 @@ module.exports.register_post = async (req, res) => {
         res.status(201).json({ user: user._id });
     }
     catch (err) {
-        // const errors = handleErrors(err);
-        // res.status(400).json({ errors });
+       
         console.log(err);
     }
 }

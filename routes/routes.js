@@ -18,7 +18,7 @@ router.get('/converter', Controller.converter_get);
 router.get('/login', Controller.login_get);
 router.post('/login', Controller.login_post);
 
-router.get('/profile', Controller.profile_get);
+router.get('/profile', requireAuth, Controller.profile_get);
 // Route for the faqs page
 router.get('/faqs', Controller.faqs_get);
 
