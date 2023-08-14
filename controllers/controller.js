@@ -12,6 +12,11 @@ module.exports.converter_get = (req, res) => {
     res.render('index.ejs');
 }
 
+module.exports.register_get = (req, res) => {
+    // Render the "register.ejs" template when a user visits the register page
+    res.render('register.ejs');
+}
+
 // Controller action for handling GET request to the login page
 module.exports.login_get = (req, res) => {
     // Render the "login.ejs" template when a user visits the login page

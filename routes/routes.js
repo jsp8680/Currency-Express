@@ -19,5 +19,7 @@ router.get('/login', Controller.login_get);
 router.get('/profile', Controller.profile_get);
 // Route for the faqs page
 router.get('/faqs', Controller.faqs_get);
+
+router.get('/register', Controller.register_get);
 // Export the router with defined routes
 module.exports = router;

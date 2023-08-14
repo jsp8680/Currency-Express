@@ -2,14 +2,13 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f7f7f7;
     margin: 0;
-  }
-
-  .login-container {
+}
+.register-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     height: 100vh;
-    margin-top: 0px; 
+    margin-top: 0;
     margin-bottom: 100px;
     background-color: #fff;
     border-radius: 10px;
@@ -17,43 +16,37 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 600px;
     position: absolute;
-    top: 48%; 
+    top: 48%;
     left: 50%;
     transform: translate(-50%, -50%);
-  }
-  
-
-  .login-container h1 {
-    margin-bottom: 50px; 
+}
+.register-container h1 {
+    margin-bottom: 50px;
     color: #333;
     align-items: center;
     text-align: center;
-  }
-
-  .login-container label {
-    text-align: left; 
+}
+.register-container label {
+    text-align: left;
     align-self: baseline;
     display: block;
     color: #555;
-    margin-top: 15px; 
-    color:black;
-
-  }
-
-  .login-container input {
+    margin-top: 15px;
+    color: black;
+}
+.register-container input {
     width: 100%;
-    padding: 10px; 
+    padding: 10px;
     margin-top: 5px;
     border: 0.5px solid #3f3e3e;
     border-radius: 5px;
     font-size: 14px;
-    height: 80px;
+    height: 60px;
     align-items: center;
-  }
-
-  .login-container button {
+}
+.register-container button {
     display: inline-block;
-    margin-top: 60px; 
+    margin-top: 60px;
     padding: 10px 20px;
     background-color: #3164F4;
     color: #fff;
@@ -65,28 +58,33 @@ body {
     height: 60px;
     align-items: center;
     text-align: center;
-  }
-
-  .login-container p {
+}
+.register-container button:hover {
+    background-color: #2a4bd8;
+}
+.register-container p {
     margin-top: 30px;
-    color: #777;
-  }
-
-  .login-container a {
-    color: #534949;
+    color: #000000;
+}
+.register-container a {
+    color: #332f2f;
     text-decoration: none;
     transition: color 0.3s;
-  }
-
-  .login-container a:hover {
+}
+.register-container a:hover {
     color: #4b504f;
-  }
-  .login-container #signup {
-      position: absolute;
-      bottom: 130px;
-  }
-  .login-container #forgotPass {
+}
+.register-container #signup {
     position: absolute;
-    right: 20px; 
-    bottom: 130px; 
-  }
+    left: 76%;
+    bottom: 95px;
+}
+.register-container #signup:hover {
+    color: #000000;
+
+}
+.register-container #forgotPass {
+    position: absolute;
+    right: 20px;
+    bottom: 130px;
+}
