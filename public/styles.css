@@ -149,7 +149,7 @@ span#equals{
   .currency-symbol {
     position: absolute;
     left: 670px;
-    top: 215px; /* Adjust this value based on your layout */
+    top: 215px; 
     font-size: 25px;
     color: black; 
    z-index: 100;

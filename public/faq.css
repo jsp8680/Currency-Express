@@ -34,7 +34,7 @@ color: red;
 h2 {
 font-size: 24px;
 font-style: italic;
-margin-bottom: 10px;  /* Space below the question */
+margin-bottom: 10px;  
 }
 
 h3 {
@@ -49,8 +49,8 @@ p {
 font-size: 24px;
 color: black;
 padding: 0 30px;
-margin-top: 10px;     /* Space above the answer */
-margin-bottom: 30px;  /* Space below the answer, which also affects space before the next question */
+margin-top: 10px;    
+margin-bottom: 30px;  
 }
 
 .footer {
