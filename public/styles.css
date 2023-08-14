@@ -75,6 +75,7 @@ span#arrows{
     position: relative;
     top: 100px;
     color:cyan;
+    cursor: pointer;
 }
 
 button{
@@ -145,3 +146,11 @@ span#equals{
     top:60px;
 }
 
+  .currency-symbol {
+    position: absolute;
+    left: 670px;
+    top: 215px; /* Adjust this value based on your layout */
+    font-size: 25px;
+    color: black; 
+   z-index: 100;
+  }
