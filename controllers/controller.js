@@ -54,3 +54,30 @@ module.exports.register_post = async (req, res) => {
         console.log(err);
     }
 }
+
+
+module.exports.logout_get = (req, res) => {
+    // set cookie to nothing
+    res.cookie("jwt", "", { maxAge: 1 });
+    // redirect to home page
+    res.redirect("/");
+  };
+
+module.exports.login_post = async (req, res) => {
+    const { email, password } = req.body;
+
+  try {
+    // login user
+    const user = await User.login(email, password);
+    // create a token
+    const token = createToken(user._id);
+    // set cookie
+    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+    // send response
+    res.status(200).json({ user: user._id, email: user.email });
+  } catch (err) {
+    // const errors = handleErrorsForUsers(err);
+    // res.status(400).json({ errors });
+    console.log(err);
+  }
+}

@@ -5,31 +5,33 @@ const port = 3000;
 const mongoose = require("mongoose");
 const { requireAuth, checkUser } = require('./middleware/middleware');
 const bodyParser = require('body-parser');
-// Import your custom routes module
+const cookieParser = require('cookie-parser');
 const Routes = require("./routes/routes");
+// Serve static files from the "public" directory
+app.use(express.static("public"));
+// Parse URL-encoded bodies and JSON data in requests
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+// Set the view engine to use EJS templates
+app.set("view engine", "ejs");
+
+// Connect to the MongoDB database using Mongoose
 const dbURI = 'mongodb+srv://discord8680:98ZeiAteNRS2tpLH@cluster0.e4ob5c0.mongodb.net/';
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then((result) => app.listen(3000),console.log('Server is running on port 3000 http://localhost:3000/'))
   .catch((err) => console.log(err));
-// Set the view engine to use EJS templates
-app.set("view engine", "ejs");
 
-// Serve static files from the "public" directory
-app.use(express.static("public"));
-
-// Parse URL-encoded bodies and JSON data in requests
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
-// Define a route for the root URL ("/") that renders the "home.ejs" template
-app.get("/", (req, res) => res.render("home.ejs"));
 // checks if the user is authenticated for every route.
 app.get('*', checkUser);
 // renders the "home" view when accessing the root URL.
+app.get('/', (req, res) => res.render('home'));
 // Use the routes defined in the imported Routes module
 app.use(Routes);
 
-// Start the server and listen on the specified port
-// app.listen(port, () => console.log(`Listening on port ${port}!`));
+
 
 // db password 98ZeiAteNRS2tpLH username discord8680
