@@ -22,3 +22,7 @@ module.exports.faqs_get = (req, res) => {
     res.render('faqs.ejs');
 }
 
+module.exports.profile_get = (req, res) => {
+    // Render the "account.ejs" template when a user visits the profile page
+    res.render('account.ejs');
+}
