@@ -30,4 +30,40 @@
  <footer><%- include('partials/footer.ejs') %></footer>
    
 </body>
+<script>
+     const form = document.querySelector("form");
+      // Add an event listener to the form element
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+  
+
+    // get values
+    const username = form.username.value;
+    const email = form.email.value;
+    const password = form.password.value;
+    
+// try to sign up
+    try {
+      // send the data to the server
+      const res = await fetch("/register", {
+        method: "POST",
+        // send the data as a json
+        body: JSON.stringify({ username, email, password }),
+        // set the content type header, so the server knows what's coming
+        headers: { "Content-Type": "application/json" },
+      });
+      // check the response status
+      const data = await res.json();
+      console.log(data);
+      
+      // if sign up is successful, redirect user to home page
+      if (data.user) {
+        location.assign("/");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  });
+</script>
 </html>

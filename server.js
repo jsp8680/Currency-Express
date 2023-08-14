@@ -3,6 +3,8 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const mongoose = require("mongoose");
+const { requireAuth, checkUser } = require('./middleware/middleware');
+const bodyParser = require('body-parser');
 // Import your custom routes module
 const Routes = require("./routes/routes");
 const dbURI = 'mongodb+srv://discord8680:98ZeiAteNRS2tpLH@cluster0.e4ob5c0.mongodb.net/';
@@ -21,6 +23,9 @@ app.use(express.json());
 
 // Define a route for the root URL ("/") that renders the "home.ejs" template
 app.get("/", (req, res) => res.render("home.ejs"));
+// checks if the user is authenticated for every route.
+app.get('*', checkUser);
+// renders the "home" view when accessing the root URL.
 // Use the routes defined in the imported Routes module
 app.use(Routes);
 

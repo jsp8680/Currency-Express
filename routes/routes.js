@@ -21,5 +21,6 @@ router.get('/profile', Controller.profile_get);
 router.get('/faqs', Controller.faqs_get);
 
 router.get('/register', Controller.register_get);
+router.post('/register', Controller.register_post);
 // Export the router with defined routes
 module.exports = router;

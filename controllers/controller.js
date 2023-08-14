@@ -1,5 +1,7 @@
 // Import necessary modules if required
-
+const User = require("../models/User");
+const MongoClient = require("mongodb").MongoClient;
+const jwt = require("jsonwebtoken");
 // Controller action for handling GET request to the about page
 module.exports.about_get = (req, res) => {
     // Render the "about.ejs" template when a user visits the about page
@@ -32,7 +34,12 @@ module.exports.profile_get = (req, res) => {
     res.render('account.ejs');
 }
 
-
+const maxAge = 3 * 24 * 60 * 60;
+const createToken = (id) => {
+  return jwt.sign({ id }, "secret", {
+    expiresIn: maxAge,
+  });
+};
 module.exports.register_post = async (req, res) => {
     const { username, email, password } = req.body;
     try {
@@ -42,7 +49,8 @@ module.exports.register_post = async (req, res) => {
         res.status(201).json({ user: user._id });
     }
     catch (err) {
-        const errors = handleErrors(err);
-        res.status(400).json({ errors });
+        // const errors = handleErrors(err);
+        // res.status(400).json({ errors });
+        console.log(err);
     }
 }
