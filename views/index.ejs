@@ -52,7 +52,7 @@
     <div id="error"></div>
     <div id="result"></div>
 
-    <button class="btn help">Need Help?</button>
+    <button class="btn help" href="/faqs">Need Help?</button>
    
     <script>
       document.addEventListener("DOMContentLoaded", () => {
@@ -66,6 +66,9 @@
         const error = document.getElementById("error");
   
         const currencySymbol = document.querySelector(".currency-symbol");
+// Disable the input fields
+previousInput.disabled = true;
+priorInput.disabled = true;
 
 const currencySymbols = {
   CAD: "\u0024", // Dollar sign: $
@@ -141,4 +144,6 @@ amountInput.addEventListener("focus", () => {
       });
     </script>
   </body>
+  <footer><%- include('partials/footer.ejs') %></footer>
+
 </html>

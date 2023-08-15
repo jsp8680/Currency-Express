@@ -1,6 +1,7 @@
 body {
     margin: 0;
     padding-top: 20px; 
+    padding-bottom: 20px;
     background-color: #2979FF;
     text-align: center;
     
@@ -89,7 +90,25 @@ button{
     top: 60px;
     left:0px;
 }
-
+#previous:disabled
+{
+    background-color: white;
+    width: 300px;
+    height: 40px;
+    position: relative;
+    right: 200px;
+    top:160px;
+    color: black;
+}
+#prior:disabled {
+    background-color: white;
+    color: black;
+    width: 300px;
+    height: 40px;
+    position: relative;
+    left: 200px;
+    top: 28px;
+}
 #previous{
     width: 300px;
     height: 40px;
@@ -104,6 +123,7 @@ span#equals{
     position: relative;
     top:90px
 }
+
 
 #prior{
     width: 300px;
@@ -137,13 +157,14 @@ span#equals{
     font-size: 16px;
     cursor: pointer;
     display: inline-block;
+    
 }
 
 .help{
     color: white;
     position:relative;
-    left:0px;
-    top:60px;
+    left:700px;
+    top:10px;
 }
 
   .currency-symbol {
