@@ -2,6 +2,9 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    min-height: 100vh; 
+    display: flex;
+    flex-direction: column;
 }
 
 
@@ -23,6 +26,7 @@ gap: 200px;
 .body2 {
 background-color: skyblue;
 justify-content: space-between; 
+min-height: 100vh;
 padding: 50px;
 }
 
@@ -34,7 +38,7 @@ color: red;
 h2 {
 font-size: 24px;
 font-style: italic;
-margin-bottom: 10px;  
+margin-bottom: 10px;  /* Space below the question */
 }
 
 h3 {
@@ -49,8 +53,8 @@ p {
 font-size: 24px;
 color: black;
 padding: 0 30px;
-margin-top: 10px;    
-margin-bottom: 30px;  
+margin-top: 10px;     /* Space above the answer */
+margin-bottom: 30px;  /* Space below the answer, which also affects space before the next question */
 }
 
 .footer {
@@ -76,4 +80,39 @@ margin: auto;
 font-size: 14px;
 color:white;
 margin: 0;
+}
+
+#searchBar {
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; 
+}
+
+#searchInput {
+    width: 90%; 
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px; /* space between the input and the button */
+}
+
+#contactButton {
+    padding: 10px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    background-color: red;
+    color: white;
+    cursor: pointer;
+    display: none; /* initially hidden */
+    margin-top: 10px; 
+}
+#exclamationMark {
+    font-size: 100px;  
+    color: red;  
+    display: none; 
+    margin-top: 20px; 
 }
