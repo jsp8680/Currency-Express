@@ -7,11 +7,17 @@
         <section class="body1">
         <div class="side-by-side">
             <h3>FAQs</h3>
-            <p><span>Got a question?</span>We're here to help you. Head to our <a href="your-contact-link-here">Contact Us</a> page if you still have any questions.</p>
+            <p><span>Got a question?</span>We're here to help you. Head to our <a href="contact-link">Contact Us</a> page if you still have any questions.</p>
         </div>
     </section>
 
     <section class="body2">
+        <!-- Search Bar -->
+        <div id="searchBar">
+            <input type="text" id="searchInput" onkeyup="searchFAQs()" placeholder="Search FAQs...">
+            <span id="exclamationMark">!</span>
+            <button id="contactButton" onclick="location.href='contact-link'">Couldn't find your answer? Contact Us</button>
+        </div>
         <div class="questions">
             <h2>1. How does the Currency Converter Tool work?</h2>
             <p>It converts currencies in real-time using up-to-date exchange rates.</p>
@@ -30,8 +36,53 @@
 
             <h2>6. Are the results affected by weekends or holidays?</h2>
             <p>The tool operates 24/7, including weekends and holidays, so you'll receive real-time conversions at all times.</p>
+            <h2>7. Why is the value I received different from what I expected when I made a currency transaction in real life?</h2>
+            <p>Real-world transactions might include fees, commissions, or variations in rates from one financial service provider to another. The tool provides a general rate, excluding potential transaction costs.</p>
+
+            <h2>8. Do I need an internet connection to use the tool?</h2>
+            <p>Yes, an active internet connection is required to use the currency converter tool to ensure the most up-to-date exchange rates.</p>
+
+            <h2>9. How do I use the currency converter tool?</h2>
+            <p>Simply select the currency you wish to convert from, enter the amount, and then select the currency you want to convert to, and then press the convert button. The tool will display the converted value instantly.</p>
+
+            <h2>10.I'm seeing an error message. What should I do?</h2>
+            <p>If you encounter an error, try refreshing the page. If the problem persists, contact our support team for assistance.</p>
+
+            <h2>11. Can I use the tool for commercial purposes or large financial decisions?</h2>
+            <p>The tool is designed for general information and convenience. For large financial transactions or commercial decisions, consult with financial experts or institutions for precise rates.</p>
+
+            <h2>12. Does the tool have a favorite or bookmark feature for frequently used currencies?</h2>
+            <p>Yes, you can mark certain currency pairs as favorites or bookmarks for quick access in subsequent uses.</p>
         </div>
     </section>
+    <script>
+         function searchFAQs() {
+    const input = document.getElementById("searchInput").value.toLowerCase();
+    const questions = document.querySelectorAll(".questions h2, .questions p");
+    let visibleQuestions = 0;
+
+    for (let i = 0; i < questions.length; i += 2) {
+        if (questions[i].textContent.toLowerCase().includes(input)) {
+            questions[i].style.display = "block";
+            questions[i + 1].style.display = "block";
+            visibleQuestions++;
+        } else {
+            questions[i].style.display = "none";
+            questions[i + 1].style.display = "none";
+        }
+    }
+
+    const contactButton = document.getElementById("contactButton");
+    const exclamationMark = document.getElementById("exclamationMark");
+    if (visibleQuestions === 0) {
+        contactButton.style.display = "block";
+        exclamationMark.style.display = "block";  // Show exclamation mark
+    } else {
+        contactButton.style.display = "none";
+        exclamationMark.style.display = "none";  // Hide exclamation mark
+    }
+}
+    </script>
     <footer class="footer">
         <div class="container">
           <p id="footer-p">&copy; 2023 Currency Express. All rights reserved.</p>
