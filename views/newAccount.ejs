@@ -1,0 +1,203 @@
+<form id="preferences" action="/profile" method="POST">
+   
+    <label for="targetCurrency">Default Target Currency:</label>
+<select id="targetCurrency">
+<option default value="<%= user.targetCurrency %>"><%= user.targetCurrency %></option>
+   <option value="USD">USD - United States Dollar</option>
+   <option value="EUR">EUR - European Dollar</option>
+   <option value="AUD">AUD - Australian Dollar</option>
+   <option value="CAD">CAD - Canadian Dollar</option>
+   <option value="CHF">CHF - Swiss Franc</option>
+   <option value="JPY">JPY - Japanese Yen</option>
+   <option value="CNY">CNY - Chinese Yuan</option>
+   <option value="INR">INR - Indian Rupee</option>
+   <option value="BRL">BRL - Brazilian Real</option>
+   <option value="MXN">MXN - Mexican Peso</option>
+   
+</select>
+<br>
+<label for="sourceCurrency">Default Source Currency:</label>
+<select id="sourceCurrency">
+<option default value="<%= user.sourceCurrency %>"><%= user.sourceCurrency %></option>
+   <option value="USD">USD - United States Dollar</option>
+   <option value="EUR">EUR - European Dollar</option>
+   <option value="AUD">AUD - Australian Dollar</option>
+   <option value="CAD">CAD - Canadian Dollar</option>
+   <option value="CHF">CHF - Swiss Franc</option>
+   <option value="JPY">JPY - Japanese Yen</option>
+   <option value="CNY">CNY - Chinese Yuan</option>
+   <option value="INR">INR - Indian Rupee</option>
+   <option value="BRL">BRL - Brazilian Real</option>
+   <option value="MXN">MXN - Mexican Peso</option>
+   
+</select>
+<br>
+<label for="decimalPlace">Decimal Place Preference:</label>
+<select id="decimalPlace">
+<option default value="<%= user.decimalPlaces %>"><%= user.decimalPlaces %></option>
+   <option value="1">1</option>
+   <option value="2">2</option>
+   <option value="3">3</option>
+
+</select>
+<input type="hidden" id="userID" value="<%= user._id %>">
+<button>Submit</button>
+</div>
+</form>
+
+
+<div>
+    <h1>Favourite Currencies</h1>
+    <table id="currencyTable">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Table rows will be added dynamically -->
+        </tbody>
+    </table>
+
+    <h2>Add Currency</h2>
+    <select id="currencySelect">
+        <option value="USD">USD - US Dollar</option>
+        <option value="EUR">EUR - Euro</option>
+        <option value="JPY">JPY - Japanese Yen</option>
+        <!-- Add more currency options as needed -->
+    </select>
+    <button id="addCurrencyBtn">Add Currency</button>
+    </div>
+</div>
+</div> 
+
+<script>
+
+const form = document.getElementById('preferences');
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const userIDElement = document.getElementById('userID');
+    const userID = userIDElement.value;
+    const targetCurrency = form.targetCurrency.value;
+    const sourceCurrency = form.sourceCurrency.value;
+    const decimalPlace = form.decimalPlace.value;
+
+    try {
+        const res = await fetch('/profile', {
+            method: 'POST',
+            body: JSON.stringify({ userID,targetCurrency, sourceCurrency, decimalPlace }),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        const data = await res.json();
+        console.log(data);
+        if (data.user) {
+            location.assign('/profile');
+        }
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
+
+
+const currencyNames = {
+            USD: "US Dollar",
+            EUR: "Euro",
+            JPY: "Japanese Yen",
+            // Add more currency names as needed
+        };
+
+        function updateTableWithNewCurrency(selectedCurrency, currencyName) {
+    const tableBody = document.querySelector("#currencyTable tbody");
+
+    // Create a new table row
+    const newRow = document.createElement("tr");
+
+    // Create table data cells for code, name, and action
+    const codeCell = document.createElement("td");
+    codeCell.textContent = selectedCurrency;
+    newRow.appendChild(codeCell);
+
+    const nameCell = document.createElement("td");
+    nameCell.textContent = currencyName;
+    newRow.appendChild(nameCell);
+
+    const actionCell = document.createElement("td");
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete";
+    deleteBtn.addEventListener("click", function() {
+        const rowToRemove = newRow;
+        const currencyCodeToDelete = selectedCurrency;
+        const userIDElement = document.getElementById('userID');
+        const userID = userIDElement.value;
+
+        fetch('/deleteCurrency', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                currencyCode: currencyCodeToDelete,
+                userID
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // If successful, remove the row from the frontend table
+                rowToRemove.remove();
+            } else {
+                console.error(data.error);
+            }
+        })
+        .catch(error => {
+            console.error('An error occurred:', error);
+        });
+    });
+    actionCell.appendChild(deleteBtn);
+    newRow.appendChild(actionCell);
+
+    // Append the new row to the table
+    tableBody.appendChild(newRow);
+}
+
+// ...
+
+document.getElementById("addCurrencyBtn").addEventListener("click", function() {
+    const selectedCurrency = document.getElementById("currencySelect").value;
+    const userIDElement = document.getElementById('userID');
+    const userID = userIDElement.value;
+
+    fetch('/addCurrency', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            currencyCode: selectedCurrency,
+            userID
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Handle success or error response from backend
+        if (data.success) {
+            // Fetch currency name from currencyNames object or data source
+            const currencyName = currencyNames[selectedCurrency];
+            // Update the frontend table with the new currency
+            updateTableWithNewCurrency(selectedCurrency, currencyName);
+        } else {
+            console.error(data.error);
+        }
+    })
+    .catch(error => {
+        console.error('An error occurred:', error);
+    });
+});
+
+// ...
+
+
+</script>

@@ -19,7 +19,26 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please enter a password'],
     minlength: [6, 'Minimum password length is 6 characters'],
-  }
+  },
+  targetCurrency: {
+    type: String,
+    required: [true, 'Please enter a target currency'],
+    default: 'CAD',
+  },
+  sourceCurrency: {
+    type: String,
+    required: [true, 'Please enter a source currency'],
+    default: 'USD',
+  },
+  decimalPlaces: {
+    type: Number,
+    required: [true, 'Please enter a number of decimal places'],
+    default: 2,
+  },
+  favoriteCurrencies: [{
+    code: String,
+    name: String
+}],
 });
 
 
