@@ -35,10 +35,18 @@ app.get("/about", function(req, res){
 
 //POST method
 app.post("/about",function(req, res){
+  // data coming from frontend
+  const { name, email, message } = req.body;
+
+//checks incoming data
+  console.log("Received form data:");
+  console.log("Name:", name);
+  console.log("Email:", email);
+  console.log("Message:", message);
   const contact = new contact({
-    name: req.body.name,
-    email: req.body.email,
-    message: req.body.message,
+    name: name,
+    email: email,
+    message: message,
 });
 
   contact.save();

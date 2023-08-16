@@ -33,6 +33,15 @@ module.exports.profile_get = (req, res) => {
     // Render the "account.ejs" template when a user visits the profile page
     res.render('account.ejs');
 }
+module.exports.contact_post = async (req, res) => {
+  const { name, email, message } = req.body;
+
+  // Do something with the form data
+  console.log("Received form data:");
+  console.log("Name:", name);
+  console.log("Email:", email);
+  console.log("Message:", message);
+}
 
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id) => {

@@ -22,6 +22,7 @@ router.get('/profile', requireAuth, Controller.profile_get);
 // Route for the faqs page
 router.get('/faqs', Controller.faqs_get);
 
+router.post('/contact', Controller.contact_post);
 router.get('/register', Controller.register_get);
 router.post('/register', Controller.register_post);
 
