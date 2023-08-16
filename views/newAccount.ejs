@@ -57,7 +57,9 @@
             </tr>
         </thead>
         <tbody>
-            <!-- Table rows will be added dynamically -->
+            <tr id="noCurrenciesMessageRow" style="display: none;">
+                <td colspan="3">No favorite currencies available. Add some below.</td>
+            </tr>
         </tbody>
     </table>
 
@@ -102,69 +104,6 @@ form.addEventListener('submit', async (e) => {
 });
 
 
-const currencyNames = {
-            USD: "US Dollar",
-            EUR: "Euro",
-            JPY: "Japanese Yen",
-            // Add more currency names as needed
-        };
-
-        function updateTableWithNewCurrency(selectedCurrency, currencyName) {
-    const tableBody = document.querySelector("#currencyTable tbody");
-
-    // Create a new table row
-    const newRow = document.createElement("tr");
-
-    // Create table data cells for code, name, and action
-    const codeCell = document.createElement("td");
-    codeCell.textContent = selectedCurrency;
-    newRow.appendChild(codeCell);
-
-    const nameCell = document.createElement("td");
-    nameCell.textContent = currencyName;
-    newRow.appendChild(nameCell);
-
-    const actionCell = document.createElement("td");
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Delete";
-    deleteBtn.addEventListener("click", function() {
-        const rowToRemove = newRow;
-        const currencyCodeToDelete = selectedCurrency;
-        const userIDElement = document.getElementById('userID');
-        const userID = userIDElement.value;
-
-        fetch('/deleteCurrency', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                currencyCode: currencyCodeToDelete,
-                userID
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // If successful, remove the row from the frontend table
-                rowToRemove.remove();
-            } else {
-                console.error(data.error);
-            }
-        })
-        .catch(error => {
-            console.error('An error occurred:', error);
-        });
-    });
-    actionCell.appendChild(deleteBtn);
-    newRow.appendChild(actionCell);
-
-    // Append the new row to the table
-    tableBody.appendChild(newRow);
-}
-
-// ...
-
 document.getElementById("addCurrencyBtn").addEventListener("click", function() {
     const selectedCurrency = document.getElementById("currencySelect").value;
     const userIDElement = document.getElementById('userID');
@@ -182,12 +121,10 @@ document.getElementById("addCurrencyBtn").addEventListener("click", function() {
     })
     .then(response => response.json())
     .then(data => {
-        // Handle success or error response from backend
         if (data.success) {
-            // Fetch currency name from currencyNames object or data source
             const currencyName = currencyNames[selectedCurrency];
-            // Update the frontend table with the new currency
             updateTableWithNewCurrency(selectedCurrency, currencyName);
+            
         } else {
             console.error(data.error);
         }
@@ -197,7 +134,100 @@ document.getElementById("addCurrencyBtn").addEventListener("click", function() {
     });
 });
 
-// ...
+function fetchAndDisplayFavoriteCurrencies() {
+    fetch('/getFavouriteCurrency', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        const noCurrenciesMessageRow = document.getElementById("noCurrenciesMessageRow");
+        const currencyTable = document.getElementById("currencyTable");
 
+        if (data.success) {
+            const favoriteCurrencies = data.favoriteCurrencies;
+            if (favoriteCurrencies.length === 0) {
+                noCurrenciesMessageRow.style.display = "table-row";
+            } else {
+                noCurrenciesMessageRow.style.display = "none";
+            }
+
+            favoriteCurrencies.forEach(currency => {
+                updateTableWithNewCurrency(currency.code, currency.name);
+            });
+        } else {
+            console.error(data.error);
+        }
+    })
+    .catch(error => {
+        console.error('An error occurred:', error);
+    });
+}
+
+
+function updateTableWithNewCurrency(selectedCurrency, currencyName) {
+    const tableBody = document.querySelector("#currencyTable tbody");
+    const newRow = document.createElement("tr");
+
+    const codeCell = document.createElement("td");
+    codeCell.textContent = selectedCurrency;
+    newRow.appendChild(codeCell);
+
+    const nameCell = document.createElement("td");
+    nameCell.textContent = currencyName;
+    newRow.appendChild(nameCell);
+
+    const actionCell = document.createElement("td");
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete";
+    deleteBtn.addEventListener("click", function() {
+        const clickedRow = deleteBtn.closest("tr");
+        const rowIndex = clickedRow.rowIndex;
+
+        clickedRow.remove();
+
+        const currencyCodeToDelete = selectedCurrency;
+        const userIDElement = document.getElementById('userID');
+        const userID = userIDElement.value;
+
+        fetch('/deleteCurrency', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                currencyCode: currencyCodeToDelete,
+                userID
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (!data.success) {
+                console.error(data.error);
+                tableBody.insertRow(rowIndex, newRow);
+            }
+        })
+        .catch(error => {
+            console.error('An error occurred:', error);
+            tableBody.insertRow(rowIndex, newRow);
+        });
+    });
+    actionCell.appendChild(deleteBtn);
+    newRow.appendChild(actionCell);
+
+    tableBody.appendChild(newRow);
+}
+
+// Define currencyNames object
+const currencyNames = {
+    USD: "US Dollar",
+    EUR: "Euro",
+    JPY: "Japanese Yen",
+    // Add more currency names as needed
+};
+
+document.addEventListener("DOMContentLoaded", fetchAndDisplayFavoriteCurrencies);
 
 </script>

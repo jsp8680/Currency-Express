@@ -44,9 +44,11 @@ const currencyNames = {
 module.exports.deleteCurrency = async (req, res) => {
   const currencyCodeToDelete = req.body.currencyCode;
   const userId = req.body.userID;
-
+console.log(userId);
+console.log(currencyCodeToDelete);
   try {
       const user = await User.findById(userId);
+      // console.log(user);
       if (!user) {
           return res.status(404).json({ success: false, error: 'User not found' });
       }
@@ -72,8 +74,8 @@ module.exports.addCurrency = async (req, res) => {
   
     const selectedCurrency = req.body.currencyCode;
     const userID  = req.body.userID;
-    console.log(selectedCurrency);
-    const userId = userID; // You need to provide the actual user ID here
+    // console.log(selectedCurrency);
+    const userId = userID; 
     
     try {
         const user = await User.findById(userId);
@@ -92,6 +94,23 @@ module.exports.addCurrency = async (req, res) => {
         res.status(500).json({ success: false, error: 'An error occurred' });
     }
 };
+
+module.exports.getFavouriteCurrency = async (req, res) => {
+  const user = res.locals.user;
+  console.log(user);
+  const userID = user._id;
+  try {
+    const user = await User.findById(userID);
+    if (!user) {
+        return res.json({ success: false, error: 'User not found' });
+    }
+    console.log(user.favoriteCurrencies);
+    return res.json({ success: true, favoriteCurrencies: user.favoriteCurrencies });
+} catch (error) {
+    console.error(error);
+    return res.json({ success: false, error: 'An error occurred' });
+}
+}
 
 module.exports.profile_post = async (req, res) => {
   const { userID, targetCurrency, sourceCurrency, decimalPlace } = req.body;

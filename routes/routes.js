@@ -23,7 +23,7 @@ router.post("/profile", requireAuth, Controller.profile_post);
 router.post('/profile/favorite-currencies', requireAuth, Controller.updateFavoriteCurrencies);
 router.post('/addCurrency', requireAuth, Controller.addCurrency);
 router.delete('/deleteCurrency', requireAuth, Controller.deleteCurrency);
-
+router.get('/getFavouriteCurrency', requireAuth, Controller.getFavouriteCurrency);
 // Route for the faqs page
 router.get("/faqs", Controller.faqs_get);
 
