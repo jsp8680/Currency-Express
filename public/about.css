@@ -5,7 +5,7 @@
     align-items: center;
     justify-content: center;
     min-height: 50vh;
-    max-height: 100vh;
+    max-height: 85vh;
     padding: 20px;
     background-color: #4851D4;
   }
@@ -14,7 +14,7 @@
     display: flex;
     flex-direction: row;
     background-color: #5BADEB;
-    min-height: 60vh;
+    min-height: 50vh;
     padding: 20px;
 }
 
@@ -23,7 +23,7 @@ h1{
     font-size: 40px;
     position: relative;
     right:650px;
-    top: 100px;
+    top: 125px;
 }
 
 #money{
@@ -31,7 +31,7 @@ h1{
    height: 500px;
     position: relative;
     left: 60px;
-    top: 100px;
+    top: 0px;
 }
 
 #info{
@@ -57,7 +57,7 @@ h1{
     color: white;
     position: relative;
     left: 500px;
-    bottom: 450px;
+    bottom: 400px;
 
 }
 
@@ -66,7 +66,7 @@ h1{
     color: white;
     position: relative;
     left:500px;
-    bottom: 450px
+    bottom: 350px
 
 }
 
@@ -75,7 +75,7 @@ h1{
     color: white;
     position: relative;
     left:510px;
-    bottom: 400px;
+    bottom: 250px;
     
 }
 #instagram{
@@ -83,7 +83,7 @@ h1{
     height: 50px;
     position: relative;
     left:510px;
-    bottom: 350px;
+    bottom: 180px;
 }
 
 #twitter{
@@ -91,7 +91,7 @@ h1{
     height: 50px;
     position: relative;
     left:510px;
-    bottom: 275px;
+    bottom: 130px;
     
 }
 
@@ -100,7 +100,7 @@ h1{
     height: 50px;
     position: relative;
     left:510px;
-    bottom: 210px;
+    bottom: 80px;
 
 }
 
@@ -181,3 +181,4 @@ footer{
     position: relative;
     top:0px;
 }
+
