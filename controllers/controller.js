@@ -72,27 +72,25 @@ console.log(currencyCodeToDelete);
 
 module.exports.addCurrency = async (req, res) => {
   
-    const selectedCurrency = req.body.currencyCode;
-    const userID  = req.body.userID;
-    // console.log(selectedCurrency);
-    const userId = userID; 
-    
-    try {
-        const user = await User.findById(userId);
-        if (!user) {
-            return res.status(404).json({ success: false, error: 'User not found' });
-        }
+  const userID = req.body.userID;
+  const currencyCode = req.body.currencyCode;
 
-        const currencyName = currencyNames[selectedCurrency]; // Fetch from currencyNames object or data source
+  try {
+      // Check if the currency already exists in the user's favorites
+      const user = await User.findOne({ _id: userID, 'favoriteCurrencies.code': currencyCode });
 
-        user.favoriteCurrencies.push({ code: selectedCurrency, name: currencyName });
-        await user.save();
+      if (user) {
+          // Currency already exists in favorites, send an error response
+          return res.json({ success: false, error: 'Currency is already a favorite' });
+      }
 
-        res.status(200).json({ success: true });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ success: false, error: 'An error occurred' });
-    }
+      // Currency doesn't exist, add it to the user's favorites
+      await User.findByIdAndUpdate(userID, { $push: { favoriteCurrencies: { code: currencyCode } } });
+
+      return res.json({ success: true });
+  } catch (err) {
+      return res.json({ success: false, error: 'An error occurred' });
+  }
 };
 
 module.exports.getFavouriteCurrency = async (req, res) => {

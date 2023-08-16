@@ -17,7 +17,7 @@ router.get("/converter", Controller.converter_get);
 // Route for the login page
 router.get("/login", Controller.login_get);
 router.post("/login", Controller.login_post);
-
+// Route for the profile page
 router.get("/profile", requireAuth, Controller.profile_get);
 router.post("/profile", requireAuth, Controller.profile_post);
 router.post('/profile/favorite-currencies', requireAuth, Controller.updateFavoriteCurrencies);

@@ -57,9 +57,10 @@
             </tr>
         </thead>
         <tbody>
-            <tr id="noCurrenciesMessageRow" style="display: none;">
-                <td colspan="3">No favorite currencies available. Add some below.</td>
+            <tr id="noCurrenciesMessageRow">
+                <td colspan="3">No favorite currencies added.</td>
             </tr>
+    
         </tbody>
     </table>
 
@@ -104,10 +105,55 @@ form.addEventListener('submit', async (e) => {
 });
 
 
+// document.getElementById("addCurrencyBtn").addEventListener("click", function() {
+//     const selectedCurrency = document.getElementById("currencySelect").value;
+//     const userIDElement = document.getElementById('userID');
+//     const userID = userIDElement.value;
+
+//     fetch('/addCurrency', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify({
+//             currencyCode: selectedCurrency,
+//             userID
+//         })
+//     })
+//     .then(response => response.json())
+//     .then(data => {
+//         if (data.success) {
+//             const currencyName = currencyNames[selectedCurrency];
+//             updateTableWithNewCurrency(selectedCurrency, currencyName);
+//             fetchAndDisplayFavoriteCurrencies();
+//         } else {
+//             console.error(data.error);
+//         }
+//     })
+//     .catch(error => {
+//         console.error('An error occurred:', error);
+//     });
+// });
+// ...
+
 document.getElementById("addCurrencyBtn").addEventListener("click", function() {
     const selectedCurrency = document.getElementById("currencySelect").value;
     const userIDElement = document.getElementById('userID');
     const userID = userIDElement.value;
+
+    // Fetch the currency name from the currencyNames object
+    const currencyName = currencyNames[selectedCurrency];
+
+    // Check for duplicates based on both currency code and name
+    const existingRows = document.querySelectorAll("#currencyTable tbody tr");
+    for (const row of existingRows) {
+        const codeCell = row.querySelector("td:first-child");
+        const nameCell = row.querySelector("td:nth-child(2)");
+        if (codeCell && codeCell.textContent === selectedCurrency && nameCell && nameCell.textContent === currencyName) {
+            // Currency already exists, don't add a duplicate
+            return;
+        }
+    }
 
     fetch('/addCurrency', {
         method: 'POST',
@@ -116,23 +162,31 @@ document.getElementById("addCurrencyBtn").addEventListener("click", function() {
         },
         body: JSON.stringify({
             currencyCode: selectedCurrency,
+            currencyName: currencyName, // Send the currency name to the server
             userID
         })
     })
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            const currencyName = currencyNames[selectedCurrency];
             updateTableWithNewCurrency(selectedCurrency, currencyName);
-            
+            fetchAndDisplayFavoriteCurrencies(); // Refresh display after adding
         } else {
-            console.error(data.error);
+            if (data.error === 'Currency is already a favorite') {
+                // Display a message to the user indicating the currency is already a favorite
+                alert('This currency is already a favorite.');
+            } else {
+                console.error(data.error);
+            }
         }
     })
     .catch(error => {
         console.error('An error occurred:', error);
     });
 });
+
+// ...
+
 
 function fetchAndDisplayFavoriteCurrencies() {
     fetch('/getFavouriteCurrency', {
@@ -153,10 +207,12 @@ function fetchAndDisplayFavoriteCurrencies() {
             } else {
                 noCurrenciesMessageRow.style.display = "none";
             }
-
+        
             favoriteCurrencies.forEach(currency => {
                 updateTableWithNewCurrency(currency.code, currency.name);
+                
             });
+            
         } else {
             console.error(data.error);
         }
@@ -169,6 +225,17 @@ function fetchAndDisplayFavoriteCurrencies() {
 
 function updateTableWithNewCurrency(selectedCurrency, currencyName) {
     const tableBody = document.querySelector("#currencyTable tbody");
+    const existingRows = tableBody.querySelectorAll("tr");
+       // Check for duplicates
+       for (const row of existingRows) {
+        const codeCell = row.querySelector("td:first-child");
+        if (codeCell && codeCell.textContent === selectedCurrency) {
+            // Currency already exists, don't add a duplicate
+            return;
+        }
+    }
+
+
     const newRow = document.createElement("tr");
 
     const codeCell = document.createElement("td");
@@ -214,10 +281,13 @@ function updateTableWithNewCurrency(selectedCurrency, currencyName) {
             tableBody.insertRow(rowIndex, newRow);
         });
     });
+    
     actionCell.appendChild(deleteBtn);
     newRow.appendChild(actionCell);
 
     tableBody.appendChild(newRow);
+
+    fetchAndDisplayFavoriteCurrencies();
 }
 
 // Define currencyNames object
