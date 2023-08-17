@@ -6,7 +6,9 @@ const multer = require('multer');
 const Contact = require("../models/Contact");
 
 const path = require('path');
-
+// Set up storage for multer
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 // Controller action for handling GET request to the about page
 module.exports.about_get = (req, res) => {
     // Render the "about.ejs" template when a user visits the about page
@@ -41,21 +43,19 @@ module.exports.profile_get = (req, res) => {
     res.render('newAccount.ejs', {user});
 }
 
-// Set up multer for file upload
-const storage = multer.diskStorage({
-  destination: 'uploads/', // Destination folder for uploaded files
-  filename: (req, file, callback) => {
-      // Generate a unique filename based on the original filename and current timestamp
-      const uniquePrefix = `${Date.now()}-${Math.round(Math.random() * 1E9)}`;
-      const fileExtension = path.extname(file.originalname);
-      callback(null, `${uniquePrefix}${fileExtension}`);
-  }
-});
-const upload = multer({ storage: storage });
+// // Set up multer for file upload
+// const storage = multer.diskStorage({
+//   destination: 'uploads/', // Destination folder for uploaded files
+//   filename: (req, file, callback) => {
+//       // Generate a unique filename based on the original filename and current timestamp
+//       const uniquePrefix = `${Date.now()}-${Math.round(Math.random() * 1E9)}`;
+//       const fileExtension = path.extname(file.originalname);
+//       callback(null, `${uniquePrefix}${fileExtension}`);
+//   }
+// });
+// const upload = multer({ storage: storage });
 
-module.exports.uploadAccountPhoto = (req, res) => {
- const userID = req.params.userID;
-}
+
 
 const currencyNames = {
   USD: "US Dollar",
@@ -137,7 +137,7 @@ module.exports.addCurrency = async (req, res) => {
 
 module.exports.getFavouriteCurrency = async (req, res) => {
   const user = res.locals.user;
-  console.log(user);
+  // console.log(user);
   const userID = user._id;
   try {
     const user = await User.findById(userID);
@@ -174,7 +174,7 @@ module.exports.profile_post = async (req, res) => {
     // Save the updated user document
     const updatedUser = await user.save();
 
-    console.log('User preferences saved to the database:', updatedUser);
+    // console.log('User preferences saved to the database:', updatedUser);
     res.json({ success: true, message: 'User preferences saved successfully' });
   } catch (error) {
     console.error('Error saving user preferences:', error);
@@ -200,7 +200,7 @@ module.exports.updateFavoriteCurrencies = async (req, res) => {
       // Save the updated user document
       const updatedUser = await user.save();
 
-      console.log('User favorite currencies saved to the database:', updatedUser);
+      // console.log('User favorite currencies saved to the database:', updatedUser);
       res.json({ success: true, message: 'User favorite currencies saved successfully' });
   } catch (error) {
       console.error('Error saving user favorite currencies:', error);

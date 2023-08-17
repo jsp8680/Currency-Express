@@ -40,7 +40,7 @@ const userSchema = new mongoose.Schema({
     name: String
 }],
   profilePhoto: {
-    type: String,
+    type: Buffer,
     default: 'https://www.w3schools.com/howto/img_avatar.png'
   }
 });
