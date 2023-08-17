@@ -39,6 +39,10 @@ const userSchema = new mongoose.Schema({
     code: String,
     name: String
 }],
+  profilePhoto: {
+    type: String,
+    default: 'https://www.w3schools.com/howto/img_avatar.png'
+  }
 });
 
 

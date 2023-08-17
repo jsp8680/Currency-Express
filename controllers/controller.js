@@ -2,7 +2,11 @@
 const User = require("../models/User");
 const MongoClient = require("mongodb").MongoClient;
 const jwt = require("jsonwebtoken");
+const multer = require('multer');
 const Contact = require("../models/Contact");
+
+const path = require('path');
+
 // Controller action for handling GET request to the about page
 module.exports.about_get = (req, res) => {
     // Render the "about.ejs" template when a user visits the about page
@@ -35,6 +39,22 @@ module.exports.profile_get = (req, res) => {
     const user = res.locals.user;
     // console.log(user)
     res.render('newAccount.ejs', {user});
+}
+
+// Set up multer for file upload
+const storage = multer.diskStorage({
+  destination: 'uploads/', // Destination folder for uploaded files
+  filename: (req, file, callback) => {
+      // Generate a unique filename based on the original filename and current timestamp
+      const uniquePrefix = `${Date.now()}-${Math.round(Math.random() * 1E9)}`;
+      const fileExtension = path.extname(file.originalname);
+      callback(null, `${uniquePrefix}${fileExtension}`);
+  }
+});
+const upload = multer({ storage: storage });
+
+module.exports.uploadAccountPhoto = (req, res) => {
+ const userID = req.params.userID;
 }
 
 const currencyNames = {

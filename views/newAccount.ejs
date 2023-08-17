@@ -142,8 +142,8 @@ position: relative;
         <h3 id="email">Email: <%= user.email %></h3>
         </div>
         <div id="profile-photo-container">
-        <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Avatar" class="avatar">
-        <button>Change Profile Photo</button>
+        <img src="<%= user.profilePhoto %>" alt="Avatar" class="avatar">
+        <button id="change-photo">Change Profile Photo</button>
         </div>
     </div>
     <h1 id="settings">Settings & Preferences</h1>

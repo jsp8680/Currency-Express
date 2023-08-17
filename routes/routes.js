@@ -25,6 +25,8 @@ router.post('/addCurrency', requireAuth, Controller.addCurrency);
 router.delete('/deleteCurrency', requireAuth, Controller.deleteCurrency);
 router.get('/getFavouriteCurrency', requireAuth, Controller.getFavouriteCurrency);
 router.delete('/deleteAccount', requireAuth, Controller.deleteAccount);
+router.post('/uploadProfilePhoto', requireAuth, Controller.uploadAccountPhoto)
+
 // Route for the faqs page
 router.get("/faqs", Controller.faqs_get);
 
