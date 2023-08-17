@@ -2,6 +2,7 @@
 const User = require("../models/User");
 const MongoClient = require("mongodb").MongoClient;
 const jwt = require("jsonwebtoken");
+const Contact = require("../models/Contact");
 // Controller action for handling GET request to the about page
 module.exports.about_get = (req, res) => {
     // Render the "about.ejs" template when a user visits the about page
@@ -42,6 +43,13 @@ const currencyNames = {
   JPY: "Japanese Yen",
   // Add more currency names as needed
 };
+
+// module.exports.deleteAccount = async (req, res) => {
+//   const userID = req.body.userID;
+//   console.log(userID);
+//   try {
+// {}
+
 module.exports.deleteCurrency = async (req, res) => {
   const currencyCodeToDelete = req.body.currencyCode;
   const userId = req.body.userID;
@@ -170,12 +178,18 @@ module.exports.updateFavoriteCurrencies = async (req, res) => {
 
 module.exports.contact_post = async (req, res) => {
   const { name, email, message } = req.body;
-
+  try {
+    const user = await Contact.create({ name, email, message });
+    res.status(201).json({name});
   // Do something with the form data
   console.log("Received form data:");
   console.log("Name:", name);
   console.log("Email:", email);
   console.log("Message:", message);
+}
+catch (err) {
+  console.log(err);
+}
 }
 
 const maxAge = 3 * 24 * 60 * 60;
@@ -223,4 +237,4 @@ module.exports.login_post = async (req, res) => {
     // res.status(400).json({ errors });
     console.log(err);
   }
-}
+};
