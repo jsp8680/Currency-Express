@@ -1,0 +1,304 @@
+<form id="preferences" action="/profile" method="POST">
+   
+    <label for="targetCurrency">Default Target Currency:</label>
+<select id="targetCurrency">
+<option default value="<%= user.targetCurrency %>"><%= user.targetCurrency %></option>
+   <option value="USD">USD - United States Dollar</option>
+   <option value="EUR">EUR - European Dollar</option>
+   <option value="AUD">AUD - Australian Dollar</option>
+   <option value="CAD">CAD - Canadian Dollar</option>
+   <option value="CHF">CHF - Swiss Franc</option>
+   <option value="JPY">JPY - Japanese Yen</option>
+   <option value="CNY">CNY - Chinese Yuan</option>
+   <option value="INR">INR - Indian Rupee</option>
+   <option value="BRL">BRL - Brazilian Real</option>
+   <option value="MXN">MXN - Mexican Peso</option>
+   
+</select>
+
+<br>
+<label for="sourceCurrency">Default Source Currency:</label>
+<select id="sourceCurrency">
+<option default value="<%= user.sourceCurrency %>"><%= user.sourceCurrency %></option>
+   <option value="USD">USD - United States Dollar</option>
+   <option value="EUR">EUR - European Dollar</option>
+   <option value="AUD">AUD - Australian Dollar</option>
+   <option value="CAD">CAD - Canadian Dollar</option>
+   <option value="CHF">CHF - Swiss Franc</option>
+   <option value="JPY">JPY - Japanese Yen</option>
+   <option value="CNY">CNY - Chinese Yuan</option>
+   <option value="INR">INR - Indian Rupee</option>
+   <option value="BRL">BRL - Brazilian Real</option>
+   <option value="MXN">MXN - Mexican Peso</option>
+   
+</select>
+<br>
+<label for="decimalPlace">Decimal Place Preference:</label>
+<select id="decimalPlace">
+<option default value="<%= user.decimalPlaces %>"><%= user.decimalPlaces %></option>
+   <option value="1">1</option>
+   <option value="2">2</option>
+   <option value="3">3</option>
+
+</select>
+<input type="hidden" id="userID" value="<%= user._id %>">
+<button>Submit</button>
+</div>
+</form>
+
+
+<div>
+    <h1>Favourite Currencies</h1>
+    <table id="currencyTable">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr id="noCurrenciesMessageRow">
+                <td colspan="3">No favorite currencies added.</td>
+            </tr>
+    
+        </tbody>
+    </table>
+
+    <h2>Add Currency</h2>
+    <select id="currencySelect">
+        <option value="USD">USD - US Dollar</option>
+        <option value="EUR">EUR - Euro</option>
+        <option value="JPY">JPY - Japanese Yen</option>
+        <!-- Add more currency options as needed -->
+    </select>
+    <button id="addCurrencyBtn">Add Currency</button>
+    </div>
+</div>
+</div> 
+
+<script>
+
+const form = document.getElementById('preferences');
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const userIDElement = document.getElementById('userID');
+    const userID = userIDElement.value;
+    const targetCurrency = form.targetCurrency.value;
+    const sourceCurrency = form.sourceCurrency.value;
+    const decimalPlace = form.decimalPlace.value;
+
+    try {
+        const res = await fetch('/profile', {
+            method: 'POST',
+            body: JSON.stringify({ userID,targetCurrency, sourceCurrency, decimalPlace }),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        const data = await res.json();
+        console.log(data);
+        if (data.user) {
+            location.assign('/profile');
+        }
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
+
+
+// document.getElementById("addCurrencyBtn").addEventListener("click", function() {
+//     const selectedCurrency = document.getElementById("currencySelect").value;
+//     const userIDElement = document.getElementById('userID');
+//     const userID = userIDElement.value;
+
+//     fetch('/addCurrency', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify({
+//             currencyCode: selectedCurrency,
+//             userID
+//         })
+//     })
+//     .then(response => response.json())
+//     .then(data => {
+//         if (data.success) {
+//             const currencyName = currencyNames[selectedCurrency];
+//             updateTableWithNewCurrency(selectedCurrency, currencyName);
+//             fetchAndDisplayFavoriteCurrencies();
+//         } else {
+//             console.error(data.error);
+//         }
+//     })
+//     .catch(error => {
+//         console.error('An error occurred:', error);
+//     });
+// });
+// ...
+
+document.getElementById("addCurrencyBtn").addEventListener("click", function() {
+    const selectedCurrency = document.getElementById("currencySelect").value;
+    const userIDElement = document.getElementById('userID');
+    const userID = userIDElement.value;
+
+    // Fetch the currency name from the currencyNames object
+    const currencyName = currencyNames[selectedCurrency];
+
+    // Check for duplicates based on both currency code and name
+    const existingRows = document.querySelectorAll("#currencyTable tbody tr");
+    for (const row of existingRows) {
+        const codeCell = row.querySelector("td:first-child");
+        const nameCell = row.querySelector("td:nth-child(2)");
+        if (codeCell && codeCell.textContent === selectedCurrency && nameCell && nameCell.textContent === currencyName) {
+            // Currency already exists, don't add a duplicate
+            return;
+        }
+    }
+
+    fetch('/addCurrency', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            currencyCode: selectedCurrency,
+            currencyName: currencyName, // Send the currency name to the server
+            userID
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            updateTableWithNewCurrency(selectedCurrency, currencyName);
+            fetchAndDisplayFavoriteCurrencies(); // Refresh display after adding
+        } else {
+            if (data.error === 'Currency is already a favorite') {
+                // Display a message to the user indicating the currency is already a favorite
+                alert('This currency is already a favorite.');
+            } else {
+                console.error(data.error);
+            }
+        }
+    })
+    .catch(error => {
+        console.error('An error occurred:', error);
+    });
+});
+
+// ...
+
+
+function fetchAndDisplayFavoriteCurrencies() {
+    fetch('/getFavouriteCurrency', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        const noCurrenciesMessageRow = document.getElementById("noCurrenciesMessageRow");
+        const currencyTable = document.getElementById("currencyTable");
+
+        if (data.success) {
+            const favoriteCurrencies = data.favoriteCurrencies;
+            if (favoriteCurrencies.length === 0) {
+                noCurrenciesMessageRow.style.display = "table-row";
+            } else {
+                noCurrenciesMessageRow.style.display = "none";
+            }
+        
+            favoriteCurrencies.forEach(currency => {
+                updateTableWithNewCurrency(currency.code, currency.name);
+                
+            });
+            
+        } else {
+            console.error(data.error);
+        }
+    })
+    .catch(error => {
+        console.error('An error occurred:', error);
+    });
+}
+
+
+function updateTableWithNewCurrency(selectedCurrency, currencyName) {
+    const tableBody = document.querySelector("#currencyTable tbody");
+    const existingRows = tableBody.querySelectorAll("tr");
+       // Check for duplicates
+       for (const row of existingRows) {
+        const codeCell = row.querySelector("td:first-child");
+        if (codeCell && codeCell.textContent === selectedCurrency) {
+            // Currency already exists, don't add a duplicate
+            return;
+        }
+    }
+
+
+    const newRow = document.createElement("tr");
+
+    const codeCell = document.createElement("td");
+    codeCell.textContent = selectedCurrency;
+    newRow.appendChild(codeCell);
+
+    const nameCell = document.createElement("td");
+    nameCell.textContent = currencyName;
+    newRow.appendChild(nameCell);
+
+    const actionCell = document.createElement("td");
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete";
+    deleteBtn.addEventListener("click", function() {
+        const clickedRow = deleteBtn.closest("tr");
+        const rowIndex = clickedRow.rowIndex;
+
+        clickedRow.remove();
+
+        const currencyCodeToDelete = selectedCurrency;
+        const userIDElement = document.getElementById('userID');
+        const userID = userIDElement.value;
+
+        fetch('/deleteCurrency', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                currencyCode: currencyCodeToDelete,
+                userID
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (!data.success) {
+                console.error(data.error);
+                tableBody.insertRow(rowIndex, newRow);
+            }
+        })
+        .catch(error => {
+            console.error('An error occurred:', error);
+            tableBody.insertRow(rowIndex, newRow);
+        });
+    });
+    
+    actionCell.appendChild(deleteBtn);
+    newRow.appendChild(actionCell);
+
+    tableBody.appendChild(newRow);
+
+    fetchAndDisplayFavoriteCurrencies();
+}
+
+// Define currencyNames object
+const currencyNames = {
+    USD: "US Dollar",
+    EUR: "Euro",
+    JPY: "Japanese Yen",
+    // Add more currency names as needed
+};
+
+document.addEventListener("DOMContentLoaded", fetchAndDisplayFavoriteCurrencies);
+
+</script>

@@ -31,8 +31,142 @@ module.exports.faqs_get = (req, res) => {
 
 module.exports.profile_get = (req, res) => {
     // Render the "account.ejs" template when a user visits the profile page
-    res.render('account.ejs');
+    const user = res.locals.user;
+    // console.log(user)
+    res.render('newAccount.ejs', {user});
 }
+
+const currencyNames = {
+  USD: "US Dollar",
+  EUR: "Euro",
+  JPY: "Japanese Yen",
+  // Add more currency names as needed
+};
+module.exports.deleteCurrency = async (req, res) => {
+  const currencyCodeToDelete = req.body.currencyCode;
+  const userId = req.body.userID;
+console.log(userId);
+console.log(currencyCodeToDelete);
+  try {
+      const user = await User.findById(userId);
+      // console.log(user);
+      if (!user) {
+          return res.status(404).json({ success: false, error: 'User not found' });
+      }
+
+      // Find the index of the currency in the favoriteCurrencies array
+      const currencyIndex = user.favoriteCurrencies.findIndex(curr => curr.code === currencyCodeToDelete);
+      if (currencyIndex === -1) {
+          return res.status(404).json({ success: false, error: 'Currency not found in favorites' });
+      }
+
+      // Remove the currency from the favoriteCurrencies array
+      user.favoriteCurrencies.splice(currencyIndex, 1);
+      await user.save();
+
+      res.status(200).json({ success: true });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ success: false, error: 'An error occurred' });
+  }
+}
+
+module.exports.addCurrency = async (req, res) => {
+  
+  const userID = req.body.userID;
+  const currencyCode = req.body.currencyCode;
+
+  try {
+      // Check if the currency already exists in the user's favorites
+      const user = await User.findOne({ _id: userID, 'favoriteCurrencies.code': currencyCode });
+
+      if (user) {
+          // Currency already exists in favorites, send an error response
+          return res.json({ success: false, error: 'Currency is already a favorite' });
+      }
+
+      // Currency doesn't exist, add it to the user's favorites
+      await User.findByIdAndUpdate(userID, { $push: { favoriteCurrencies: { code: currencyCode } } });
+
+      return res.json({ success: true });
+  } catch (err) {
+      return res.json({ success: false, error: 'An error occurred' });
+  }
+};
+
+module.exports.getFavouriteCurrency = async (req, res) => {
+  const user = res.locals.user;
+  console.log(user);
+  const userID = user._id;
+  try {
+    const user = await User.findById(userID);
+    if (!user) {
+        return res.json({ success: false, error: 'User not found' });
+    }
+    console.log(user.favoriteCurrencies);
+    return res.json({ success: true, favoriteCurrencies: user.favoriteCurrencies });
+} catch (error) {
+    console.error(error);
+    return res.json({ success: false, error: 'An error occurred' });
+}
+}
+
+module.exports.profile_post = async (req, res) => {
+  const { userID, targetCurrency, sourceCurrency, decimalPlace } = req.body;
+  // console.log('Received form data:', targetCurrency, sourceCurrency, decimalPlace);
+//  const userID = user._id;
+//  console.log(userID);
+  console.log('Received form data:', req.body);
+  try {
+    // Find the user by their email
+    const user = await User.findByIdAndUpdate(userID);
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    // Update the user's preferences
+    user.targetCurrency = targetCurrency;
+    user.sourceCurrency = sourceCurrency;
+    user.decimalPlaces = decimalPlace;
+
+    // Save the updated user document
+    const updatedUser = await user.save();
+
+    console.log('User preferences saved to the database:', updatedUser);
+    res.json({ success: true, message: 'User preferences saved successfully' });
+  } catch (error) {
+    console.error('Error saving user preferences:', error);
+    res.status(500).json({ success: false, message: 'Error saving user preferences' });
+  }
+}
+
+
+module.exports.updateFavoriteCurrencies = async (req, res) => {
+  const favoriteCurrencies = req.body.favoriteCurrencies;
+
+  try {
+      // Find the user by their email
+      const user = await User.findOne({ email: req.user.email });
+
+      if (!user) {
+          return res.status(404).json({ success: false, message: 'User not found' });
+      }
+
+      // Update the user's favorite currencies
+      user.favoriteCurrencies = favoriteCurrencies;
+
+      // Save the updated user document
+      const updatedUser = await user.save();
+
+      console.log('User favorite currencies saved to the database:', updatedUser);
+      res.json({ success: true, message: 'User favorite currencies saved successfully' });
+  } catch (error) {
+      console.error('Error saving user favorite currencies:', error);
+      res.status(500).json({ success: false, message: 'Error saving user favorite currencies' });
+  }
+};
+
 module.exports.contact_post = async (req, res) => {
   const { name, email, message } = req.body;
 
