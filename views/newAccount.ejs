@@ -74,6 +74,14 @@
     </select>
     <button id="addCurrencyBtn">Add Currency</button>
     </div>
+    <div id="deleteConfirmationModal" class="modal">
+        <div class="modal-content">
+            <p>Are you sure you want to delete your account? This action cannot be undone.</p>
+            <button id="confirmDelete">Yes, Delete</button>
+            <button id="cancelDelete">Cancel</button>
+        </div>
+    </div>
+    
 </div>
 </div> 
 <button id="dlt">Delete Account</button>
@@ -81,22 +89,27 @@
 const dlt = document.getElementById('dlt');
 dlt.addEventListener('click', async (e) => {
     e.preventDefault();
-    const userIDElement = document.getElementById('userID');
-    const userID = userIDElement.value;
-    try {
-        const res = await fetch('/deleteAccount', {
-            method: 'DELETE',
-            body: JSON.stringify({ userID }),
-            headers: { 'Content-Type': 'application/json' }
-        });
-        const data = await res.json();
-        console.log(data);
-        if (data.user) {
-            location.assign('/');
+
+    // Show a confirmation dialog
+    const confirmed = window.confirm("Are you sure you want to delete your account? This action cannot be undone.");
+
+    if (confirmed) {
+        const userIDElement = document.getElementById('userID');
+        const userID = userIDElement.value;
+        try {
+            const res = await fetch('/deleteAccount', {
+                method: 'DELETE',
+                body: JSON.stringify({ userID }),
+                headers: { 'Content-Type': 'application/json' }
+            });
+            const data = await res.json();
+            console.log(data);
+            if (data.success) {
+                location.assign('/'); // Redirect to home page after successful deletion
+            }
+        } catch (err) {
+            console.log(err);
         }
-    }
-    catch (err) {
-        console.log(err);
     }
 });
 const form = document.getElementById('preferences');

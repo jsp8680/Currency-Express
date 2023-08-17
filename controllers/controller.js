@@ -44,11 +44,23 @@ const currencyNames = {
   // Add more currency names as needed
 };
 
-// module.exports.deleteAccount = async (req, res) => {
-//   const userID = req.body.userID;
-//   console.log(userID);
-//   try {
-// {}
+module.exports.deleteAccount = async (req, res) => {
+  const userID = req.body.userID;
+  console.log(userID);
+  try{
+  const user = await User.findByIdAndDelete(userID);
+    
+    if (!user) {
+      return res.status(404).json({ success: false, error: 'User not found' });
+    }
+
+    
+    res.redirect('/register');
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, error: 'An error occurred' });
+  }
+}
 
 module.exports.deleteCurrency = async (req, res) => {
   const currencyCodeToDelete = req.body.currencyCode;
