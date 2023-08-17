@@ -9,6 +9,34 @@
             padding: 0;
             background-color: #5badeb;
         }
+          .header {
+            background-color: #ffffff;
+            color: #000;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0px 5px 10px 0px #aaa;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            opacity: 0.85;
+        }
+        .logo {
+            font-size: 2.0rem;
+            color: black;
+            text-decoration: none;
+        }
+        .sign-out-button {
+    background-color: transparent;
+    border: none;
+    color: black;
+    font-size: 20px;
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    right: 50px;
+}
         .centered-container {
             display: flex;
             flex-direction: column;
@@ -16,31 +44,6 @@
             align-items: center;
             height: 100vh;
             background-color: #5badeb;
-        }
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: white;
-            width: 100%;
-            padding: 10px 20px;
-         margin-top: -180px;   
-        }
-        .logo {
-            flex: 1;
-            text-align: center; 
-        }
-        .logo a {
-            color: black;
-            text-decoration: none;
-        }
-        .sign-out {
-            flex: 1;
-            text-align: right;
-        }
-        .sign-out a {
-            color: black;
-            text-decoration: none;
         }
         .profile-section {
             text-align: center;
@@ -68,31 +71,24 @@
             background-color: white;
             margin-top: 100px ;
             padding: 2px 20px;
-            border: 1px solid #ccc;
+            border: 1px solid white;
             border-radius: 5px;
             cursor: pointer;
         }
-        .profile-info {
-            text-align: left;
-            margin-left: 50px;
-        }
-        .profile-info input {
+        .profile-info-text {
             margin-top: 10px;
-            padding: 1px;
-            justify-content: space-evenly;
-            margin-left: 0px;
+            margin-left: 100px;
         }
-    .buttons {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 20px;
-        gap: 100px;
-    }
- .buttons button {
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            gap: 100px;
+        }
+        .buttons button {
             padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
-            
         }
         .settings-popup,
         .favorite-currencies-popup .currency-action button,
@@ -102,202 +98,153 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 10px;
-        
-        }
-  
-        .favorite-currencies-table th,
-.favorite-currencies-table td {
-    background-color: white ;
-    padding: 5px;
-
-    border: 10px solid #ccc;
-    font-size: 8px; 
-}
-.centered-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #5badeb;
-}
-
-.button-container {
-    display: flex;
-    gap: 20px; }
-            .buttons div:hover .settings-popup,
-        .settings-popup.active,
-        .buttons div:hover .favorite-currencies-popup,
-        .favorite-currencies-popup.active,
-        .buttons div:hover .add-currency-dropdown,
-        .add-currency-dropdown.active {
-            display: block;
-        }
-        .info-section {
-            background-color: #5badeb;
-            color: white;
-            padding: 10px;
-            text-align: center;
-            font-size: 10px;
-        }
-        .favorite-currencies-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top:0px;
         }
         .favorite-currencies-table th,
         .favorite-currencies-table td {
+            background-color: white ;
             padding: 5px;
-            border: 1px solid #ccc;
+            border: 10px solid white;
+            font-size: 8px; 
         }
-        .currency-action {
-            text-align: center;
+        .delete-button {
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 100px; 
         }
-        .add-currency-dropdown select {
-            margin-top: 0px;
-        }
-        .add-currency-dropdown button {
-    margin-top: 0px;
-        }
-
-        .center-button {
-    display: flex;
-    justify-content: center;
+        .footer {
+  position:relative;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #5badeb;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+  clear: both;
 }
 
-  .delete-button {
-    background-color: red;
-    color: white;
-    border: none;
-    cursor: pointer;
-    margin-top: 100px; 
+.footer .container-for-footer {
+  max-width: 1200px;
+  width: 100%;
+  margin: auto;
+  
+}
+
+.footer #footer-p {
+  font-size: 14px;
+  margin: 0;
 }
     </style>
     <script>
-//     function handleProfilePhotoChange(event) {
-//         var fileInput = event.target;
-//         var previewImage = document.getElementById("profile-photo-preview");
+              function handleProfilePhotoChange(event) {
+            var fileInput = event.target;
+            var previewImage = document.getElementById("profile-photo-preview");
 
-//         if (fileInput.files && fileInput.files[0]) {
-//             var reader = new FileReader();
+            if (fileInput.files && fileInput.files[0]) {
+                var reader = new FileReader();
 
-//             reader.onload = function (e) {
-//                 previewImage.src = e.target.result;
-//             };
+                reader.onload = function (e) {
+                    previewImage.src = e.target.result;
+                };
 
-//             reader.readAsDataURL(fileInput.files[0]);
-//         }
-//     }
-//     function showDeleteConfirmation() {
-//     var confirmation = confirm("Are you sure you want to delete your account?");
-//     if (confirmation) {
-//         alert("Account deleted!"); 
-//     }
-// }
-//     var profilePhotoUpload = document.getElementById("profile-photo-upload");
-//     profilePhotoUpload.addEventListener("change", handleProfilePhotoChange);
-//         function showSettingsPopup() {
-//             var popup = document.getElementById("settingsPopup");
-//             popup.classList.show("active");
-//         }
-        
-//         function showFavoriteCurrenciesPopup() {
-//             var popup = document.getElementById("favoriteCurrenciesPopup");
-//             popup.classList.show("active");
-//             updateAddCurrencyOptions(); 
-//         }
-
-//         function updateAddCurrencyOptions() {
-//             var favoritesTable = document.getElementById("favoriteCurrenciesTable");
-//             var currencySelect = document.getElementById("currencySelect");
-
-//             currencySelect.innerHTML = '';
-
-//             for (var i = 1; i < favoritesTable.rows.length; i++) {
-//                 var code = favoritesTable.rows[i].cells[0].innerText;
-//                 var name = favoritesTable.rows[i].cells[1].innerText;
-
-//                 var option = document.createElement("option");
-//                 option.value = code;
-//                 option.textContent = code + ' - ' + name;
-//                 currencySelect.appendChild(option);
-//             }
-//         }
-
-//         function addCurrency() {
-//             var select = document.getElementById("currencySelect");
-//             var selectedOption = select.options[select.selectedIndex];
-
-//             var code = selectedOption.value;
-//             var name = selectedOption.text.split(' - ')[1];
-
-//             var table = document.getElementById("favoriteCurrenciesTable");
-//             var newRow = table.insertRow(table.rows.length);
-//             var codeCell = newRow.insertCell(0);
-//             var nameCell = newRow.insertCell(1);
-//             var actionCell = newRow.insertCell(2);
-
-//             codeCell.innerHTML = code;
-//             nameCell.innerHTML = name;
-//             actionCell.innerHTML = '<button onclick="removeCurrency(this)">Remove</button>';
-
-//             select.removeChild(selectedOption);
-//         }
-
-//         function removeCurrency(button) {
-//             var row = button.parentNode.parentNode;
-//             var code = row.cells[0].innerText;
-//             var name = row.cells[1].innerText;
-
-//             var currencySelect = document.getElementById("currencySelect");
-//             var option = document.createElement("option");
-//             option.value = code;
-//             option.textContent = code + ' - ' + name;
-//             currencySelect.appendChild(option);
-
-//             row.parentNode.removeChild(row);
-//         }
-const form = document.getElementById('preferences');
-form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const userIDElement = document.getElementById('userID');
-    const userID = userIDElement.value;
-    const targetCurrency = form.targetCurrency.value;
-    const sourceCurrency = form.sourceCurrency.value;
-    const decimalPlace = form.decimalPlace.value;
-
-    try {
-        const res = await fetch('/profile', {
-            method: 'POST',
-            body: JSON.stringify({ userID,targetCurrency, sourceCurrency, decimalPlace }),
-            headers: { 'Content-Type': 'application/json' }
-        });
-        const data = await res.json();
-        console.log(data);
-        if (data.user) {
-            location.assign('/profile');
+                reader.readAsDataURL(fileInput.files[0]);
+            }
         }
-    }
-    catch (err) {
-        console.log(err);
-    }
-});
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var profilePhotoUpload = document.getElementById("profile-photo-upload");
+            profilePhotoUpload.addEventListener("change", handleProfilePhotoChange);
+        });
+
+        function signOut() {
+    // Add your sign-out logic here
+    alert("You have been signed out.");
+    window.location.href = 'views/login.ejs'; 
+}
+        function showSettingsPopup() {
+            var popup = document.getElementById("settingsPopup");
+            popup.classList.show("active");
+        }
+
+        function showFavoriteCurrenciesPopup() {
+            var popup = document.getElementById("favoriteCurrenciesPopup");
+            popup.classList.show("active");
+            updateAddCurrencyOptions(); 
+        }
+
+        function updateAddCurrencyOptions() {
+            var favoritesTable = document.getElementById("favoriteCurrenciesTable");
+            var currencySelect = document.getElementById("currencySelect");
+
+            currencySelect.innerHTML = '';
+
+            for (var i = 1; i < favoritesTable.rows.length; i++) {
+                var code = favoritesTable.rows[i].cells[0].innerText;
+                var name = favoritesTable.rows[i].cells[1].innerText;
+
+                var option = document.createElement("option");
+                option.value = code;
+                option.textContent = code + ' - ' + name;
+                currencySelect.appendChild(option);
+            }
+        }
+
+        function addCurrency() {
+            var select = document.getElementById("currencySelect");
+            var selectedOption = select.options[select.selectedIndex];
+
+            var code = selectedOption.value;
+            var name = selectedOption.text.split(' - ')[1];
+
+            var table = document.getElementById("favoriteCurrenciesTable");
+            var newRow = table.insertRow(table.rows.length);
+            var codeCell = newRow.insertCell(0);
+            var nameCell = newRow.insertCell(1);
+            var actionCell = newRow.insertCell(2);
+
+            codeCell.innerHTML = code;
+            nameCell.innerHTML = name;
+            actionCell.innerHTML = '<button onclick="removeCurrency(this)">Remove</button>';
+
+            select.removeChild(selectedOption);
+        }
+
+        function removeCurrency(button) {
+            var row = button.parentNode.parentNode;
+            var code = row.cells[0].innerText;
+            var name = row.cells[1].innerText;
+
+            var currencySelect = document.getElementById("currencySelect");
+            var option = document.createElement("option");
+            option.value = code;
+            option.textContent = code + ' - ' + name;
+            currencySelect.appendChild(option);
+
+            row.parentNode.removeChild(row);
+        }
+
+        function showDeleteConfirmation() {
+            var confirmation = confirm("Are you sure you want to delete your account?");
+            if (confirmation) {
+                alert("Account deleted!");
+                window.location.href = 'views/register.ejs'; 
+            }
+        }
     </script>
 </head>
 <body>
+    <div class="header">
+        <a href="/" class="logo">CURRE₦¢¥ EX₱R€$$</a>
+        <button class="sign-out-button" onclick="signOut()">Sign Out</button>
+    </div>
+    
     <div class="centered-container">
-        <!-- <div class="navbar">
-            <div class="logo">
-                <a href="#">CURRE₦C¥ EX₱R€$$</a>
-            </div>
-            <div class="sign-out">
-                <a href="#" class="sign-out">Sign Out</a>
-            </div>
-        </div> -->
-
         <div class="info-section">
             <h2>YOUR PROFILE:</h2>
         </div>
-        <!-- <div class="profile-section">
+        <div class="profile-section">
             <div class="profile-photo">
                 <img id="profile-photo-preview" src="" alt="Profile Photo">
                 <div class="change-photo">
@@ -306,63 +253,32 @@ form.addEventListener('submit', async (e) => {
                 </div>
             </div>
             <div class="profile-info">
-                <input type="text" placeholder="Name">
-                <input type="email" placeholder="Email">
+                <p class="profile-info-text"><strong>Name:</strong>software developer </p>
+                <p class="profile-info-text"><strong>Email:</strong> softwaredeveloper@example.com</p>
             </div>
-        </div> -->
+        </div>
 
         <div class="buttons">
             <div>
-                <button >SETTINGS & PREFERENCES</button>
-                <!-- <div class="settings-popup" id="settingsPopup"> -->
-                    <form id="preferences" action="/profile" method="POST">
-   
-                        <label for="targetCurrency">Default Target Currency:</label>
+                <button onclick="toggleSettingsPopup()">SETTINGS & PREFERENCES</button>
+                <div class="settings-popup" id="settingsPopup">
+                    <label for="targetCurrency">Default Target Currency:</label>
                     <select id="targetCurrency">
-                    <option default value="<%= user.targetCurrency %>"><%= user.targetCurrency %></option>
-                       <option value="USD">USD - United States Dollar</option>
-                       <option value="EUR">EUR - European Dollar</option>
-                       <option value="AUD">AUD - Australian Dollar</option>
-                       <option value="CAD">CAD - Canadian Dollar</option>
-                       <option value="CHF">CHF - Swiss Franc</option>
-                       <option value="JPY">JPY - Japanese Yen</option>
-                       <option value="CNY">CNY - Chinese Yuan</option>
-                       <option value="INR">INR - Indian Rupee</option>
-                       <option value="BRL">BRL - Brazilian Real</option>
-                       <option value="MXN">MXN - Mexican Peso</option>
-                       
+                        <option value="usd">EUR</option>
                     </select>
                     <br>
                     <label for="sourceCurrency">Default Source Currency:</label>
                     <select id="sourceCurrency">
-                    <option default value="<%= user.sourceCurrency %>"><%= user.sourceCurrency %></option>
-                       <option value="USD">USD - United States Dollar</option>
-                       <option value="EUR">EUR - European Dollar</option>
-                       <option value="AUD">AUD - Australian Dollar</option>
-                       <option value="CAD">CAD - Canadian Dollar</option>
-                       <option value="CHF">CHF - Swiss Franc</option>
-                       <option value="JPY">JPY - Japanese Yen</option>
-                       <option value="CNY">CNY - Chinese Yuan</option>
-                       <option value="INR">INR - Indian Rupee</option>
-                       <option value="BRL">BRL - Brazilian Real</option>
-                       <option value="MXN">MXN - Mexican Peso</option>
-                       
+                        <option value="eur">USD</option>
                     </select>
                     <br>
                     <label for="decimalPlace">Decimal Place Preference:</label>
                     <select id="decimalPlace">
-                    <option default value="<%= user.decimalPlaces %>"><%= user.decimalPlaces %></option>
-                       <option value="1">1</option>
-                       <option value="2">2</option>
-                       <option value="3">3</option>
-                    
+                        <option value="dot">1</option>
+                        <option value="dot">2</option>
+                        <option value="dot">3</option>
                     </select>
-                    <input type="hidden" id="userID" value="<%= user._id %>">
-                    <button>Submit</button>
-                    </div>
-                    </form>
-                    
-                    
+                </div>
             </div>
             <div>
                 <button onclick="toggleFavoriteCurrenciesPopup()">FAVOURITE CURRENCIES</button>
@@ -390,24 +306,26 @@ form.addEventListener('submit', async (e) => {
                     </table>
                     <div class="add-currency-dropdown" id="addCurrencyDropdown">
                         <select id="currencySelect">
-                            <option value="aud">AUD - Australian Dollar</option>
-                            <option value="cad">CAD - Canadian Dollar</option>
-                            <option value="chf">CHF - Swiss Franc</option>
-                            <option value="jpy">JPY - Japanese Yen</option>
-                            <option value="cny">CNY - Chinese Yuan</option>
-                            <option value="inr">INR - Indian Rupee</option>
-                            <option value="brl">BRL - Brazilian Real</option>
-                            <option value="mxn">MXN - Mexican Peso</option>
-                            <option value="sgd">SGD - Singapore Dollar</option>
-                            <option value="hkd">HKD - Hong Kong Dollar</option>
+                            <option value="AUD">AUD - Australian Dollar</option>
+                            <option value="CAD">CAD - Canadian Dollar</option>
+                            <option value="CHF">CHF - Swiss Franc</option>
+                            <option value="JPY">JPY - Japanese Yen</option>
+                            <option value="CNY">CNY - Chinese Yuan</option>
+                            <option value="INR">INR - Indian Rupee</option>
+                            <option value="BRL">BRL - Brazilian Real</option>
+                            <option value="MXN">MXN - Mexican Peso</option>
+                            <option value="SGD">SGD - Singapore Dollar</option>
+                            <option value="HKD">HKD - Hong Kong Dollar</option>
                         </select>
                         <button onclick="addCurrency()">Add</button>
                     </div>
                 </div>
             </div>
-        </div> 
-                    <button class="delete-button" onclick="showDeleteConfirmation()">DELETE ACCOUNT</button>
         </div>
+        <button class="delete-button" onclick="showDeleteConfirmation()">DELETE ACCOUNT</button>
     </div>
+    <div class="container-for-footer">
+        <p id="footer-p">&copy; 2023 Currency Express. All rights reserved.</p>
+      </div>
 </body>
 </html>
