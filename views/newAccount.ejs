@@ -1,5 +1,154 @@
+<style>
+    body {
+        background-color: #5badeb;
+    }
+    #dlt {
+    position: fixed;
+    bottom: 80px; /* Adjust this value as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    display: block; /* Change display to block to ensure full width */
+    padding: 10px 20px;
+    background-color: #ff0000;
+    color: white;
+    border: 1px solid rgb(51, 47, 47);
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+}
+    #preferences {
+        position: relative;
+        top: 300px;
+        left: 0px;
+        padding: 20px 0;
+        border: 2px solid black;
+        background-color: white;
+    }
+    #currencyTable {
+        width: 100%;
+        border-collapse: collapse;
+        padding: 20px;
+        margin: 10px 0px;
+        background-color: white;
+
+    }
+    #currencyTable th,
+    #currencyTable td {
+        padding: 10px;
+        border: 1px solid black;
+    }
+    #currencyTable th {
+        background-color: #f2f2f2;
+    }
+    /* Style the modal */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    /* Style the modal content */
+    .modal-content {
+        background-color: white;
+        width: 300px;
+        padding: 20px;
+        text-align: center;
+        border-radius: 5px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    /* Style buttons */
+    button {
+        margin: 5px;
+        padding: 5px;
+    }
+    .main-content {
+        display: flex;
+        padding-top: 80px; 
+    }
+    
+    #favCurrency {
+        padding: 20px;
+        flex: 2; /* This will make the Favourite Currencies section take up available space */
+        margin-right: 200px; /* Add some margin for spacing */
+        margin-top: 120px; 
+        float: right;
+
+    }
+ #settings {
+top: 260px;
+left: 355px;
+position: relative;
+    }
+/* #username {
+        position: fixed;
+        left: 20px;
+        bottom: 500px;
+        align-self: right;
+        display: contents;
+    }
+    #email {
+        position: fixed;
+        left: 20px;
+        top: 150px;
+    } */
+    #profile h1{
+        position: fixed;
+        left: 20px;
+        top: 80px;
+        
+    }
+    #profile-info-container {
+
+        position: fixed;
+        right: 225px;
+        top: 100px;
+        padding: 20px;
+        border: 2px solid black;
+        background-color: rgb(161, 147, 147);
+        color: white;
+    }
+    #profile-photo-container {
+        position: fixed;
+        left: 400px;
+        top: 80px;
+        padding: 20px;
+        border: 2px solid black;
+        background-color: rgb(161, 147, 147);
+        color: white;
+    }
+    #profile-photo-container img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+    }
+    </style>
+    
+<header><%- include('partials/header.ejs') %></header>
+
+
+
+
+<div class="main-content"> 
+    <div id="profile">
+        <h1>Your Profile:</h1>
+        <div id="profile-info-container">
+        <h3 id="username">Username: <%= user.username  %></h3>
+        <h3 id="email">Email: <%= user.email %></h3>
+        </div>
+        <div id="profile-photo-container">
+        <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Avatar" class="avatar">
+        <button>Change Profile Photo</button>
+        </div>
+    </div>
+    <h1 id="settings">Settings & Preferences</h1>
 <form id="preferences" action="/profile" method="POST">
-   
+  
     <label for="targetCurrency">Default Target Currency:</label>
 <select id="targetCurrency">
 <option default value="<%= user.targetCurrency %>"><%= user.targetCurrency %></option>
@@ -47,7 +196,7 @@
 </form>
 
 
-<div>
+<div id="favCurrency">
     <h1>Favourite Currencies</h1>
     <table id="currencyTable">
         <thead>
@@ -65,7 +214,7 @@
         </tbody>
     </table>
 
-    <h2>Add Currency</h2>
+    <!-- <h2>Add Currency</h2> -->
     <select id="currencySelect">
         <option value="USD">USD - US Dollar</option>
         <option value="EUR">EUR - Euro</option>
@@ -73,7 +222,7 @@
        
     </select>
     <button id="addCurrencyBtn">Add Currency</button>
-    </div>
+</div>
     <div id="deleteConfirmationModal" class="modal">
         <div class="modal-content">
             <p>Are you sure you want to delete your account? This action cannot be undone.</p>
@@ -85,32 +234,42 @@
 </div>
 </div> 
 <button id="dlt">Delete Account</button>
+</div>
+<footer><%- include('partials/footer.ejs') %></footer>
 <script>
 const dlt = document.getElementById('dlt');
-dlt.addEventListener('click', async (e) => {
-    e.preventDefault();
+const deleteConfirmationModal = document.getElementById('deleteConfirmationModal');
+const confirmDelete = document.getElementById('confirmDelete');
+const cancelDelete = document.getElementById('cancelDelete');
 
-    // Show a confirmation dialog
-    const confirmed = window.confirm("Are you sure you want to delete your account? This action cannot be undone.");
+dlt.addEventListener('click', () => {
+    deleteConfirmationModal.style.display = 'block';
+});
 
-    if (confirmed) {
-        const userIDElement = document.getElementById('userID');
-        const userID = userIDElement.value;
-        try {
-            const res = await fetch('/deleteAccount', {
-                method: 'DELETE',
-                body: JSON.stringify({ userID }),
-                headers: { 'Content-Type': 'application/json' }
-            });
-            const data = await res.json();
-            console.log(data);
-            if (data.success) {
-                location.assign('/'); // Redirect to home page after successful deletion
-            }
-        } catch (err) {
-            console.log(err);
+confirmDelete.addEventListener('click', async () => {
+    deleteConfirmationModal.style.display = 'none';
+    
+    const userIDElement = document.getElementById('userID');
+    const userID = userIDElement.value;
+    try {
+        const res = await fetch('/deleteAccount', {
+            method: 'DELETE',
+            body: JSON.stringify({ userID }),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        const data = await res.json();
+        console.log(data);
+        // isn't redirecting
+        if (data.success) {
+            location.assign('/register'); // Redirect to home page after successful deletion
         }
+    } catch (err) {
+        console.log(err);
     }
+});
+
+cancelDelete.addEventListener('click', () => {
+    deleteConfirmationModal.style.display = 'none';
 });
 const form = document.getElementById('preferences');
 form.addEventListener('submit', async (e) => {
@@ -139,36 +298,6 @@ form.addEventListener('submit', async (e) => {
 });
 
 
-// document.getElementById("addCurrencyBtn").addEventListener("click", function() {
-//     const selectedCurrency = document.getElementById("currencySelect").value;
-//     const userIDElement = document.getElementById('userID');
-//     const userID = userIDElement.value;
-
-//     fetch('/addCurrency', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify({
-//             currencyCode: selectedCurrency,
-//             userID
-//         })
-//     })
-//     .then(response => response.json())
-//     .then(data => {
-//         if (data.success) {
-//             const currencyName = currencyNames[selectedCurrency];
-//             updateTableWithNewCurrency(selectedCurrency, currencyName);
-//             fetchAndDisplayFavoriteCurrencies();
-//         } else {
-//             console.error(data.error);
-//         }
-//     })
-//     .catch(error => {
-//         console.error('An error occurred:', error);
-//     });
-// });
-// ...
 
 document.getElementById("addCurrencyBtn").addEventListener("click", function() {
     const selectedCurrency = document.getElementById("currencySelect").value;
