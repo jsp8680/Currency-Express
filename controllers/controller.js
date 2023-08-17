@@ -75,6 +75,7 @@ module.exports.addCurrency = async (req, res) => {
   
   const userID = req.body.userID;
   const currencyCode = req.body.currencyCode;
+  const currencyName = currencyNames[currencyCode];
 
   try {
       // Check if the currency already exists in the user's favorites
@@ -86,7 +87,7 @@ module.exports.addCurrency = async (req, res) => {
       }
 
       // Currency doesn't exist, add it to the user's favorites
-      await User.findByIdAndUpdate(userID, { $push: { favoriteCurrencies: { code: currencyCode } } });
+      await User.findByIdAndUpdate(userID, { $push: { favoriteCurrencies: { code: currencyCode, name: currencyName } } });
 
       return res.json({ success: true });
   } catch (err) {
