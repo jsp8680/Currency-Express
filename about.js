@@ -29,20 +29,25 @@ const contactSchema = new mongoose.Schema({
 module.exports = mongoose.model('Contact', contactSchema);
 
 //GET method
-app.get("/about", function(req, res){
+app.get("/contact", function(req, res){
   res.sendFile(__dirname +"/about_us-contact_us.ejs");
 })
 
 //POST method
-app.post("/about",function(req, res){
+app.post("/contact",function(req, res){
   const contact = new contact({
     name: req.body.name,
     email: req.body.email,
     message: req.body.message,
 });
 
-  contact.save();
-  res.redirect("/home")
+contact.save();
+ return res.redirect("http://localhost:3000/");
+ 
+})
+
+app.post("/contact" ,function(req, res){
+  return res.redirect("http://localhost:3000/");
 })
 
 //app.post
