@@ -38,11 +38,11 @@ const userSchema = new mongoose.Schema({
   favoriteCurrencies: [{
     code: String,
     name: String
-}],
-  profilePhoto: {
-    type: Buffer,
-    default: 'https://www.w3schools.com/howto/img_avatar.png'
-  }
+}]
+  // profilePhoto: {
+  //   type: Buffer,
+  //   default: 'https://www.w3schools.com/howto/img_avatar.png'
+  // }
 });
 
 

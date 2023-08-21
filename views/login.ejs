@@ -12,10 +12,10 @@
     <h1>Login</h1>
     <label for="email">Email</label>
     <input id="email" type="email" placeholder="Your email">
-
+    <div class="email error"></div>
     <label for="password">Password</label>
     <input id="password" type="password" placeholder="Your password">
-
+    <div class="password error"></div>
     <button class="login-button">Login</button> 
     <p id="signup"><a href="/register">Haven't Signed Up Yet?</a></p>
     <p id="forgotPass"><a href="#">Forgot your password?</a></p>
@@ -26,7 +26,8 @@
 <script>
   // client side js
   const form = document.querySelector('form');
-
+  const emailError = document.querySelector(".email.error");
+  const passwordError = document.querySelector(".password.error");
 
  // Add an event listener to the form element
   form.addEventListener('submit', async (e) => {
@@ -49,6 +50,11 @@
       // check the response status
       const data = await res.json();
       console.log(data);
+
+      if (data.errors) {
+        emailError.textContent = data.errors.email;
+        passwordError.textContent = data.errors.password;
+      }
       // if login is successful, redirect user to home page
       if (data.user) {
         location.assign('/');

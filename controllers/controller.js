@@ -7,8 +7,50 @@ const Contact = require("../models/Contact");
 
 const path = require('path');
 // Set up storage for multer
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
+
+
+const handleErrorsForUsers = (err) => {
+  console.log(err.message, err.code);
+  let errors = { username: "", email: "", password: "" };
+
+  // incorrect firstname length (max)
+  if (err.message === "Username must be less than 30 characters long") {
+    errors.username = "Username must be less than 30 characters long";
+  }
+
+  // incorrect email
+  if (err.message === "incorrect email") {
+    errors.email = "Invalid email";
+  }
+
+  // incorrect password
+  if (err.message === "incorrect password") {
+    errors.password = "That password is incorrect";
+  }
+
+  if (err.code === 11000) {
+    if (err.message.includes("username")) {
+      errors.username = "That username is already in use";
+    }
+    if (err.message.includes("email")) {
+      errors.email = "That email is already registered";
+    }
+  }
+
+  // validation errors
+  if (err.message.includes("user validation failed")) {
+    // console.log(err);
+    Object.values(err.errors).forEach(({ properties }) => {
+      // console.log(val);
+      // console.log(properties);
+      errors[properties.path] = properties.message;
+    });
+  }
+
+  return errors;
+};
+
+
 // Controller action for handling GET request to the about page
 module.exports.about_get = (req, res) => {
     // Render the "about.ejs" template when a user visits the about page
@@ -18,7 +60,8 @@ module.exports.about_get = (req, res) => {
 // Controller action for handling GET request to the converter page
 module.exports.converter_get = (req, res) => {
     // Render the "index.ejs" template when a user visits the converter page
-    res.render('index.ejs');
+    const user = res.locals.user;
+    res.render('index.ejs', {user});
 }
 
 module.exports.register_get = (req, res) => {
@@ -43,20 +86,6 @@ module.exports.profile_get = (req, res) => {
     res.render('newAccount.ejs', {user});
 }
 
-// // Set up multer for file upload
-// const storage = multer.diskStorage({
-//   destination: 'uploads/', // Destination folder for uploaded files
-//   filename: (req, file, callback) => {
-//       // Generate a unique filename based on the original filename and current timestamp
-//       const uniquePrefix = `${Date.now()}-${Math.round(Math.random() * 1E9)}`;
-//       const fileExtension = path.extname(file.originalname);
-//       callback(null, `${uniquePrefix}${fileExtension}`);
-//   }
-// });
-// const upload = multer({ storage: storage });
-
-
-
 const currencyNames = {
   USD: "US Dollar",
   EUR: "Euro",
@@ -74,8 +103,8 @@ module.exports.deleteAccount = async (req, res) => {
       return res.status(404).json({ success: false, error: 'User not found' });
     }
 
-    
-    res.redirect('/register');
+    res.cookie("jwt", "", { maxAge: 1 });
+    res.redirect("/");
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, error: 'An error occurred' });
@@ -233,6 +262,13 @@ const createToken = (id) => {
 };
 module.exports.register_post = async (req, res) => {
     const { username, email, password } = req.body;
+    if (username.length > 30) {
+      const errors = handleErrorsForUsers({
+        message: "Username must be less than 30 characters long",
+      });
+      res.status(400).json({ errors });
+      return;
+    }
     try {
         const user = await User.create({ username,email, password });
         const token = createToken(user._id);
@@ -240,7 +276,8 @@ module.exports.register_post = async (req, res) => {
         res.status(201).json({ user: user._id });
     }
     catch (err) {
-       
+      const errors = handleErrorsForUsers(err);
+      res.status(400).json({ errors });
         console.log(err);
     }
 }
@@ -266,8 +303,8 @@ module.exports.login_post = async (req, res) => {
     // send response
     res.status(200).json({ user: user._id, email: user.email });
   } catch (err) {
-    // const errors = handleErrorsForUsers(err);
-    // res.status(400).json({ errors });
+    const errors = handleErrorsForUsers(err);
+    res.status(400).json({ errors });
     console.log(err);
   }
 };

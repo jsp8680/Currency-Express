@@ -18,7 +18,16 @@
     <div>
       <h4>From</h4>
 
+      <% if(user){ %>
+      <h5 id="decimal" hidden><%= user.decimalPlaces %></h5>
+      <% } else { %>
+      <h5 id="decimal" hidden>2</h5>
+      <% } %> <% if (user) { %>
+
       <select class="currency-select" id="currencyFrom">
+        <option hidden value="<%= user.targetCurrency %>" default>
+          <%= user.targetCurrency%>
+        </option>
         <option value="CAD">CAD - Canadian Dollar</option>
         <option value="USD">USD - United States Dollar</option>
         <option value="EUR">EUR - European Dollar</option>
@@ -33,11 +42,36 @@
         <option value="HKD">HKD - Hong Kong Dollar</option>
       </select>
     </div>
+  
+    <% } else { %> 
+  
+    <select class="currency-select" id="currencyFrom">
+      <option hidden value="USD" default>
+        USD - United States Dollar
+      </option>
+      <option value="CAD">CAD - Canadian Dollar</option>
+      <option value="USD">USD - United States Dollar</option>
+      <option value="EUR">EUR - European Dollar</option>
+      <option value="AUD">AUD - Australian Dollar</option>
+      <option value="CHF">CHF - Swiss Franc</option>
+      <option value="JPY">JPY - Japanese Yen</option>
+      <option value="CNY">CNY - Chinese Yuan</option>
+      <option value="INR">INR - Indian Rupee</option>
+      <option value="BRL">BRL - Brazilian Real</option>
+      <option value="MXN">MXN - Mexican Peso</option>
+      <option value="SGD">SGD - Singapore Dollar</option>
+      <option value="HKD">HKD - Hong Kong Dollar</option>
+    </select>
+  </div>
+      <% } %>
     <span id="arrows"> ⇆ </span>
-
+    <% if (user) { %>
     <div>
       <h5>To</h5>
       <select class="currency-select" id="currencyTo">
+        <option hidden value="<%= user.sourceCurrency %>" default>
+          <%= user.sourceCurrency%>
+        </option>
         <option value="CAD">CAD - Canadian Dollar</option>
         <option value="USD">USD - United States Dollar</option>
         <option value="EUR">EUR - European Dollar</option>
@@ -52,7 +86,29 @@
         <option value="HKD">HKD - Hong Kong Dollar</option>
       </select>
     </div>
-
+  
+    <% } else { %> 
+      <div>
+        <h5>To</h5>
+        <select class="currency-select" id="currencyTo">
+          <option hidden value="CAD" default>
+            CAD - Canadian Dollar
+          </option>
+          <option value="CAD">CAD - Canadian Dollar</option>
+          <option value="USD">USD - United States Dollar</option>
+          <option value="EUR">EUR - European Dollar</option>
+          <option value="AUD">AUD - Australian Dollar</option>
+          <option value="CHF">CHF - Swiss Franc</option>
+          <option value="JPY">JPY - Japanese Yen</option>
+          <option value="CNY">CNY - Chinese Yuan</option>
+          <option value="INR">INR - Indian Rupee</option>
+          <option value="BRL">BRL - Brazilian Real</option>
+          <option value="MXN">MXN - Mexican Peso</option>
+          <option value="SGD">SGD - Singapore Dollar</option>
+          <option value="HKD">HKD - Hong Kong Dollar</option>
+        </select>
+      </div>
+      <% } %>
     <div>
       <button id="convertButton">Convert</button>
     </div>
@@ -69,7 +125,7 @@
     <div id="result"></div>
 
     <button class="btn help" href="/faqs">Need Help?</button>
-   
+
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         // Get references to the DOM elements
@@ -80,94 +136,93 @@
         const previousInput = document.getElementById("previous");
         const priorInput = document.getElementById("prior");
         const error = document.getElementById("error");
-  
+        const decimal = document.getElementById("decimal");
+        const decimalPlaces = decimal.textContent;
+        console.log(decimalPlaces);
         const currencySymbol = document.querySelector(".currency-symbol");
-// Disable the input fields
-previousInput.disabled = true;
-priorInput.disabled = true;
+        // Disable the input fields
+        previousInput.disabled = true;
+        priorInput.disabled = true;
 
-const currencySymbols = {
-  CAD: "\u0024", // Dollar sign: $
-  USD: "\u0024", // Dollar sign: $
-  EUR: "\u20AC", // Euro sign: €
-  AUD: "\u0024", // Dollar sign: $
-  CHF: "\u0043\u0048\u0046",
-  JYP: "\u00A5", // Yen sign: ¥
-  CNY: "\u00A5",
-  INR: "\u20B9",
-  BRL: "\u20A2",
-  MXN: "\u0024",
-  SGD: "\u0053\u0024",//
-  HKD: "\u0024",
-  
+        const currencySymbols = {
+          CAD: "\u0024", // Dollar sign: $
+          USD: "\u0024", // Dollar sign: $
+          EUR: "\u20AC", // Euro sign: €
+          AUD: "\u0024", // Dollar sign: $
+          CHF: "\u0043\u0048\u0046",
+          JYP: "\u00A5", // Yen sign: ¥
+          CNY: "\u00A5",
+          INR: "\u20B9",
+          BRL: "\u20A2",
+          MXN: "\u0024",
+          SGD: "\u0053\u0024", //
+          HKD: "\u0024",
+        };
 
-};
+        const updateCurrencySymbol = () => {
+          const selectedCurrency = fromSelect.value;
+          currencySymbol.textContent = currencySymbols[selectedCurrency];
+        };
 
+        fromSelect.addEventListener("change", updateCurrencySymbol);
+        updateCurrencySymbol(); // Initial currency symbol update
 
-const updateCurrencySymbol = () => {
-  const selectedCurrency = fromSelect.value;
-  currencySymbol.textContent = currencySymbols[selectedCurrency];
-};
+        // Attach a click event listener to the Convert button
+        convertButton.addEventListener("click", async () => {
+          const fromCurrency = fromSelect.value;
+          const toCurrency = toSelect.value;
+          const amount = parseFloat(amountInput.value); // Parse the amount to a number
 
-fromSelect.addEventListener("change", updateCurrencySymbol);
-updateCurrencySymbol(); // Initial currency symbol update
+          try {
+            // Fetch the exchange rate data from API
+            const response = await fetch(
+              `https://v6.exchangerate-api.com/v6/52a3c3c7704171311bbfd9a6/latest/${fromCurrency}`
+            );
+            if (!response.ok) {
+              throw new Error("Failed to fetch exchange rate data");
+              error.textContent = "Failed to fetch exchange rate data";
+            }
 
-// Attach a click event listener to the Convert button
-convertButton.addEventListener("click", async () => {
-  const fromCurrency = fromSelect.value;
-  const toCurrency = toSelect.value;
-  const amount = parseFloat(amountInput.value); // Parse the amount to a number
+            const data = await response.json();
+            const rate = data.conversion_rates[toCurrency];
+            if (!rate) {
+              throw new Error("Invalid target currency");
+            }
 
-  try {
-    // Fetch the exchange rate data from API
-    const response = await fetch(
-      `https://v6.exchangerate-api.com/v6/52a3c3c7704171311bbfd9a6/latest/${fromCurrency}`
-    );
-    if (!response.ok) {
-      throw new Error("Failed to fetch exchange rate data");
-      error.textContent = "Failed to fetch exchange rate data";
-    }
+            // Calculate the converted amount
 
-    const data = await response.json();
-    const rate = data.conversion_rates[toCurrency];
-    if (!rate) {
-      throw new Error("Invalid target currency");
-    }
+            const convertedAmount = (amount * rate).toFixed(decimalPlaces);
 
-    // Calculate the converted amount
-    const convertedAmount = (amount * rate).toFixed(2);
+            // Update the input fields with conversion results
+            previousInput.value =
+              fromCurrency + " " + amount.toFixed(decimalPlaces);
+            priorInput.value = toCurrency + " " + convertedAmount;
+          } catch (error) {
+            // Handle errors and display a message
+            error.textContent = "An error occurred during conversion.";
+            console.error(error);
+          }
+        });
 
-    // Update the input fields with conversion results
-    previousInput.value = fromCurrency + " " + amount.toFixed(2);
-    priorInput.value = toCurrency + " " + convertedAmount;
-  } catch (error) {
-    // Handle errors and display a message
-    error.textContent = "An error occurred during conversion.";
-    console.error(error);
-  }
-});
+        const flipArrows = document.getElementById("arrows");
+        flipArrows.addEventListener("click", () => {
+          const tempValue = fromSelect.value;
+          fromSelect.value = toSelect.value;
+          toSelect.value = tempValue;
+          updateCurrencySymbol(); // Update's the currency symbol after flipping
+        });
 
-const flipArrows = document.getElementById("arrows");
-flipArrows.addEventListener("click", () => {
-  const tempValue = fromSelect.value;
-  fromSelect.value = toSelect.value;
-  toSelect.value = tempValue;
-  updateCurrencySymbol(); // Update's the currency symbol after flipping
-});
+        amountInput.addEventListener("input", () => {
+          currencySymbol.style.visibility = "visible"; // Show the currency symbol
+          currencySymbol.style.opacity = "1"; // Make it fully visible
+        });
 
-amountInput.addEventListener("input", () => {
-  currencySymbol.style.visibility = "visible"; // Show the currency symbol
-  currencySymbol.style.opacity = "1"; // Make it fully visible
-});
-
-amountInput.addEventListener("focus", () => {
-  currencySymbol.style.visibility = "visible"; // Show's the currency symbol
-  currencySymbol.style.opacity = "1"; // Make it fully visible
-});
+        amountInput.addEventListener("focus", () => {
+          currencySymbol.style.visibility = "visible"; // Show's the currency symbol
+          currencySymbol.style.opacity = "1"; // Make it fully visible
+        });
       });
     </script>
   </body>
   <footer><%- include('partials/footer.ejs') %></footer>
-
 </html>
-
