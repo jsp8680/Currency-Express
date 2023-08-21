@@ -258,13 +258,14 @@ module.exports.contact_post = async (req, res) => {
   const { name, email, message } = req.body;
   try {
     const contact = await Contact.create({ name, email, message });
-    res.status(201).json({name});
+   
   // Do something with the form data
   console.log("Received form data:");
   console.log("Name:", name);
   console.log("Email:", email);
   console.log("Message:", message);
   console.log(contact);
+  res.redirect("/");
 }
 catch (err) {
   console.log(err);

@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
    <meta http-equiv="refresh" content="7; url='http://localhost:3000/'" />
     <link rel="stylesheet" href="about.css">
-    <script src="about.js"></script> 
-    <script src="contact.js"></script> 
+    <!-- <script src="about.js"></script>  -->
+    <!-- <script src="contact.js"></script>  -->
     <title>About Us</title>
    
 
@@ -94,9 +94,9 @@ function validate() {
      const email = document.getElementById('email').value;
      const message = document.getElementById('message').value;
      var pattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
-     window.location.replace  = "http://localhost:3000/";
-     location.replace("http://localhost:3000/");
-
+    //  window.location.replace  = "http://localhost:3000/";
+    //  location.replace("http://localhost:3000/");
+console.log(pattern);
      
      if(name.length < 7 || name.length >25){
       document.getElementById("note1").innerHTML = "Full name must be between 7 and 25 charaters";
@@ -135,23 +135,23 @@ function validate() {
 // Added fetch code 
     // Make a POST request to the server
     // This sends the data to the server so you can access it 
-    fetch('/contact', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ name, email, message })
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log("Server response:", data);
+    // fetch('/contact', {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({ name, email, message })
+    // })
+    // .then(response => response.json())
+    // .then(data => {
+    //     console.log("Server response:", data);
 
      
         
-    })
-    .catch(error => {
-        console.error('An error occurred:', error);
-    });
+    // })
+    // .catch(error => {
+    //     console.error('An error occurred:', error);
+    // });
     </script>
 	  
 	  
