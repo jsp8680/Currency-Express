@@ -3,8 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <meta http-equiv="refresh" content="7; url='http://localhost:3000/'" />
     <link rel="stylesheet" href="about.css">
-    <!-- <script src="about.js"></script>  -->
+    <script src="about.js"></script> 
+    <script src="contact.js"></script> 
     <title>About Us</title>
    
 
@@ -42,6 +44,7 @@
       <h3>Full Name</h3>
       <div>
         <input id="name" type="text" name="name" required >
+        
     </div>
   
       <h4>Email</h4>
@@ -54,7 +57,19 @@
         <textarea id="message" type="text" rows="12" cols="50" name="message" required></textarea>
     </div>
     <div>
-      <input id="submit" type="submit" value="Submit">
+     
+    <button id="submit" type="submit" value="Submit" onclick="validate();" href="http://localhost:3000/">Submit</button>
+   
+      
+     <p id="note1"></p>
+     <p id="note2"></p>
+
+
+      <!--<button><a class="button" id="submit" href="/">Submit</a></button>-->
+      <p id="errorMessage" hidden></p>
+    </div>
+    <div>
+      <!--<p id="pleaseNote" >Please note that your full name must be between 7 and 25 characters and your email must be valid or the form will not submit </p>-->
     </div>
         
 	  </div>
@@ -62,18 +77,47 @@
   </form>
 	  
 	  <script>
-     var form = document.getElementById('form');
+     const form = document.querySelector('form');
+     const name = document.getElementById('name').value;
+     const email = document.getElementById('email').value;
+     const message = document.getElementById('message').value;
+     const errorMessage = document.getElementById('errorMessage');
 
-form.addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevents the form from autosubmitting
 
-    var name = document.getElementById('name').value;
-    var email = document.getElementById('email').value;
-    var message = document.getElementById('message').value;
+form.addEventListener("submit", (e) => {
 
-    console.log("Name:", name);
-    console.log("Email:", email);
-    console.log("Message:", message);
+
+  document.getElementById("submit").addEventListener("click", validate());
+  
+  function validate() {
+    const name = document.getElementById('name').value;
+     const email = document.getElementById('email').value;
+     const message = document.getElementById('message').value;
+     var pattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+     window.location.replace  = "http://localhost:3000/";
+     location.replace("http://localhost:3000/");
+     
+     
+     
+     if(name.length > 7 && name.length < 25 && email.match.pattern){
+      location.replace("http://localhost:3000/");
+     }
+
+     
+     
+     
+     
+     if(name.length < 7 || name.length >25){
+      document.getElementById("note1").innerHTML = "Full name must be between 7 and 25 charaters";
+     }
+     if(email.match(pattern)){
+      document.getElementById("note2").innerHTML = "";
+     } else {
+      document.getElementById("note2").innerHTML = "Prove a valid email address";
+     }
+  }
+});
+
 
     
 // Added fetch code 
@@ -89,15 +133,13 @@ form.addEventListener('submit', function(event) {
     .then(response => response.json())
     .then(data => {
         console.log("Server response:", data);
+
+     
         
     })
     .catch(error => {
         console.error('An error occurred:', error);
     });
-});
-
-
-
     </script>
 	  
 	  
