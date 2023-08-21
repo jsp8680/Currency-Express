@@ -4,8 +4,9 @@ const MongoClient = require("mongodb").MongoClient;
 const jwt = require("jsonwebtoken");
 const multer = require('multer');
 const Contact = require("../models/Contact");
-
+const fs = require('fs');
 const path = require('path');
+const deleteFile = require('../deleteFile');
 // Set up storage for multer
 
 
@@ -112,19 +113,17 @@ module.exports.deleteAccount = async (req, res) => {
   const userID = req.body.userID;
   console.log(userID);
   try {
-    const user = await User.findByIdAndDelete(userID);
-    
-    if (!user) {
-      return res.status(404).json({ success: false, error: 'User not found' });
-    }
-    console.log("success: true, message: 'User deleted successfully'" + user.username);
-    res.cookie("jwt", "", { maxAge: 1 });
-    res.status(200).json({ success: true, message: 'User deleted successfully' });
-    // res.redirect("/"); // Redirect after successful deletion
-    
+      // Fetch user data from the database and retrieve the image URL
+      const user = await User.findById(userID);
+      const imageUrl = user.profilePhoto; // Assuming user.profilePhoto is a single image URL
+      const imageName = path.basename(imageUrl);
+console.log(imageName);
+      deleteFile(imageName); // Delete the image from the server
+      const user1 = await User.findByIdAndDelete(userID);
+      res.json({ success: true, message: 'Account deleted successfully' });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: false, error: 'An error occurred' });
+      console.error('An error occurred:', error);
+      res.status(500).json({ success: false, error: 'An error occurred' });
   }
 };
 
