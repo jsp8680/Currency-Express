@@ -57,6 +57,11 @@ module.exports.about_get = (req, res) => {
     res.render('about_us-contact_us.ejs');
 }
 
+module.exports.changeInfo_get = (req, res) => {
+  // Render the "about.ejs" template when a user visits the about page
+  res.render('changeInfo.ejs');
+}
+
 // Controller action for handling GET request to the converter page
 module.exports.converter_get = (req, res) => {
     // Render the "index.ejs" template when a user visits the converter page
@@ -87,29 +92,42 @@ module.exports.profile_get = (req, res) => {
 }
 
 const currencyNames = {
-  USD: "US Dollar",
+  USD: "United States Dollar",
   EUR: "Euro",
   JPY: "Japanese Yen",
+  BRL: "Brazilian Real",
+  MXN: "Mexican Peso",
+  CAD: "Canadian Dollar",
+  AUD: "Australian Dollar",
+  CHF: "Swiss Franc",
+  CNY: "Chinese Yuan",
+  HKD: "Hong Kong Dollar",
+  INR: "Indian Rupee",
+  SGD: "Singapore Dollar"
+
   // Add more currency names as needed
 };
 
 module.exports.deleteAccount = async (req, res) => {
   const userID = req.body.userID;
   console.log(userID);
-  try{
-  const user = await User.findByIdAndDelete(userID);
+  try {
+    const user = await User.findByIdAndDelete(userID);
     
     if (!user) {
       return res.status(404).json({ success: false, error: 'User not found' });
     }
-
+    console.log("success: true, message: 'User deleted successfully'" + user.username);
     res.cookie("jwt", "", { maxAge: 1 });
-    res.redirect("/");
+    res.status(200).json({ success: true, message: 'User deleted successfully' });
+    // res.redirect("/"); // Redirect after successful deletion
+    
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, error: 'An error occurred' });
   }
-}
+};
+
 
 module.exports.deleteCurrency = async (req, res) => {
   const currencyCodeToDelete = req.body.currencyCode;
@@ -308,3 +326,4 @@ module.exports.login_post = async (req, res) => {
     console.log(err);
   }
 };
+

@@ -37,6 +37,7 @@ router.post('/contact', Controller.contact_post);
 router.get('/register', Controller.register_get);
 router.post('/register', Controller.register_post);
 
+router.get('/changeInfo', requireAuth, Controller.changeInfo_get);
 
 router.get("/logout", requireAuth, Controller.logout_get);
 // Export the router with defined routes

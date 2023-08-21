@@ -38,12 +38,57 @@ const userSchema = new mongoose.Schema({
   favoriteCurrencies: [{
     code: String,
     name: String
-}]
-  // profilePhoto: {
-  //   type: Buffer,
-  //   default: 'https://www.w3schools.com/howto/img_avatar.png'
-  // }
+}],
+  profilePhoto: {
+    type: String,
+    default: 'https://www.w3schools.com/howto/img_avatar.png'
+  }
 });
+
+// Create a virtual property to combine favorites with the rest of the currencies
+userSchema.virtual('currenciesWithFavorites').get(function() {
+  const allCurrencies = [
+    { code: 'CAD', name: 'Canadian Dollar' },
+  { code: 'USD', name: 'United States Dollar' },
+  { code: 'EUR', name: 'European Dollar' },
+  { code: 'AUD', name: 'Australian Dollar' },
+  { code: 'CHF', name: 'Swiss Franc' },
+  { code: 'JPY', name: 'Japanese Yen' },
+  { code: 'CNY', name: 'Chinese Yuan' },
+  { code: 'INR', name: 'Indian Rupee' },
+  { code: 'BRL', name: 'Brazilian Real' },
+  { code: 'MXN', name: 'Mexican Peso' },
+  { code: 'SGD', name: 'Singapore Dollar' },
+  { code: 'HKD', name: 'Hong Kong Dollar' }
+  ];
+
+  const favorites = this.favoriteCurrencies || [];
+
+  // Combines favorite currencies with all currencies, ensuring no duplicates
+  const uniqueCurrencies = allCurrencies.concat(favorites.filter(fav => !allCurrencies.some(curr => curr.code === fav.code)));
+
+  return uniqueCurrencies;
+});
+
+// Sort the combined currency options with favorites at the top
+userSchema.virtual('sortedCurrencies').get(function() {
+  return this.currenciesWithFavorites.sort((a, b) => {
+    const isAFavorite = this.favoriteCurrencies.some(fav => fav.code === a.code);
+    const isBFavorite = this.favoriteCurrencies.some(fav => fav.code === b.code);
+
+    if (isAFavorite && !isBFavorite) {
+      return -1; // A is a favorite, so it comes before B
+    } else if (!isAFavorite && isBFavorite) {
+      return 1; // B is a favorite, so it comes before A
+    }
+
+    return a.name.localeCompare(b.name); // Sort alphabetically if neither is a favorite
+  });
+});
+
+// Attach the virtuals to the JSON representation
+userSchema.set('toJSON', { virtuals: true });
+
 
 
 // fire a function before document is saved to database

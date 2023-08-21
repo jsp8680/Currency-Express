@@ -19,30 +19,24 @@
       <h4>From</h4>
 
       <% if(user){ %>
+        <!-- allows the js to easily grab the decimal when a user is logged in -->
       <h5 id="decimal" hidden><%= user.decimalPlaces %></h5>
       <% } else { %>
       <h5 id="decimal" hidden>2</h5>
       <% } %> <% if (user) { %>
 
       <select class="currency-select" id="currencyFrom">
-        <option hidden value="<%= user.targetCurrency %>" default>
-          <%= user.targetCurrency%>
-        </option>
-        <option value="CAD">CAD - Canadian Dollar</option>
-        <option value="USD">USD - United States Dollar</option>
-        <option value="EUR">EUR - European Dollar</option>
-        <option value="AUD">AUD - Australian Dollar</option>
-        <option value="CHF">CHF - Swiss Franc</option>
-        <option value="JPY">JPY - Japanese Yen</option>
-        <option value="CNY">CNY - Chinese Yuan</option>
-        <option value="INR">INR - Indian Rupee</option>
-        <option value="BRL">BRL - Brazilian Real</option>
-        <option value="MXN">MXN - Mexican Peso</option>
-        <option value="SGD">SGD - Singapore Dollar</option>
-        <option value="HKD">HKD - Hong Kong Dollar</option>
+        <!-- shows the fav. currencies at the top with the default source currency being the default -->
+        <% user.sortedCurrencies.forEach(currency => { %>
+          <option value="<%= currency.code %>"
+            <% if (user.sourceCurrency === currency.code) { %>
+              selected default
+            <% } %>
+          ><%= currency.code %> - <%= currency.name %></option>
+        <% }); %>
       </select>
     </div>
-  
+  <!-- shows the currency To when  a user isn't logged in -->
     <% } else { %> 
   
     <select class="currency-select" id="currencyFrom">
@@ -68,25 +62,18 @@
     <% if (user) { %>
     <div>
       <h5>To</h5>
+       <!-- shows the fav. currencies at the top with the default source currency being the default -->
       <select class="currency-select" id="currencyTo">
-        <option hidden value="<%= user.sourceCurrency %>" default>
-          <%= user.sourceCurrency%>
-        </option>
-        <option value="CAD">CAD - Canadian Dollar</option>
-        <option value="USD">USD - United States Dollar</option>
-        <option value="EUR">EUR - European Dollar</option>
-        <option value="AUD">AUD - Australian Dollar</option>
-        <option value="CHF">CHF - Swiss Franc</option>
-        <option value="JPY">JPY - Japanese Yen</option>
-        <option value="CNY">CNY - Chinese Yuan</option>
-        <option value="INR">INR - Indian Rupee</option>
-        <option value="BRL">BRL - Brazilian Real</option>
-        <option value="MXN">MXN - Mexican Peso</option>
-        <option value="SGD">SGD - Singapore Dollar</option>
-        <option value="HKD">HKD - Hong Kong Dollar</option>
+        <% user.sortedCurrencies.forEach(currency => { %>
+          <option value="<%= currency.code %>"
+            <% if (user.targetCurrency === currency.code) { %>
+              selected
+            <% } %>
+          ><%= currency.code %> - <%= currency.name %></option>
+        <% }); %>
       </select>
     </div>
-  
+  <!-- shows the currency To when  a user isn't logged in -->
     <% } else { %> 
       <div>
         <h5>To</h5>
@@ -145,19 +132,20 @@
         priorInput.disabled = true;
 
         const currencySymbols = {
-          CAD: "\u0024", // Dollar sign: $
-          USD: "\u0024", // Dollar sign: $
-          EUR: "\u20AC", // Euro sign: €
-          AUD: "\u0024", // Dollar sign: $
-          CHF: "\u0043\u0048\u0046",
-          JYP: "\u00A5", // Yen sign: ¥
-          CNY: "\u00A5",
-          INR: "\u20B9",
-          BRL: "\u20A2",
-          MXN: "\u0024",
-          SGD: "\u0053\u0024", //
-          HKD: "\u0024",
-        };
+   CAD: "\u0024", // Dollar sign: $
+   USD: "\u0024", // Dollar sign: $
+   EUR: "\u20AC", // Euro sign: €
+   AUD: "\u0024", // Dollar sign: $
+   CHF: "\u0043\u0048\u0046",
+   JPY: "\u00A5", // Yen sign: ¥
+   CNY: "\u00A5",
+   INR: "\u20B9",
+   BRL: "\u20A2",
+   MXN: "\u0024",
+   SGD: "\u0053\u0024", //
+   HKD: "\u0024",
+};
+
 
         const updateCurrencySymbol = () => {
           const selectedCurrency = fromSelect.value;

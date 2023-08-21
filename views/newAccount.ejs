@@ -78,6 +78,11 @@
         margin-right: 200px; 
         margin-top: 120px; 
         float: right;
+        max-height: 380px;
+        overflow-y: auto;
+        border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
     }
  #settings {
@@ -138,11 +143,23 @@ position: relative;
     <div id="profile">
         <h1>Your Profile:</h1>
         <div id="profile-info-container">
-        <h3 id="username">Username: <%= user.username  %></h3>
-        <h3 id="email">Email: <%= user.email %></h3>
+            <h3>
+                Username: <span id="username"><%= user.username %></span>
+               
+            </h3>
+            <h3>
+                Email: <span id="email"><%= user.email %></span>
+               
+            </h3>
+            <h3>
+                Password: <span id="password">*********</span>
+                
+            </h3>
+           <a href="/changeInfo"><button id="editPass">Edit</button></a> 
         </div>
         <div id="profile-photo-container">
         <img src="<%= user.profilePhoto %>" alt="Avatar" class="avatar">
+        <input type="file" id="photo-input" accept="image/*" hidden>
         <button id="change-photo">Change Profile Photo</button>
         </div>
     </div>
@@ -151,7 +168,7 @@ position: relative;
   
     <label for="targetCurrency">Default Target Currency:</label>
 <select id="targetCurrency">
-<option default value="<%= user.targetCurrency %>"><%= user.targetCurrency %></option>
+<option default value="<%= user.targetCurrency %>" hidden><%= user.targetCurrency %></option>
    <option value="USD">USD - United States Dollar</option>
    <option value="EUR">EUR - European Dollar</option>
    <option value="AUD">AUD - Australian Dollar</option>
@@ -168,7 +185,7 @@ position: relative;
 <br>
 <label for="sourceCurrency">Default Source Currency:</label>
 <select id="sourceCurrency">
-<option default value="<%= user.sourceCurrency %>"><%= user.sourceCurrency %></option>
+<option default value="<%= user.sourceCurrency %>" hidden><%= user.sourceCurrency %></option>
    <option value="USD">USD - United States Dollar</option>
    <option value="EUR">EUR - European Dollar</option>
    <option value="AUD">AUD - Australian Dollar</option>
@@ -184,7 +201,7 @@ position: relative;
 <br>
 <label for="decimalPlace">Decimal Place Preference:</label>
 <select id="decimalPlace">
-<option default value="<%= user.decimalPlaces %>"><%= user.decimalPlaces %></option>
+<option default value="<%= user.decimalPlaces %>" hidden><%= user.decimalPlaces %></option>
    <option value="1">1</option>
    <option value="2">2</option>
    <option value="3">3</option>
@@ -216,9 +233,18 @@ position: relative;
 
     <!-- <h2>Add Currency</h2> -->
     <select id="currencySelect">
-        <option value="USD">USD - US Dollar</option>
+        <option value="USD">USD - United States Dollar</option>
         <option value="EUR">EUR - Euro</option>
         <option value="JPY">JPY - Japanese Yen</option>
+        <option value="BRL">BRL - Brazilian Real</option>
+        <option value="MXN">MXN - Mexican Peso</option>
+        <option value="CAD">CAD - Canadian Dollar</option>
+        <option value="AUD">AUD - Australian Dollar</option>
+        <option value="CHF">CHF - Swiss Franc</option>
+        <option value="CNY">CNY - Chinese Yuan</option>
+        <option value="HKD">HKD - Hong Kong Dollar</option>
+        <option value="INR">INR - Indian Rupee</option>
+        <option value="SGD">SGD - Singapore Dollar</option>
        
     </select>
     <button id="addCurrencyBtn">Add Currency</button>
@@ -237,6 +263,48 @@ position: relative;
 </div>
 <footer><%- include('partials/footer.ejs') %></footer>
 <script>
+
+// photo upload functions
+const changePhotoBtn = document.getElementById('change-photo');  
+
+const photoInput = document.getElementById('photo-input');
+const profilePhoto = document.getElementById('profile-photo');
+changePhotoBtn.addEventListener('click', () => {
+    photoInput.click(); // Trigger the file input click event
+});
+
+photoInput.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    const userIDElement = document.getElementById('userID');
+    const userID = userIDElement.value;
+
+    if (file) {
+        const formData = new FormData();
+        formData.append('photo', file);
+        formData.append('userID', userID); // Add userID to the formData
+
+        try {
+            const res = await fetch('/uploadProfilePhoto', {
+                method: 'POST',
+                body: formData,
+            });
+
+            const data = await res.json();
+
+            if (data.success) {
+                window.location.href = '/profile';
+            }
+    else {
+                console.error(data.error);
+            }
+        } catch (error) {
+            console.error('An error occurred:', error);
+        }
+    }
+});
+
+
+// delete account functions
 const dlt = document.getElementById('dlt');
 const deleteConfirmationModal = document.getElementById('deleteConfirmationModal');
 const confirmDelete = document.getElementById('confirmDelete');
@@ -259,9 +327,8 @@ confirmDelete.addEventListener('click', async () => {
         });
         const data = await res.json();
         console.log(data);
-        // isn't redirecting
         if (data.success) {
-            location.assign('/register'); // Redirect to home page after successful deletion
+            window.location.href = '/';
         }
     } catch (err) {
         console.log(err);
@@ -271,6 +338,8 @@ confirmDelete.addEventListener('click', async () => {
 cancelDelete.addEventListener('click', () => {
     deleteConfirmationModal.style.display = 'none';
 });
+
+// preferences functions
 const form = document.getElementById('preferences');
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -305,7 +374,7 @@ document.getElementById("addCurrencyBtn").addEventListener("click", function() {
 
     // Fetch the currency name from the currencyNames object
     const currencyName = currencyNames[selectedCurrency];
-
+console.log(currencyName);
     // Check for duplicates based on both currency code and name
     const existingRows = document.querySelectorAll("#currencyTable tbody tr");
     for (const row of existingRows) {
@@ -454,10 +523,20 @@ function updateTableWithNewCurrency(selectedCurrency, currencyName) {
 
 // Define currencyNames object
 const currencyNames = {
-    USD: "US Dollar",
+    USD: "United States Dollar",
     EUR: "Euro",
     JPY: "Japanese Yen",
-    // Add more currency names as needed
+    BRL: "Brazilian Real",
+    MXN: "Mexican Peso",
+    CAD: "Canadian Dollar",
+    AUD: "Australian Dollar",
+    CHF: "Swiss Franc",
+    CNY: "Chinese Yuan",
+    HKD: "Hong Kong Dollar",
+    INR: "Indian Rupee",
+    SGD: "Singapore Dollar"
+
+    
 };
 
 document.addEventListener("DOMContentLoaded", fetchAndDisplayFavoriteCurrencies);
