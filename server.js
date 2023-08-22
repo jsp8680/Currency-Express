@@ -123,6 +123,6 @@ function deleteFile(fileName) {
 // Use the routes defined in the imported Routes module
 app.use(Routes);
 
-app.listen(port, () => console.log(`Server listening on port ${port}!`));
+// app.listen(port, () => console.log(`Server listening on port ${port}!`));
 
 // db password 98ZeiAteNRS2tpLH username discord8680
