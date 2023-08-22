@@ -26,12 +26,12 @@ app.use(bodyParser.json());
 // Set the view engine to use EJS templates
 app.set("view engine", "ejs");
 
-// Connect to the MongoDB database using Mongoose
-const dbURI = 'mongodb+srv://user:coco1234@cluster0.e4ob5c0.mongodb.net/';
-// const dbURI = 'mongodb+srv://rjwright929:hello123@cluster0.dhfxvb8.mongodb.net/contact';
-mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then((result) => app.listen(3000),console.log('Server is running on port 3000 http://localhost:3000/'))
-  .catch((err) => console.log(err));
+// // Connect to the MongoDB database using Mongoose
+// const dbURI = 'mongodb+srv://user:coco1234@cluster0.e4ob5c0.mongodb.net/';
+// // const dbURI = 'mongodb+srv://rjwright929:hello123@cluster0.dhfxvb8.mongodb.net/contact';
+// mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+//   .then((result) => app.listen(3000),console.log('Server is running on port 3000 http://localhost:3000/'))
+//   .catch((err) => console.log(err));
 
 // checks if the user is authenticated for every route.
 app.get('*', checkUser);
@@ -97,6 +97,6 @@ function deleteFile(fileName) {
 // Use the routes defined in the imported Routes module
 app.use(Routes);
 
-
+app.listen(port, () => console.log(`Server listening on port ${port}!`));
 
 // db password 98ZeiAteNRS2tpLH username discord8680
