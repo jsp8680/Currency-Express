@@ -9,7 +9,7 @@ const cookieParser = require('cookie-parser');
 const Routes = require("./routes/routes");
 const multer = require('multer');
 const path = require('path');
-const User = require("./models/User");
+const User = require("./model/User");
 const fs = require('fs');
 process.env.NODE_VERSION = '20.5.1';
 console.log(`Node.js version: ${process.env.NODE_VERSION}`);
