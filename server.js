@@ -26,8 +26,11 @@ app.use(bodyParser.json());
 // Set the view engine to use EJS templates
 app.set("view engine", "ejs");
 
+const username = process.env.username;
+const password = process.env.password;
+
 // // Connect to the MongoDB database using Mongoose
-const dbURI = `mongodb+srv://user:${process.env.username}:${process.env.password}@cluster0.e4ob5c0.mongodb.net/`;
+const dbURI = `mongodb+srv://${username}:${password}@cluster0.e4ob5c0.mongodb.net/`;
 // // const dbURI = 'mongodb+srv://rjwright929:hello123@cluster0.dhfxvb8.mongodb.net/contact';
 // mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
 //   .then((result) => app.listen(3000),console.log('Server is running on port 3000 http://localhost:3000/'))
