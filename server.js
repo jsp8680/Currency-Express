@@ -1,7 +1,7 @@
 // Import the required modules
 const express = require("express");
 const app = express();
-const port = 3000;
+
 const mongoose = require("mongoose");
 const { requireAuth, checkUser } = require('./middleware/middleware');
 const bodyParser = require('body-parser');
@@ -12,6 +12,7 @@ const path = require('path');
 const User = require("./model/User");
 const fs = require('fs');
 require('dotenv').config();
+const port = process.env.PORT;
 process.env.NODE_VERSION = '20.5.1';
 console.log(`Node.js version: ${process.env.NODE_VERSION}`);
 
@@ -123,6 +124,6 @@ function deleteFile(fileName) {
 // Use the routes defined in the imported Routes module
 app.use(Routes);
 
-// app.listen(port, () => console.log(`Server listening on port ${port}!`));
+app.listen(port, () => console.log(`Server listening on port ${port}!`));
 
 // db password 98ZeiAteNRS2tpLH username discord8680
