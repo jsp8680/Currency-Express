@@ -1,5 +1,5 @@
 {
-  "name": "CurrencyExpress",
+  "name": "currencyexpress",
   "version": "1.2.1",
   "description": "Currency converter page",
   "main": "server.js",
