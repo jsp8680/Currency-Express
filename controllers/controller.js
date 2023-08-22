@@ -7,7 +7,7 @@ const Contact = require("../models/Contact");
 const fs = require('fs');
 const path = require('path');
 const deleteFile = require('../deleteFile');
-// Set up storage for multer
+
 
 
 const handleErrorsForUsers = (err) => {
@@ -115,7 +115,7 @@ module.exports.deleteAccount = async (req, res) => {
   try {
       // Fetch user data from the database and retrieve the image URL
       const user = await User.findById(userID);
-      const imageUrl = user.profilePhoto; // Assuming user.profilePhoto is a single image URL
+      const imageUrl = user.profilePhoto;
       const imageName = path.basename(imageUrl);
 console.log(imageName);
       deleteFile(imageName); // Delete the image from the server

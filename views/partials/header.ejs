@@ -161,7 +161,7 @@
         box-shadow: 5px 0px 10px 0px #000000;
       }
       /* Navigation items styles */
-      .nav-items {
+      /* .nav-items {
         display: flex;
         align-items: center;
         position: absolute;
@@ -185,7 +185,7 @@
       .nav-items a:hover {
         color: #06ffcd;
         transition: color 0.3s ease-in-out;
-      }
+      } */
       .navbar .menu-items li {
         margin-bottom: 1.5rem;
         font-size: 1.3rem;
@@ -235,6 +235,88 @@
         transform: rotate(-35deg); 
         background-color: red; /* Change color on click */
       }
+      .nav-items {
+      display: flex;
+      align-items: center;
+      position: absolute;
+      top: 10px;
+      right: 20px;
+    }
+
+    .nav-items li {
+      list-style: none;
+      margin-right: 1.5rem;
+      font-size: 1.2rem;
+    }
+
+    .nav-items a {
+      text-decoration: none;
+      color: #444;
+      font-weight: 500;
+      transition: color 0.3s ease-in-out;
+    }
+
+    .nav-items a:hover {
+      color: #06ffcd;
+      transition: color 0.3s ease-in-out;
+    }
+
+    #profile-Photo {
+      position: absolute;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      /* margin-right: 10px; Add some spacing between image and text */
+      left: -12px;
+    top: -8px;
+    }
+      .profile-dropdown {
+  position: absolute;
+  top: 40px; /* Adjust this value to position the dropdown properly */
+
+  right: -20px;
+  background: white;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  padding: 10px 0;
+  min-width: 160px;
+  z-index: 10;
+  display: none; /* Hide by default */
+}
+
+.profile-dropdown ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.profile-dropdown li {
+  padding: 10px 20px;
+}
+
+.profile-dropdown a {
+  color: #333;
+  text-decoration: none;
+  display: block;
+  transition: color 0.3s ease-in-out;
+}
+
+.profile-dropdown a:hover {
+  color: #18ffd1;
+  display: hidden;
+}
+
+/* .nav-items li:hover .profile-dropdown {
+  display: block; Show dropdown on hovernav-items li:hover .profile-dropdown,
+.nav-items li.show-dropdown .profile-dropdown {
+  display: hidden; /* Show dropdown on hover or when the show-dropdown class is present */
+/* } */
+.profile-dropdown.show {
+  display: block; 
+  color: grey;
+  background-color: whitesmoke; 
+  border: 2px solid black;
+}
     </style>
   </head>
   <body>
@@ -256,10 +338,20 @@
         </ul>
         <a class="logo" href="/">CURRE₦¢¥ EX₱R€$$</a>
 
-        <ul class="nav-items">
-          <li><a href="/logout">Sign Out</a></li>
-        </ul>
-      </div>
+     
+      <ul class="nav-items">
+        <li>
+          <img id="profile-Photo" src="<%= user.profilePhoto %>">
+          <div class="profile-dropdown">
+            <ul>
+              <!-- Add profile-related links here, such as "My Profile" and "Settings" -->
+              <li><a href="/profile">My Profile</a></li>
+              <li><a href="/logout">Sign Out</a></li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+      </div> 
     </nav>
     <% } else { %>
       <nav class="navbar">
@@ -286,4 +378,14 @@
       </nav>
       <% } %>
   </body>
+  <script>
+const profileDropdown = document.querySelector('.profile-dropdown');
+const profilePhoto2 = document.getElementById('profile-Photo');
+
+profilePhoto2.addEventListener('click', function (event) {
+  profileDropdown.classList.toggle('show'); // Toggle the class to show/hide the dropdown
+});
+
+
+  </script>
 </html>
