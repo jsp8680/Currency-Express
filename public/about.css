@@ -187,6 +187,7 @@ h5{
     position: relative;
     left: 600px;
     bottom: -35px;
+    resize: none;
 }
 
 #submit{
