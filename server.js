@@ -27,12 +27,27 @@ app.use(bodyParser.json());
 app.set("view engine", "ejs");
 
 // // Connect to the MongoDB database using Mongoose
-// const dbURI = 'mongodb+srv://user:coco1234@cluster0.e4ob5c0.mongodb.net/';
+const dbURI = 'mongodb+srv://user:coco1234@cluster0.e4ob5c0.mongodb.net/';
 // // const dbURI = 'mongodb+srv://rjwright929:hello123@cluster0.dhfxvb8.mongodb.net/contact';
 // mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
 //   .then((result) => app.listen(3000),console.log('Server is running on port 3000 http://localhost:3000/'))
 //   .catch((err) => console.log(err));
+//Set connection params
+const connectionParams={
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+};
 
+
+//Connect
+mongoose.connect(dbURI,connectionParams)
+.then( () => {
+  console.log('Connected to the database');
+})
+.catch((err) => {
+console.error(`Error connecting to the database. ${err}`);
+}
+);
 // checks if the user is authenticated for every route.
 app.get('*', checkUser);
 // renders the "home" view when accessing the root URL.
