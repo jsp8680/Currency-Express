@@ -11,6 +11,7 @@ const multer = require('multer');
 const path = require('path');
 const User = require("./model/User");
 const fs = require('fs');
+require('dotenv').config();
 process.env.NODE_VERSION = '20.5.1';
 console.log(`Node.js version: ${process.env.NODE_VERSION}`);
 
@@ -26,11 +27,18 @@ app.use(bodyParser.json());
 // Set the view engine to use EJS templates
 app.set("view engine", "ejs");
 
-const username = process.env.username;
+// Access environment variables
+const username = process.env.usernam;
 const password = process.env.password;
 
+// Use the variables as needed
+console.log('Username:', username);
+console.log('Password:', password);
+
+const encodedUsername = encodeURIComponent(username);
+const encodedPassword = encodeURIComponent(password);
 // // Connect to the MongoDB database using Mongoose
-const dbURI = `mongodb+srv://${username}:${password}@cluster0.e4ob5c0.mongodb.net/`;
+const dbURI = `mongodb+srv://${encodedUsername}:${encodedPassword}@cluster0.e4ob5c0.mongodb.net/`;
 // // const dbURI = 'mongodb+srv://rjwright929:hello123@cluster0.dhfxvb8.mongodb.net/contact';
 // mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
 //   .then((result) => app.listen(3000),console.log('Server is running on port 3000 http://localhost:3000/'))
