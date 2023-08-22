@@ -11,6 +11,9 @@ const multer = require('multer');
 const path = require('path');
 const User = require("./models/User");
 const fs = require('fs');
+process.env.NODE_VERSION = '20.5.1';
+console.log(`Node.js version: ${process.env.NODE_VERSION}`);
+
 // Serve static files from the "public" directory
 app.use(express.static("public"));
 // Parse URL-encoded bodies and JSON data in requests
