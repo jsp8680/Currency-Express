@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const { isEmail } = require('validator');
-
+// fixed name
 
 const contactSchema = new mongoose.Schema({
 
