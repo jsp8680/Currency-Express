@@ -23,6 +23,10 @@ const handleErrorsForUsers = (err) => {
   if (err.message === "incorrect email") {
     errors.email = "Invalid email";
   }
+  
+  if (err.message === "Password must be more than 6 characters long") {
+    errors.password = "Password must be more than 6 characters long";
+  }
 
   // incorrect password
   if (err.message === "incorrect password") {
@@ -283,6 +287,14 @@ module.exports.register_post = async (req, res) => {
     if (username.length > 30) {
       const errors = handleErrorsForUsers({
         message: "Username must be less than 30 characters long",
+      });
+      res.status(400).json({ errors });
+      return;
+    }
+
+    if(password.length < 6){
+      const errors = handleErrorsForUsers({
+        message: "Password must be more than 6 characters long",
       });
       res.status(400).json({ errors });
       return;
