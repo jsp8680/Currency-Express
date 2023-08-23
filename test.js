@@ -21,9 +21,9 @@ async function test_case(){
 
     await driver.findElement(By.name("username")).sendKeys("bob123");
     await driver.findElement(By.name("email")).sendKeys("bob123@gmail.com");
-    await driver.findElement(By.name("password")).sendKeys("password");
-    await driver.findElement(By.id("submit"))
-    button.click();
+    await driver.findElement(By.name("password")).sendKeys("password", Key.RETURN);
+    //await driver.findElement(By.name("register")).click("Register");
+    
 
     setInterval(function(){
         driver.quit();
