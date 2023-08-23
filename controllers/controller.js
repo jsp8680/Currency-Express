@@ -4,6 +4,8 @@ const MongoClient = require("mongodb").MongoClient;
 const jwt = require("jsonwebtoken");
 const multer = require('multer');
 // const Contact = require("./model/Contact");
+const Contact = require("./model/Contact");
+
 const fs = require('fs');
 const path = require('path');
 const deleteFile = require('../deleteFile');
