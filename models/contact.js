@@ -13,7 +13,6 @@ const contactSchema = new mongoose.Schema({
     email: {
       type: String, 
       required: [true, 'Email is required'],
-      unique: true,
       validate: [isEmail, 'Provide a vaild email address']
     },
     message: {
