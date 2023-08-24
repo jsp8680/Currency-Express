@@ -1,9 +1,9 @@
 // Import necessary modules if required
-const User = require("../models/User");
+const User = require("../model/User");
 const MongoClient = require("mongodb").MongoClient;
 const jwt = require("jsonwebtoken");
 const multer = require('multer');
-const Contact = require("../models/contact");
+const Contact = require("../model/Contact.js");
 const fs = require('fs');
 const path = require('path');
 const deleteFile = require('../deleteFile');

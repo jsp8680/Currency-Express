@@ -10,7 +10,6 @@ const Routes = require("./routes/routes");
 const multer = require('multer');
 const path = require('path');
 const User = require("./model/User");
-const Contact = require("./model/Contact");
 const fs = require('fs');
 require('dotenv').config();
 const port = process.env.PORT;
