@@ -93,3 +93,14 @@ body {
     font-size: 20px;
     margin-top: 5px;
 } 
+.password {
+    position: absolute;
+}
+
+@media (max-width: 1600px) {
+
+    .register-container #signup {
+      position: absolute;
+      top: 650px;
+  }
+}
