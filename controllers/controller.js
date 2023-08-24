@@ -20,7 +20,13 @@ const handleErrorsForUsers = (err) => {
   if (err.message === "Username must be less than 30 characters long") {
     errors.username = "Username must be less than 30 characters long";
   }
+if(err.message === "Full name must be between 7 and 25 characters long"){
+  errors.name = "Full name must be between 7 and 25 characters long";
+}
 
+if(err.message === "Invalid email format"){
+  errors.email = "Invalid email format";
+}
   // incorrect email
   if (err.message === "incorrect email") {
     errors.email = "Invalid email";
@@ -258,6 +264,44 @@ module.exports.updateFavoriteCurrencies = async (req, res) => {
 
 module.exports.contact_post = async (req, res) => {
   const { name, email, message } = req.body;
+
+  module.exports.contact_post = async (req, res) => {
+  const { name, email, message } = req.body;
+
+ // Validate name length
+ if (name.length < 7 || name.length > 25) {
+  const errors = handleErrorsForUsers({
+    message: "Full name must be between 7 and 25 characters long",
+  });
+  res.status(400).json({ errors });
+  return;
+}
+// Validate email format using a regular expression
+const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+if (!email.match(emailRegex)) {
+  const errors = handleErrorsForUsers({
+    message: "Invalid email format",
+  });
+  res.status(400).json({ errors });
+  return;
+}
+  try {
+    const contact = await Contact.create({ name, email, message });
+   
+  // Do something with the form data
+  console.log("Received form data:");
+  console.log("Name:", name);
+  console.log("Email:", email);
+  console.log("Message:", message);
+  console.log(contact);
+  res.redirect("/");
+}
+catch (err) {
+  const errors = handleErrorsForUsers(err);
+      res.status(400).json({ errors });
+        console.log(err);
+}
+}
   try {
     const contact = await Contact.create({ name, email, message });
    
