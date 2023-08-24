@@ -163,8 +163,8 @@ span#equals{
 .help{
     color: white;
     position:relative;
-    left:600px;
-    top:40px;
+    left:700px;
+    top:0px;
 }
 
   .currency-symbol {
@@ -175,3 +175,29 @@ span#equals{
     color: black; 
    z-index: 100;
   }
+
+
+
+  @media (min-width: 1600px) {
+    .currency-symbol {
+        position: absolute;
+        left:680px;
+        top: 215px;
+        font-size: 25px;
+        color: black;
+        z-index: 100;
+      }
+      
+    /* Styles for screens up to 768px wide */
+  }
+
+@media (max-width: 696px){
+    .currency-symbol {
+        position: absolute;
+        left: 236px;
+        top: 215px;
+        font-size: 25px;
+        color: black;
+        z-index: 100;
+      }
+    }
