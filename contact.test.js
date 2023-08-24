@@ -1,5 +1,4 @@
 // command to run: npx mocha contact.test.js
-// command to run: npx mocha contact.test.js
 const { Builder, By, Key, until } = require("selenium-webdriver");
 require("chromedriver");
 const assert = require("chai").assert;
@@ -43,17 +42,17 @@ describe("contact", function () {
             await driver.get("https://currencyexpress.onrender.com/about");
 
             // Fill out the form with incorrect contact information
-            await driver.findElement(By.id("name")).sendKeys("test");
-            await driver.findElement(By.id("email")).sendKeys("incorrect email");
+            await driver.findElement(By.id("name")).sendKeys("test name");
+            await driver.findElement(By.id("email")).sendKeys("incorrect@example.com");
             await driver.findElement(By.id("message")).sendKeys("test message");
             await driver.findElement(By.id("submit")).click();
            
 
             // Assuming the page displays an error message element, wait for it to appear
-            await driver.wait(until.elementLocated(By.className("email error")), 2000);
+            await driver.wait(until.elementLocated(By.id("note2")), 2000);
 
             // Assert that the error message element is displayed
-            const errorMessage = await driver.findElement(By.className("email error"));
+            const errorMessage = await driver.findElement(By.id("note2"));
             await driver.wait(until.elementIsVisible(errorMessage), 10000);
             assert.isTrue(await errorMessage.isDisplayed(), "Error message not displayed");
 
@@ -75,10 +74,10 @@ describe("contact", function () {
            
 
             // Assuming the page displays an error message element, wait for it to appear
-            await driver.wait(until.elementLocated(By.id("name error")), 2000);
+            await driver.wait(until.elementLocated(By.id("note1")), 2000);
 
             // Assert that the error message element is displayed
-            const errorMessage = await driver.findElement(By.id("name error"));
+            const errorMessage = await driver.findElement(By.id("note1"));
             await driver.wait(until.elementIsVisible(errorMessage), 5000);
             assert.isTrue(await errorMessage.isDisplayed(), "Error message not displayed");
 
@@ -87,6 +86,4 @@ describe("contact", function () {
     });
 
 });
-
-
 
