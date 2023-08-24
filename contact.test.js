@@ -43,7 +43,7 @@ describe("contact", function () {
 
             // Fill out the form with incorrect contact information
             await driver.findElement(By.id("name")).sendKeys("test name");
-            await driver.findElement(By.id("email")).sendKeys("incorrect@example.com");
+            await driver.findElement(By.id("email")).sendKeys("incorrect example.com");
             await driver.findElement(By.id("message")).sendKeys("test message");
             await driver.findElement(By.id("submit")).click();
            
