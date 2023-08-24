@@ -43,7 +43,7 @@
 <form id="form" method="post" action="/contact">
       <h3>Full Name</h3>
       <div>
-        <input id="name" type="text" name="name" required >
+        <input id="name" type="email" name="name" required >
     </div>
     <div class="name error"></div>
   
@@ -102,15 +102,15 @@ function validate() {
 console.log(pattern);
      
      if(name.length < 7 || name.length >25){
-      document.getElementById("note1").innerHTML = "Full name must be between 7 and 25 charaters";
+      document.getElementById("note1").textContent = "Full name must be between 7 and 25 charaters";
      } else{
-      document.getElementById("note1").innerHTML = "";
+      document.getElementById("note1").textContent = "";
 
      }
      if(email.match(pattern)){
-      document.getElementById("note2").innerHTML = "";
+      document.getElementById("note2").textContent = "";
      } else {
-      document.getElementById("note2").innerHTML = "Prove a valid email address";
+      document.getElementById("note2").textContent = "Prove a valid email address";
      }
   }
 
