@@ -23,7 +23,7 @@ describe("Login", function () {
             await driver.get("https://currencyexpress.onrender.com/login");
 
             // Fill out the form with correct login credentials
-            await driver.findElement(By.id("email")).sendKeys("test@example.com");
+            await driver.findElement(By.id("email")).sendKeys("bobw2724@gmail.com");
             await driver.findElement(By.id("password")).sendKeys("testpassword", Key.RETURN);
 
             await driver.wait(until.urlIs("https://currencyexpress.onrender.com/"), 10000);
@@ -42,7 +42,7 @@ describe("Login", function () {
             await driver.get("https://currencyexpress.onrender.com/login");
 
             // Fill out the form with incorrect login credentials
-            await driver.findElement(By.id("email")).sendKeys("incorrect@example.com");
+            await driver.findElement(By.id("email")).sendKeys("incorrect@example20.com");
             await driver.findElement(By.id("password")).sendKeys("incorrectpassword", Key.RETURN);
 
             // Assuming the page displays an error message element, wait for it to appear
