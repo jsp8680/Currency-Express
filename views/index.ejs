@@ -101,12 +101,12 @@
     </div>
 
     <div>
-      <input id="previous" type="text" value="USD">USD2</input>
+      <input id="previous" type="text" value=""></input>
     </div>
     <span id="equals"> = </span>
 
     <div>
-      <input id="prior" type="text" value="EUR">EUR2</input>
+      <input id="prior" type="text" value=""></input>
     </div>
     <div id="error"></div>
     <div id="result"></div>
@@ -187,8 +187,8 @@
             previousInput.value =
               fromCurrency + " " + amount.toFixed(decimalPlaces);
             priorInput.value = toCurrency + " " + convertedAmount;
-            console.log(previousInput.value);
-            console.log(priorInput.value);
+            console.log(previousInput.textContent);
+            console.log(priorInput.textContent);
           } catch (error) {
             // Handle errors and display a message
             error.textContent = "An error occurred during conversion.";
