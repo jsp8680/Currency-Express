@@ -294,7 +294,8 @@ if (!email.match(emailRegex)) {
   console.log("Email:", email);
   console.log("Message:", message);
   console.log(contact);
-  res.redirect("/");
+  // res.redirect("/");
+  res.status(200).json({ success: true, redirect: '/' });
 }
 catch (err) {
   const errors = handleErrorsForUsers(err);
