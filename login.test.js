@@ -47,9 +47,10 @@ describe("Login", function () {
 
             // Assuming the page displays an error message element, wait for it to appear
             await driver.wait(until.elementLocated(By.className("email error")), 10000);
-
+            await new Promise(resolve => setTimeout(resolve, 3000));
             // Assert that the error message element is displayed
             const errorMessage = await driver.findElement(By.className("email error"));
+              await new Promise(resolve => setTimeout(resolve, 3000));
             await driver.wait(until.elementIsVisible(errorMessage), 10000);
             assert.isTrue(await errorMessage.isDisplayed(), "Error message not displayed");
 
