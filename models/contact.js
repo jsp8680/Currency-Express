@@ -11,10 +11,11 @@ const contactSchema = new mongoose.Schema({
       maxlength: [25, 'Full name must be no longer than 25 charaters.'],
     },
     email: {
-      type: String, 
-      required: [true, 'Email is required'],
-      //validate: [isEmail, 'Provide a vaild email address']
-      match: [/^[^ ]+@[^ ]+\.[a-z]{2,3}$/, 'Provide a vaild email address']
+      // match: [/^[^ ]+@[^ ]+\.[a-z]{2,3}$/, 'Provide a vaild email address']
+      type: String,
+      required: [true, 'Please enter an email'],
+      lowercase: true,
+      validate: [isEmail, 'Please enter a valid email']
       
     },
     message: {
@@ -23,4 +24,6 @@ const contactSchema = new mongoose.Schema({
     }
   })
   
-  module.exports = mongoose.model('Contact', contactSchema);
+  
+  const Contact = mongoose.model('contact', contactSchema);
+  module.exports = Contact;

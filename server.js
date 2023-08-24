@@ -1,7 +1,7 @@
 // Import the required modules
 const express = require("express");
 const app = express();
-const port = 3000;
+
 const mongoose = require("mongoose");
 const { requireAuth, checkUser } = require('./middleware/middleware');
 const bodyParser = require('body-parser');
@@ -9,8 +9,14 @@ const cookieParser = require('cookie-parser');
 const Routes = require("./routes/routes");
 const multer = require('multer');
 const path = require('path');
-const User = require("./models/User");
+const User = require("./model/User");
+const Contact = require("./model/Contact");
 const fs = require('fs');
+require('dotenv').config();
+const port = process.env.PORT;
+process.env.NODE_VERSION = '20.5.1';
+console.log(`Node.js version: ${process.env.NODE_VERSION}`);
+
 // Serve static files from the "public" directory
 app.use(express.static("public"));
 // Parse URL-encoded bodies and JSON data in requests
@@ -23,13 +29,38 @@ app.use(bodyParser.json());
 // Set the view engine to use EJS templates
 app.set("view engine", "ejs");
 
-// Connect to the MongoDB database using Mongoose
-const dbURI = 'mongodb+srv://discord8680:98ZeiAteNRS2tpLH@cluster0.e4ob5c0.mongodb.net/';
-// const dbURI = 'mongodb+srv://rjwright929:hello123@cluster0.dhfxvb8.mongodb.net/contact';
-mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then((result) => app.listen(3000),console.log('Server is running on port 3000 http://localhost:3000/'))
-  .catch((err) => console.log(err));
+// Access environment variables
+const username = process.env.usernam;
+const password = process.env.password;
 
+// Use the variables as needed
+console.log('Username:', username);
+console.log('Password:', password);
+
+const encodedUsername = encodeURIComponent(username);
+const encodedPassword = encodeURIComponent(password);
+// // Connect to the MongoDB database using Mongoose
+const dbURI = `mongodb+srv://${encodedUsername}:${encodedPassword}@cluster0.e4ob5c0.mongodb.net/`;
+// // const dbURI = 'mongodb+srv://rjwright929:hello123@cluster0.dhfxvb8.mongodb.net/contact';
+// mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+//   .then((result) => app.listen(3000),console.log('Server is running on port 3000 http://localhost:3000/'))
+//   .catch((err) => console.log(err));
+//Set connection params
+const connectionParams={
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+};
+
+
+//Connect
+mongoose.connect(dbURI,connectionParams)
+.then( () => {
+  console.log('Connected to the database');
+})
+.catch((err) => {
+console.error(`Error connecting to the database. ${err}`);
+}
+);
 // checks if the user is authenticated for every route.
 app.get('*', checkUser);
 // renders the "home" view when accessing the root URL.
@@ -94,6 +125,6 @@ function deleteFile(fileName) {
 // Use the routes defined in the imported Routes module
 app.use(Routes);
 
-
+app.listen(port, () => console.log(`Server listening on port ${port}!`));
 
 // db password 98ZeiAteNRS2tpLH username discord8680
