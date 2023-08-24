@@ -265,9 +265,6 @@ module.exports.updateFavoriteCurrencies = async (req, res) => {
 module.exports.contact_post = async (req, res) => {
   const { name, email, message } = req.body;
 
-  module.exports.contact_post = async (req, res) => {
-  const { name, email, message } = req.body;
-
  // Validate name length
  if (name.length < 7 || name.length > 25) {
   const errors = handleErrorsForUsers({
@@ -294,27 +291,13 @@ if (!email.match(emailRegex)) {
   console.log("Email:", email);
   console.log("Message:", message);
   console.log(contact);
-  res.redirect("/");
+  // res.redirect("/");
+  res.status(200).json({ success: true, redirect: '/' });
 }
 catch (err) {
   const errors = handleErrorsForUsers(err);
       res.status(400).json({ errors });
         console.log(err);
-}
-}
-  try {
-    const contact = await Contact.create({ name, email, message });
-   
-  // Do something with the form data
-  console.log("Received form data:");
-  console.log("Name:", name);
-  console.log("Email:", email);
-  console.log("Message:", message);
-  console.log(contact);
-  res.redirect("/");
-}
-catch (err) {
-  console.log(err);
 }
 }
 
