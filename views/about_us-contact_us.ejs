@@ -44,13 +44,14 @@
       <h3>Full Name</h3>
       <div>
         <input id="name" type="text" name="name" required >
-        
     </div>
+    <div class="name error"></div>
   
       <h4>Email</h4>
       <div>
         <input id="email" type="email" name="email" required>
     </div>
+    <div class="email error"></div>
       
       <h5>Message</h5>
       <div>
@@ -66,7 +67,7 @@
 
 
       <!--<button><a class="button" id="submit" href="/">Submit</a></button>-->
-      <p id="errorMessage" hidden></p>
+      <!--<p id="errorMessage" hidden></p>-->
     </div>
     <div>
       <!--<p id="pleaseNote" >Please note that your full name must be between 7 and 25 characters and your email must be valid or the form will not submit </p>-->
@@ -79,9 +80,11 @@
 	  <script>
      const form = document.querySelector('form');
      const name = document.getElementById('name').value;
+     const nameError = document.querySelector('.name.error');
      const email = document.getElementById('email').value;
+     const emailError = document.querySelector('.email.error');
      const message = document.getElementById('message').value;
-     const errorMessage = document.getElementById('errorMessage');
+     //const errorMessage = document.getElementById('errorMessage');
 
 
 form.addEventListener("submit", async (e) => {
@@ -120,6 +123,13 @@ console.log(pattern);
         });
         const data = await res.json();
         console.log(data);
+        
+      if (data.errors) {
+        nameError.textContent = data.errors.name;
+        emailError.textContent = data.errors.email;
+        
+      }
+        
         if (data.success) {
             window.location.href = '/';
         }
