@@ -101,12 +101,12 @@
     </div>
 
     <div>
-      <input id="previous" type="text" />
+      <input id="previous" type="text" value=""></input>
     </div>
     <span id="equals"> = </span>
 
     <div>
-      <input id="prior" type="text" />
+      <input id="prior" type="text" value=""></input>
     </div>
     <div id="error"></div>
     <div id="result"></div>
@@ -161,6 +161,7 @@
           const fromCurrency = fromSelect.value;
           const toCurrency = toSelect.value;
           const amount = parseFloat(amountInput.value); // Parse the amount to a number
+          
 
           try {
             // Fetch the exchange rate data from API
@@ -186,6 +187,8 @@
             previousInput.value =
               fromCurrency + " " + amount.toFixed(decimalPlaces);
             priorInput.value = toCurrency + " " + convertedAmount;
+            console.log(previousInput.textContent);
+            console.log(priorInput.textContent);
           } catch (error) {
             // Handle errors and display a message
             error.textContent = "An error occurred during conversion.";
