@@ -1,3 +1,4 @@
+
 const mongoose = require('mongoose');
 const { isEmail } = require('validator');
 
@@ -13,8 +14,9 @@ const contactSchema = new mongoose.Schema({
     email: {
       type: String, 
       required: [true, 'Email is required'],
-      unique: true,
-      validate: [isEmail, 'Provide a vaild email address']
+      //validate: [isEmail, 'Provide a vaild email address']
+      match: [/^[^ ]+@[^ ]+\.[a-z]{2,3}$/, 'Provide a vaild email address']
+      
     },
     message: {
       type: String, 
@@ -22,7 +24,5 @@ const contactSchema = new mongoose.Schema({
     }
   })
   
-//   module.exports = mongoose.model('Contact', contactSchema);
   const Contact = mongoose.model('contact', contactSchema);
-
   module.exports = Contact;
