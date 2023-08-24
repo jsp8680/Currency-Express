@@ -58,7 +58,7 @@
     </div>
     <div>
      
-    <button id="submit" type="submit" value="Submit" onclick="validate();" href="http://localhost:3000/">Submit</button>
+    <button id="submit" type="submit" value="Submit" onclick="validate()">Submit</button>
    
       
      <p id="note1"></p>
@@ -77,52 +77,56 @@
   </form>
 	  
 	  <script>
-  const form = document.querySelector('form');
-const nameInput = document.getElementById('name');
-const emailInput = document.getElementById('email');
-const messageInput = document.getElementById('message');
-const errorMessage = document.getElementById('errorMessage');
+     const form = document.querySelector('form');
+     const name = document.getElementById('name').value;
+     const email = document.getElementById('email').value;
+     const message = document.getElementById('message').value;
+     const errorMessage = document.getElementById('errorMessage');
 
-function validate() {
-    const name = nameInput.value;
-    const email = emailInput.value;
-    const message = messageInput.value;
-    const pattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
-
-    if (name.length < 7 || name.length > 25) {
-        document.getElementById("note1").innerHTML = "Full name must be between 7 and 25 characters";
-    } else {
-        document.getElementById("note1").innerHTML = "";
-    }
-
-    if (email.match(pattern)) {
-        document.getElementById("note2").innerHTML = "";
-    } else {
-        document.getElementById("note2").innerHTML = "Provide a valid email address";
-    }
-}
 
 form.addEventListener("submit", async (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior
 
-    validate(); // Call the validate function to perform validation
 
-    if (nameInput.value.length >= 7 && nameInput.value.length <= 25 && emailInput.value.match(pattern)) {
-        try {
-            const res = await fetch('/contact', {
-                method: 'POST',
-                body: JSON.stringify({ name: nameInput.value, email: emailInput.value, message: messageInput.value }),
-                headers: { 'Content-Type': 'application/json' }
-            });
-            const data = await res.json();
-            console.log(data);
-            if (data.success) {
-                window.location.href = '/';
-            }
-        } catch (err) {
-            console.log(err);
+  document.getElementById("submit").addEventListener("click", validate());
+
+function validate() {
+    const name = document.getElementById('name').value;
+     const email = document.getElementById('email').value;
+     const message = document.getElementById('message').value;
+     var pattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+    //  window.location.replace  = "http://localhost:3000/";
+    //  location.replace("http://localhost:3000/");
+console.log(pattern);
+     
+     if(name.length < 7 || name.length >25){
+      document.getElementById("note1").innerHTML = "Full name must be between 7 and 25 charaters";
+     } else{
+      document.getElementById("note1").innerHTML = "";
+
+     }
+     if(email.match(pattern)){
+      document.getElementById("note2").innerHTML = "";
+     } else {
+      document.getElementById("note2").innerHTML = "Prove a valid email address";
+     }
+  }
+
+  
+  try {
+        const res = await fetch('/contact', {
+            method: 'POST',
+            body: JSON.stringify({ name, email, message }),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        const data = await res.json();
+        console.log(data);
+        if (data.success) {
+            window.location.href = '/';
         }
+    } catch (err) {
+        console.log(err);
     }
+
 });
 
 
@@ -131,7 +135,26 @@ form.addEventListener("submit", async (e) => {
 
 
     
+// Added fetch code 
+    // Make a POST request to the server
+    // This sends the data to the server so you can access it 
+    // fetch('/contact', {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({ name, email, message })
+    // })
+    // .then(response => response.json())
+    // .then(data => {
+    //     console.log("Server response:", data);
 
+     
+        
+    // })
+    // .catch(error => {
+    //     console.error('An error occurred:', error);
+    // });
     </script>
 	  
 	  
