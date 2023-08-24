@@ -3,7 +3,7 @@ const User = require("../models/User");
 const MongoClient = require("mongodb").MongoClient;
 const jwt = require("jsonwebtoken");
 const multer = require('multer');
-const Contact = require("../models/Contact");
+const Contact = require("../models/contact");
 const fs = require('fs');
 const path = require('path');
 const deleteFile = require('../deleteFile');
@@ -12,13 +12,20 @@ const deleteFile = require('../deleteFile');
 
 const handleErrorsForUsers = (err) => {
   console.log(err.message, err.code);
-  let errors = { username: "", email: "", password: "" };
+  let errors = { username: "", email: "", password: "", name: "" };
 
   // incorrect firstname length (max)
   if (err.message === "Username must be less than 30 characters long") {
     errors.username = "Username must be less than 30 characters long";
   }
 
+if(err.message === "Full name must be between 7 and 25 characters long"){
+  errors.name = "Full name must be between 7 and 25 characters long";
+}
+
+if(err.message === "Invalid email format"){
+  errors.email = "Invalid email format";
+}
   // incorrect email
   if (err.message === "incorrect email") {
     errors.email = "Invalid email";
@@ -260,6 +267,24 @@ module.exports.updateFavoriteCurrencies = async (req, res) => {
 
 module.exports.contact_post = async (req, res) => {
   const { name, email, message } = req.body;
+
+ // Validate name length
+ if (name.length < 7 || name.length > 25) {
+  const errors = handleErrorsForUsers({
+    message: "Full name must be between 7 and 25 characters long",
+  });
+  res.status(400).json({ errors });
+  return;
+}
+// Validate email format using a regular expression
+const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+if (!email.match(emailRegex)) {
+  const errors = handleErrorsForUsers({
+    message: "Invalid email format",
+  });
+  res.status(400).json({ errors });
+  return;
+}
   try {
     const contact = await Contact.create({ name, email, message });
    
@@ -272,7 +297,9 @@ module.exports.contact_post = async (req, res) => {
   res.redirect("/");
 }
 catch (err) {
-  console.log(err);
+  const errors = handleErrorsForUsers(err);
+      res.status(400).json({ errors });
+        console.log(err);
 }
 }
 

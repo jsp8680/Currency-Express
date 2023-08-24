@@ -200,6 +200,22 @@ h5{
     cursor: pointer;
 }
 
+div.name.error {
+    color: red;
+    font-size: 15px;
+    font-weight: 600;
+    position: relative;
+    left: -126px;
+    bottom: -162px;
+}
+div.email.error {
+    color: red;
+    font-size: 15px;
+    font-weight: 600;
+    position: relative;
+    left: -119px;
+    bottom: -233px;
+}
 #errorMessage{
     color: red;
     font-size: 16px;
