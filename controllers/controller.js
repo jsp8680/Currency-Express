@@ -6,7 +6,7 @@ const multer = require('multer');
 const Contact = require("../model/Contacts");
 const fs = require('fs');
 const path = require('path');
-const deleteFile = require('../deleteFile');
+const deleteFile = require('../public/js/deleteFile');
 
 
 
@@ -100,7 +100,7 @@ module.exports.profile_get = (req, res) => {
     // Render the "account.ejs" template when a user visits the profile page
     const user = res.locals.user;
     // console.log(user)
-    res.render('newAccount.ejs', {user});
+    res.render('account.ejs', {user});
 }
 
 const currencyNames = {
