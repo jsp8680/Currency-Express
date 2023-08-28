@@ -13,7 +13,7 @@
     <div>
       <h3>Amount</h3>
       <span class="currency-symbol">$</span>
-      <input id="amount" min="0" type="number" />
+      <input id="amount" min="0" type="number" required />
     </div>
     <div>
       <h4>From</h4>
@@ -25,7 +25,7 @@
       <h5 id="decimal" hidden>2</h5>
       <% } %> <% if (user) { %>
 
-      <select class="currency-select" id="currencyFrom">
+      <select class="currency-select" id="currencyFrom" required>
         <!-- shows the fav. currencies at the top with the default source currency being the default -->
         <% user.sortedCurrencies.forEach(currency => { %>
           <option value="<%= currency.code %>"
@@ -39,7 +39,7 @@
   <!-- shows the currency To when  a user isn't logged in -->
     <% } else { %> 
   
-    <select class="currency-select" id="currencyFrom">
+    <select class="currency-select" id="currencyFrom" required>
       <option hidden value="USD" default>
         USD - United States Dollar
       </option>
@@ -162,7 +162,7 @@
           const toCurrency = toSelect.value;
           const amount = parseFloat(amountInput.value); // Parse the amount to a number
           
-
+          if (!isNaN(amount) && amount > 0){
           try {
             // Fetch the exchange rate data from API
             const response = await fetch(
@@ -194,8 +194,12 @@
             error.textContent = "An error occurred during conversion.";
             console.error(error);
           }
+        } else {
+          error.textContent = "Please enter a value";
+        }
         });
-
+  
+  
         const flipArrows = document.getElementById("arrows");
         flipArrows.addEventListener("click", () => {
           const tempValue = fromSelect.value;

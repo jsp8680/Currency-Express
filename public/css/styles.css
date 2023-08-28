@@ -18,6 +18,14 @@ header {
     z-index: 100;
 }
 
+#error{
+    color: red;
+    position: relative;
+    bottom: 375px;
+    /* left: 200px; */
+    font-size: 20px;
+}
+
 h2 {
     color: white;
     margin-top: 90px; 
