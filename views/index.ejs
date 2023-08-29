@@ -163,6 +163,7 @@
           const amount = parseFloat(amountInput.value); // Parse the amount to a number
           
           if (!isNaN(amount) && amount > 0){
+            if (fromCurrency !== toCurrency) {
           try {
             // Fetch the exchange rate data from API
             const response = await fetch(
@@ -195,8 +196,12 @@
             console.error(error);
           }
         } else {
-          error.textContent = "Please enter a value";
+        
+          error.textContent = "Please select different currencies.";
         }
+      } else {
+        error.textContent = "Please enter a value";
+      }
         });
   
   
