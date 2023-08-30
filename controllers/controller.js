@@ -211,33 +211,29 @@ module.exports.getFavouriteCurrency = async (req, res) => {
 
 module.exports.profile_post = async (req, res) => {
   const { userID, targetCurrency, sourceCurrency, decimalPlace } = req.body;
-  // console.log('Received form data:', targetCurrency, sourceCurrency, decimalPlace);
-//  const userID = user._id;
-//  console.log(userID);
-  console.log('Received form data:', req.body);
-  try {
-    // Find the user by their email
-    const user = await User.findByIdAndUpdate(userID);
 
-    if (!user) {
+  try {
+    // Find the user by their ID and update their preferences
+    const updatedUser = await User.findByIdAndUpdate(
+      userID,
+      {
+        targetCurrency: targetCurrency,
+        sourceCurrency: sourceCurrency,
+        decimalPlaces: decimalPlace
+      },
+      { new: true } // This option returns the updated document
+    );
+
+    if (!updatedUser) {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
 
-    // Update the user's preferences
-    user.targetCurrency = targetCurrency;
-    user.sourceCurrency = sourceCurrency;
-    user.decimalPlaces = decimalPlace;
-
-    // Save the updated user document
-    const updatedUser = await user.save();
-
-    // console.log('User preferences saved to the database:', updatedUser);
     res.json({ success: true, message: 'User preferences saved successfully' });
   } catch (error) {
     console.error('Error saving user preferences:', error);
     res.status(500).json({ success: false, message: 'Error saving user preferences' });
   }
-}
+};
 
 
 module.exports.updateFavoriteCurrencies = async (req, res) => {
@@ -245,7 +241,7 @@ module.exports.updateFavoriteCurrencies = async (req, res) => {
 
   try {
       // Find the user by their email
-      const user = await User.findOne({ email: req.user.email });
+      const user = await User.findByIdAndUpdate({ id: req.user.id });
 
       if (!user) {
           return res.status(404).json({ success: false, message: 'User not found' });
